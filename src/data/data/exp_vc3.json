@@ -1,0 +1,21 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://schema.org",
+    "https://w3id.org/security/v3-unstable"
+  ],
+  "id": "http://example.org/credentials/abcd",
+  "type": "VerifiableCredential",
+  "issuer": "did:example:issuer3",
+  "issuanceDate": "2021-01-01T00:00:00Z",
+  "expirationDate": "2022-01-01T00:00:00Z",
+  "credentialSubject": {
+    "id": "did:example:area1",
+    "type": "Place",
+    "name": "Area1",
+    "ownedBy": {
+      "id": "did:example:holder1"
+    },
+    "area": 300
+  }
+}

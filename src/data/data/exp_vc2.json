@@ -1,0 +1,18 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://schema.org",
+    "https://w3id.org/security/v3-unstable"
+  ],
+  "id": "http://example.org/credentials/9876",
+  "type": "VerifiableCredential",
+  "issuer": "did:example:issuer2",
+  "issuanceDate": "2021-09-01T00:00:00Z",
+  "expirationDate": "2022-09-01T00:00:00Z",
+  "credentialSubject": {
+    "id": "did:example:cityA",
+    "type": "Place",
+    "name": "City A",
+    "maximumAttendeeCapacity": 10000
+  }
+}
