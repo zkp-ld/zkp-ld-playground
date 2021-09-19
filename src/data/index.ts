@@ -54,6 +54,7 @@ import expRevealDocument3 from "./data/exp_reveal_document3.json";
 import expRevealDocument4 from "./data/exp_reveal_document4.json";
 import testSignedDocumentTermwise from "./data/test_signed_document_termwise.json";
 import documentTemplate from "./data/document_template.json";
+import revealTemplate from "./data/reveal_document_template.json";
 
 export {
   exampleBls12381KeyPair,
@@ -97,5 +98,6 @@ export {
   expRevealDocument3,
   expRevealDocument4,
   testSignedDocumentTermwise,
-  documentTemplate
+  documentTemplate,
+  revealTemplate
 };

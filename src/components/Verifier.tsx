@@ -7,39 +7,36 @@ import {
   CardContent,
   Button,
 } from "@mui/material";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { green } from "@mui/material/colors";
+import Presentation from "./Presentation";
 
-export default function Verifier() {
+type VerifierProps = {
+  vP: {};
+};
+
+export default function Verifier(props: VerifierProps) {
   return (
     <Card variant="outlined">
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: green[500] }} aria-label="verifier">
-            V
+            <VerifiedUserIcon />
           </Avatar>
         }
         title="Verifier"
       />
       <CardContent>
-        <Button>Verify</Button>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Card elevation={6}>
-              <CardHeader subheader="Verifiable Presentation" />
-              <CardContent>
-                <Editor
-                  height="80vh"
-                  defaultLanguage="json"
-                  defaultValue='{ "foo4": "bar4" }'
-                  theme="vs-dark"
-                  options={{ lineNumbers: false }}
-                />
-              </CardContent>
-            </Card>
+            <Presentation vP={props.vP} />
           </Grid>
           <Grid item xs={12}>
             <Card elevation={6}>
-              <CardHeader subheader="Verification Result" />
+              <CardHeader
+                title="Verification Result"
+                titleTypographyProps={{ variant: "subtitle1" }}
+              />
               <CardContent>
                 <Editor
                   height="10vh"

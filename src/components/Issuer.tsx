@@ -11,7 +11,8 @@ import {
   Stack,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { red } from "@mui/material/colors";
+import CreateIcon from "@mui/icons-material/Create";
+import { orange } from "@mui/material/colors";
 import {
   customLoader,
   expExampleBls12381KeyPair,
@@ -23,7 +24,7 @@ import Doc from "./Doc";
 import jsigs from "jsonld-signatures";
 import {
   Bls12381G2KeyPair,
-  BbsBlsSignature2020,
+  BbsBlsSignatureTermwise2020,
 } from "@yamdan/jsonld-signatures-bbs";
 
 export type IssuerProps = {
@@ -36,18 +37,18 @@ export default function Issuer(props: IssuerProps) {
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
 
-  const onChange = (index: number, value: {} | string) => {
+  const handleChange = (index: number, value: string) => {
     let newDocs = [...docs];
     newDocs[index] = value;
     setDocs(newDocs);
   };
 
-  const onIssue = async (index: number) => {
+  const handleIssue = async (index: number) => {
     const doc = docs[index];
     const d: {} = typeof doc === "string" ? JSON.parse(doc) : { ...doc };
     try {
       const issuedVC = await jsigs.sign(d, {
-        suite: new BbsBlsSignature2020({ key }),
+        suite: new BbsBlsSignatureTermwise2020({ key }),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
         documentLoader: customLoader,
         expansionMap: false,
@@ -70,7 +71,6 @@ export default function Issuer(props: IssuerProps) {
     if (reason === "clickaway") {
       return;
     }
-
     setErrOpen(false);
   };
 
@@ -78,8 +78,8 @@ export default function Issuer(props: IssuerProps) {
     <Card variant="outlined">
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="issuer">
-            I
+          <Avatar sx={{ bgcolor: orange[500] }} aria-label="issuer">
+            <CreateIcon />
           </Avatar>
         }
         title="Issuer"
@@ -91,8 +91,8 @@ export default function Issuer(props: IssuerProps) {
               key={index}
               index={index}
               value={doc}
-              onChange={onChange}
-              onIssue={onIssue}
+              onChange={handleChange}
+              onIssue={handleIssue}
             />
           ))}
           <Button onClick={addDoc}>

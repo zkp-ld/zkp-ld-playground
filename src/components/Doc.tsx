@@ -6,23 +6,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 export type DocProps = {
   index: number;
-  value: any;
-  onChange: (index: number, value: any) => void;
+  value: {} | string;
+  onChange: (index: number, value: string) => void;
   onIssue: (index: number) => void;
 };
 
 export default function Doc(props: DocProps) {
   const [validated, setValidated] = useState(true);
-
-  const handleEditorValidation = (markers: {}[]) => {
-    setValidated(markers.length === 0);
-  };
-
-  const handleEditorChange = (value: any, event: any) => {
-    props.onChange(props.index, value);
-  };
-
-  const issue = () => validated && props.onIssue(props.index);
 
   return (
     <Card elevation={6}>
@@ -33,7 +23,7 @@ export default function Doc(props: DocProps) {
           <>
             <IconButton
               aria-label="issue"
-              onClick={issue}
+              onClick={() => validated && props.onIssue(props.index)}
               disabled={!validated}
             >
               <SendIcon />
@@ -51,8 +41,8 @@ export default function Doc(props: DocProps) {
           defaultValue={JSON.stringify(props.value, null, 2)}
           theme="vs-dark"
           options={{ lineNumbers: false }}
-          onChange={handleEditorChange}
-          onValidate={handleEditorValidation}
+          onChange={(value, _) => value && props.onChange(props.index, value)}
+          onValidate={(markers) => setValidated(markers.length === 0)}
         />
       </CardContent>
     </Card>
