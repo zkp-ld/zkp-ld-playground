@@ -1,12 +1,19 @@
-import { Card, Checkbox, Grid, IconButton, Stack } from "@mui/material";
+import {
+  Card,
+  Checkbox,
+  Grid,
+  IconButton,
+  Stack,
+  Tooltip,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Credential from "./Credential";
 import Reveal from "./Reveal";
 
 export type CredAndRevealProps = {
   index: number;
-  cred: any;
-  reveal: any;
+  cred: string;
+  reveal: string;
   onCheckboxChange: (index: number, checked: boolean) => void;
   onCredentialChange: (index: number, value: string) => void;
   onCredentialValidate: (index: number, validated: boolean) => void;
@@ -40,15 +47,19 @@ export default function CredAndReveal(props: CredAndRevealProps) {
         </Grid>
         <Grid item xs={1}>
           <Stack justifyContent="center">
-            <Checkbox
-              inputProps={{ "aria-label": "controlled" }}
-              onChange={(e) =>
-                props.onCheckboxChange(props.index, e.target.checked)
-              }
-            />
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
+            <Tooltip title="check to be presented">
+              <Checkbox
+                inputProps={{ "aria-label": "controlled" }}
+                onChange={(e) =>
+                  props.onCheckboxChange(props.index, e.target.checked)
+                }
+              />
+            </Tooltip>
+            <Tooltip title="delete">
+              <IconButton>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
           </Stack>
         </Grid>
       </Grid>

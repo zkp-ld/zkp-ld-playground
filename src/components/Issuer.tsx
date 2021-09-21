@@ -3,21 +3,19 @@ import {
   Alert,
   AlertTitle,
   Avatar,
-  Button,
   Card,
+  CardActionArea,
   CardContent,
   CardHeader,
   Snackbar,
   Stack,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import CreateIcon from "@mui/icons-material/Create";
 import { orange } from "@mui/material/colors";
 import {
   customLoader,
   expExampleBls12381KeyPair,
   expVCDocument,
-  documentTemplate as docTemplate,
 } from "../data";
 import Doc from "./Doc";
 
@@ -28,11 +26,12 @@ import {
 } from "@yamdan/jsonld-signatures-bbs";
 
 export type IssuerProps = {
-  onIssue: (issued: any, index: number) => void;
+  onIssue: (issued: string, index: number) => void;
+  onClick: () => void;
 };
 
 export default function Issuer(props: IssuerProps) {
-  const [docs, setDocs] = useState([expVCDocument as {} | string]);
+  const [docs, setDocs] = useState([JSON.stringify(expVCDocument, null, 2)]);
   const [key] = useState(new Bls12381G2KeyPair(expExampleBls12381KeyPair));
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
@@ -45,7 +44,7 @@ export default function Issuer(props: IssuerProps) {
 
   const handleIssue = async (index: number) => {
     const doc = docs[index];
-    const d: {} = typeof doc === "string" ? JSON.parse(doc) : { ...doc };
+    const d: {} = JSON.parse(doc);
     try {
       const issuedVC = await jsigs.sign(d, {
         suite: new BbsBlsSignatureTermwise2020({ key }),
@@ -54,17 +53,11 @@ export default function Issuer(props: IssuerProps) {
         expansionMap: false,
         compactProof: true,
       });
-      props.onIssue(issuedVC, index);
+      props.onIssue(JSON.stringify(issuedVC, null, 2), index);
     } catch (e: any) {
       setErr(e.message);
       setErrOpen(true);
     }
-  };
-
-  const addDoc = () => {
-    let newDocs = [...docs];
-    newDocs.push({ ...docTemplate });
-    setDocs(newDocs);
   };
 
   const handleErrClose = (_: any, reason: string) => {
@@ -76,14 +69,16 @@ export default function Issuer(props: IssuerProps) {
 
   return (
     <Card variant="outlined">
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: orange[500] }} aria-label="issuer">
-            <CreateIcon />
-          </Avatar>
-        }
-        title="Issuer"
-      />
+      <CardActionArea onClick={(_: any) => props.onClick()}>
+        <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: orange[500] }} aria-label="issuer">
+              <CreateIcon />
+            </Avatar>
+          }
+          title="Issuer"
+        />
+      </CardActionArea>
       <CardContent>
         <Stack spacing={2}>
           {docs.map((doc, index) => (
@@ -95,9 +90,6 @@ export default function Issuer(props: IssuerProps) {
               onIssue={handleIssue}
             />
           ))}
-          <Button onClick={addDoc}>
-            <AddIcon />
-          </Button>
         </Stack>
       </CardContent>
       <Snackbar

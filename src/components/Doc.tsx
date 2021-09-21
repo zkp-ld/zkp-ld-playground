@@ -1,12 +1,18 @@
 import { useState } from "react";
 import Editor from "@monaco-editor/react";
-import { Card, CardHeader, CardContent, IconButton } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import { DOCUMENT_HEIGHT } from "../App";
 
 export type DocProps = {
   index: number;
-  value: {} | string;
+  value: string;
   onChange: (index: number, value: string) => void;
   onIssue: (index: number) => void;
 };
@@ -17,30 +23,27 @@ export default function Doc(props: DocProps) {
   return (
     <Card elevation={6}>
       <CardHeader
-        title="Document"
+        title="LD Document"
         titleTypographyProps={{ variant: "subtitle1" }}
         action={
-          <>
+          <Tooltip title="issue">
             <IconButton
               aria-label="issue"
               onClick={() => validated && props.onIssue(props.index)}
               disabled={!validated}
             >
-              <SendIcon />
+              <PlayCircleIcon />
             </IconButton>
-            <IconButton aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
-          </>
+          </Tooltip>
         }
       />
       <CardContent>
         <Editor
-          height="35vh"
+          height={DOCUMENT_HEIGHT}
           defaultLanguage="json"
-          defaultValue={JSON.stringify(props.value, null, 2)}
+          defaultValue={props.value}
           theme="vs-dark"
-          options={{ lineNumbers: false }}
+          options={{ lineNumbers: false, minimap: { enabled: false } }}
           onChange={(value, _) => value && props.onChange(props.index, value)}
           onValidate={(markers) => setValidated(markers.length === 0)}
         />

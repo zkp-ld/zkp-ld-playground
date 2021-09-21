@@ -6,9 +6,12 @@ import {
   CardContent,
   IconButton,
   Stack,
+  Tooltip,
+  Badge,
+  CardActionArea,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import SendIcon from "@mui/icons-material/Send";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import CredAndReveal from "./CredAndReveal";
 import { CredAndRevealType } from "../App";
@@ -29,24 +32,34 @@ export type HolderProps = {
   onRevealChange: (index: number, value: string) => void;
   onRevealValidate: (index: number, validated: boolean) => void;
   onPresent: () => void;
+  onClick: () => void;
 };
 
 export default function Holder(props: HolderProps) {
   return (
     <Card variant="outlined">
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: blue[500] }} aria-label="holder">
-            <PhoneAndroidIcon />
-          </Avatar>
-        }
-        title="Holder"
-        action={
-          <IconButton aria-label="present" onClick={() => props.onPresent()}>
-            <SendIcon />
-          </IconButton>
-        }
-      />
+      <CardActionArea onClick={(_: any) => props.onClick()}>
+        <CardHeader
+          avatar={
+            <Badge badgeContent={4} color="primary">
+              <Avatar sx={{ bgcolor: blue[500] }} aria-label="holder">
+                <PhoneAndroidIcon />
+              </Avatar>
+            </Badge>
+          }
+          title="Holder"
+          action={
+            <Tooltip title="present">
+              <IconButton
+                aria-label="present"
+                onClick={() => props.onPresent()}
+              >
+                <PlayCircleIcon />
+              </IconButton>
+            </Tooltip>
+          }
+        />
+      </CardActionArea>
       <CardContent>
         <Stack spacing={2}>
           {props.credsAndReveals.map((credAndReveal, index) => (
@@ -80,7 +93,7 @@ export default function Holder(props: HolderProps) {
                 defaultLanguage="json"
                 defaultValue={hURIs}
                 theme="vs-dark"
-                options={{ lineNumbers: false }}
+                options={{ lineNumbers: false, minimap: { enabled: false } }}
               />
             </CardContent>
           </Card>

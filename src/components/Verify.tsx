@@ -1,18 +1,51 @@
-import { useState } from "react";
-import { IconButton } from "@mui/material";
-import HelpIcon from "@mui/icons-material/Help";
-import CheckIcon from "@mui/icons-material/Check";
+import { Chip, IconButton, Tooltip } from "@mui/material";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import { VerificationStatus } from "../App";
 
 type VerifyProps = {
-  index: number;
-  onVerify: (index: number) => void;
+  index?: number;
+  onVerify: (index?: number) => void;
+  status: VerificationStatus;
 };
+
 export default function Verify(props: VerifyProps) {
-  const [verified, setVerified] = useState(false);
+  let disabled = true;
+  let chip = "";
+  let chip_color: "default" | "primary" | "error" | "warning" = "default";
+  switch (props.status) {
+    case "Accepted":
+      disabled = false;
+      chip = "accepted";
+      chip_color = "primary";
+      break;
+    case "Rejected":
+      disabled = false;
+      chip = "rejected";
+      chip_color = "error";
+      break;
+    case "Unverified":
+      disabled = false;
+      chip = "unverified";
+      chip_color = "warning";
+      break;
+    default:
+      break;
+  }
 
   return (
-    <IconButton aria-label="verify" onClick={() => props.onVerify(props.index)}>
-      {verified ? <CheckIcon /> : <HelpIcon />}
-    </IconButton>
+    <>
+      {chip && <Chip label={chip} color={chip_color} />}
+      <Tooltip title="verify">
+        <span>
+          <IconButton
+            aria-label="verify"
+            onClick={() => props.onVerify(props.index)}
+            disabled={disabled}
+          >
+            <PlayCircleIcon />
+          </IconButton>
+        </span>
+      </Tooltip>
+    </>
   );
 }
