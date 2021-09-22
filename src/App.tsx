@@ -16,7 +16,14 @@ import {
   deriveProofMulti,
   verifyProofMulti,
 } from "@yamdan/jsonld-signatures-bbs";
-import { AppBar, CssBaseline, Grid } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  AppBar,
+  CssBaseline,
+  Grid,
+  Snackbar,
+} from "@mui/material";
 
 export const CREDENTIAL_HEIGHT = "40vh";
 
@@ -57,11 +64,19 @@ function App() {
   const [credsAndRevealsChecked, setCredsAndRevealsChecked] = useState(
     [] as boolean[]
   );
-  const [vP, setVP] = useState("[{}]");
-
+  const [vP, setVP] = useState("");
   const [verificationStatus, setVerificationStatus] = useState(
     "Disabled" as VerificationStatus
   );
+  const [err, setErr] = useState("");
+  const [errOpen, setErrOpen] = useState(false);
+
+  const handleErrClose = (_: any, reason: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setErrOpen(false);
+  };
 
   const handleIssue = (issuedVC: string, _index: number) => {
     let newIssuedVCs = [...issuedVCs];
@@ -146,6 +161,9 @@ function App() {
       setVerifierOpen(true);
     } catch (e: any) {
       console.log(e);
+      setErr(e.message);
+      setErrOpen(true);
+      setVP("");
     }
   };
 
@@ -172,6 +190,8 @@ function App() {
     } catch (e: any) {
       setVerificationStatus("Rejected");
       console.log(e);
+      setErr(e.message);
+      setErrOpen(true);
     }
   };
 
@@ -229,6 +249,17 @@ function App() {
           />
         </Grid>
       </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={errOpen}
+        autoHideDuration={10000}
+        onClose={handleErrClose}
+      >
+        <Alert onClose={() => setErrOpen(false)} severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {err}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }
