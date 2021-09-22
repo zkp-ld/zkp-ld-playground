@@ -22,7 +22,9 @@ export default function Presentation(props: PresentationProps) {
         action={
           <Verify
             onVerify={() => props.onVerify()}
-            status={validated ? props.status : "Disabled"}
+            status={
+              validated && props.vP.trim() !== "" ? props.status : "Disabled"
+            }
           />
         }
       />

@@ -38,25 +38,6 @@ const materialTheme = createTheme({
   },
 });
 
-const hURIs = [
-  "http://example.org/credentials/1",
-  "http://example.org/credentials/1234",
-  "http://example.org/credentials/9876",
-  "http://example.org/credentials/abcd",
-  "did:example:holder1",
-  "did:example:holder2",
-  "did:example:cityA",
-  "did:example:cityB",
-  "did:example:cityA",
-  "did:example:cityB",
-  "did:example:cityA",
-  "did:example:cityB",
-  "did:example:cityA",
-  "did:example:cityB",
-  "did:example:cityA",
-  "did:example:cityB",
-];
-
 export type CredAndRevealType = {
   cred: string;
   reveal: string;
@@ -74,7 +55,7 @@ function App() {
   const [issuerOpen, setIssuerOpen] = useState(true);
   const [verifierOpen, setVerifierOpen] = useState(false);
   const [issuedVCs, setIssuedVCs] = useState([] as string[]);
-  const [hiddenURIs, setHiddenURIs] = useState(hURIs);
+  const [hiddenURIs, setHiddenURIs] = useState([] as string[]);
   const [credsAndReveals, setCredsAndReveals] = useState(
     [] as CredAndRevealType[]
   );
@@ -83,7 +64,7 @@ function App() {
   );
   const [vP, setVP] = useState("");
   const [verificationStatus, setVerificationStatus] = useState(
-    "Disabled" as VerificationStatus
+    "Unverified" as VerificationStatus
   );
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
@@ -253,6 +234,7 @@ function App() {
               setIssuerOpen(false);
               setVerifierOpen(false);
             }}
+            onSelectedHiddenURIsChange={(selected) => setHiddenURIs(selected)}
           />
         </Grid>
         <Grid item xs={verifierOpen ? 4 : 1}>

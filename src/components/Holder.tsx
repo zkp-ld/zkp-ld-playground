@@ -1,4 +1,3 @@
-import Editor from "@monaco-editor/react";
 import {
   Card,
   CardHeader,
@@ -27,6 +26,7 @@ export type HolderProps = {
   onRevealValidate: (index: number, validated: boolean) => void;
   onPresent: () => void;
   onClick: () => void;
+  onSelectedHiddenURIsChange: (selected: string[]) => void;
 };
 
 export default function Holder(props: HolderProps) {
@@ -79,7 +79,14 @@ export default function Holder(props: HolderProps) {
               }
             />
           ))}
-          <HiddenURIs uris={props.hiddenURIs} />
+          <HiddenURIs
+            vcs={props.credsAndReveals.map(
+              (credAndReveal) => credAndReveal.cred
+            )}
+            onSelectedHiddenURIsChange={(selected) =>
+              props.onSelectedHiddenURIsChange(selected)
+            }
+          />
         </Stack>
       </CardContent>
     </Card>

@@ -1,11 +1,4 @@
-import {
-  Card,
-  Checkbox,
-  Grid,
-  IconButton,
-  Stack,
-  Tooltip,
-} from "@mui/material";
+import { Checkbox, Grid, IconButton, Stack, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Credential from "./Credential";
 import Reveal from "./Reveal";
