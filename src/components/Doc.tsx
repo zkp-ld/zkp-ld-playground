@@ -8,7 +8,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import { DOCUMENT_HEIGHT } from "../App";
 
 export type DocProps = {
   index: number;
@@ -21,7 +20,7 @@ export default function Doc(props: DocProps) {
   const [validated, setValidated] = useState(true);
 
   return (
-    <Card elevation={6}>
+    <Card elevation={6} sx={{ height: "88vh" }}>
       <CardHeader
         title="LD Document"
         titleTypographyProps={{ variant: "subtitle1" }}
@@ -39,7 +38,7 @@ export default function Doc(props: DocProps) {
       />
       <CardContent>
         <Editor
-          height={DOCUMENT_HEIGHT}
+          height="80vh"
           defaultLanguage="json"
           defaultValue={props.value}
           theme="vs-dark"

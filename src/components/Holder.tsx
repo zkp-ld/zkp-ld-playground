@@ -37,7 +37,7 @@ export type HolderProps = {
 
 export default function Holder(props: HolderProps) {
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={{ height: "95vh", overflow: "auto" }}>
       <CardActionArea onClick={(_: any) => props.onClick()}>
         <CardHeader
           avatar={
@@ -61,6 +61,7 @@ export default function Holder(props: HolderProps) {
         />
       </CardActionArea>
       <CardContent>
+        {" "}
         <Stack spacing={2}>
           {props.credsAndReveals.map((credAndReveal, index) => (
             <CredAndReveal

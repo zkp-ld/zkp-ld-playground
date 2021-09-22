@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Editor from "@monaco-editor/react";
 import { Card, CardHeader, CardContent } from "@mui/material";
-import { PRESENTATION_HEIGHT, VerificationStatus } from "../App";
+import { VerificationStatus } from "../App";
 import Verify from "./Verify";
 
 type PresentationProps = {
@@ -15,7 +15,7 @@ export default function Presentation(props: PresentationProps) {
   const [validated, setValidated] = useState(true);
 
   return (
-    <Card elevation={6}>
+    <Card elevation={6} sx={{ height: "88vh" }}>
       <CardHeader
         title="Verifiable Presentation"
         titleTypographyProps={{ variant: "subtitle1" }}
@@ -28,7 +28,7 @@ export default function Presentation(props: PresentationProps) {
       />
       <CardContent>
         <Editor
-          height={PRESENTATION_HEIGHT}
+          height="80vh"
           defaultLanguage="json"
           value={props.vP}
           theme="vs-dark"

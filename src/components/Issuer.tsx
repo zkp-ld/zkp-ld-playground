@@ -68,7 +68,7 @@ export default function Issuer(props: IssuerProps) {
   };
 
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={{ height: "95vh" }}>
       <CardActionArea onClick={(_: any) => props.onClick()}>
         <CardHeader
           avatar={

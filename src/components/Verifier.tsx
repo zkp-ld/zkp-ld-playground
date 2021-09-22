@@ -21,7 +21,7 @@ type VerifierProps = {
 
 export default function Verifier(props: VerifierProps) {
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={{ height: "95vh" }}>
       <CardActionArea onClick={(_) => props.onClick()}>
         <CardHeader
           avatar={

@@ -1,10 +1,9 @@
 import * as React from "react";
-import MuiDrawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { createTheme, CSSObject, styled, Theme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import Issuer from "./components/Issuer";
 import Holder from "./components/Holder";
@@ -17,13 +16,9 @@ import {
   deriveProofMulti,
   verifyProofMulti,
 } from "@yamdan/jsonld-signatures-bbs";
-import { AppBar, Box, CssBaseline } from "@mui/material";
+import { AppBar, CssBaseline, Grid } from "@mui/material";
 
-export const DOCUMENT_HEIGHT = "60vh";
 export const CREDENTIAL_HEIGHT = "40vh";
-export const PRESENTATION_HEIGHT = "60vh";
-const DRAWER_WIDTH = "30vw";
-const CLOSED_DRAWER_WIDTH = "10vw";
 
 const darkTheme = createTheme({
   palette: {
@@ -53,7 +48,7 @@ export type VerificationStatus =
   | "Disabled";
 
 function App() {
-  const [issuerOpen, setIssuerOpen] = useState(false);
+  const [issuerOpen, setIssuerOpen] = useState(true);
   const [verifierOpen, setVerifierOpen] = useState(false);
   const [issuedVCs, setIssuedVCs] = useState([] as string[]);
   const [credsAndReveals, setCredsAndReveals] = useState(
@@ -85,6 +80,9 @@ function App() {
     let newCredsAndRevealsChecked = [...credsAndRevealsChecked];
     newCredsAndRevealsChecked.push(false);
     setCredsAndRevealsChecked(newCredsAndRevealsChecked);
+
+    setIssuerOpen(true);
+    setVerifierOpen(false);
   };
 
   const handleCredsAndRevealsCheckboxChange = (
@@ -144,6 +142,8 @@ function App() {
       );
       setVP(JSON.stringify(derivedProofs, null, 2));
       setVerificationStatus("Unverified");
+      setIssuerOpen(false);
+      setVerifierOpen(true);
     } catch (e: any) {
       console.log(e);
     }
@@ -175,76 +175,36 @@ function App() {
     }
   };
 
-  // Mini variant drawer
-  const openedMixin = (theme: Theme): CSSObject => ({
-    width: DRAWER_WIDTH,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: "hidden",
-  });
-
-  const closedMixin = (theme: Theme): CSSObject => ({
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: "hidden",
-    width: CLOSED_DRAWER_WIDTH,
-  });
-
-  const Drawer = styled(MuiDrawer, {
-    shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
-    width: DRAWER_WIDTH,
-    flexShrink: 0,
-    whiteSpace: "nowrap",
-    boxSizing: "border-box",
-    ...(open && {
-      ...openedMixin(theme),
-      "& .MuiDrawer-paper": openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      "& .MuiDrawer-paper": closedMixin(theme),
-    }),
-  }));
-
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      <CssBaseline />
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            ZKP-LD Playground
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Grid container>
+        <Grid item xs={issuerOpen ? 4 : 1}>
+          <Issuer
+            onClick={() => setIssuerOpen(!issuerOpen)}
+            onIssue={handleIssue}
+          />
+        </Grid>
+        <Grid
+          item
+          xs={issuerOpen ? (verifierOpen ? 4 : 7) : verifierOpen ? 7 : 10}
         >
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              ZKP-LD Playground
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer variant="permanent" anchor="left" open={issuerOpen}>
-          <Toolbar />
-          <Box sx={{ overflow: "auto" }}>
-            <Issuer
-              onClick={() => setIssuerOpen(!issuerOpen)}
-              onIssue={handleIssue}
-            />
-          </Box>
-        </Drawer>
-        <Box sx={{ flexGrow: 1, overflow: "auto" }}>
-          <Toolbar />
           <Holder
             credsAndReveals={credsAndReveals}
             onCheckboxChange={handleCredsAndRevealsCheckboxChange}
@@ -258,8 +218,8 @@ function App() {
               setVerifierOpen(false);
             }}
           />
-        </Box>
-        {/* <Box sx={{ overflow: "auto" }}>
+        </Grid>
+        <Grid item xs={verifierOpen ? 4 : 1}>
           <Verifier
             vP={vP}
             onVerify={handleVerifyProof}
@@ -267,20 +227,8 @@ function App() {
             onChange={handlePresentationChange}
             onClick={() => setVerifierOpen(!verifierOpen)}
           />
-        </Box> */}
-        <Drawer variant="permanent" anchor="right" open={verifierOpen}>
-          <Toolbar />
-          <Box sx={{ overflow: "auto" }}>
-            <Verifier
-              vP={vP}
-              onVerify={handleVerifyProof}
-              status={verificationStatus}
-              onChange={handlePresentationChange}
-              onClick={() => setVerifierOpen(!verifierOpen)}
-            />
-          </Box>
-        </Drawer>
-      </Box>
+        </Grid>
+      </Grid>
     </ThemeProvider>
   );
 }
