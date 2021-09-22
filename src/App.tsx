@@ -250,7 +250,6 @@ function App() {
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={errOpen}
-        autoHideDuration={10000}
         onClose={handleErrClose}
       >
         <Alert onClose={() => setErrOpen(false)} severity="error">
