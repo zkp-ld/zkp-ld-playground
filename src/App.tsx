@@ -76,7 +76,7 @@ function App() {
     setErrOpen(false);
   };
 
-  const handleIssue = (issuedVC: string, _index: number) => {
+  const handleIssue = (issuedVC: string) => {
     let newIssuedVCs = [...issuedVCs];
     newIssuedVCs.push(issuedVC);
     setIssuedVCs(newIssuedVCs);

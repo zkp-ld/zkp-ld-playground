@@ -11,10 +11,9 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import { EDITOR_THEME } from "../App";
 
 export type DocProps = {
-  index: number;
   value: string;
-  onChange: (index: number, value: string) => void;
-  onIssue: (index: number) => void;
+  onChange: (value: string) => void;
+  onIssue: () => void;
 };
 
 export default function Doc(props: DocProps) {
@@ -29,7 +28,7 @@ export default function Doc(props: DocProps) {
           <Tooltip title="issue">
             <IconButton
               aria-label="issue"
-              onClick={() => validated && props.onIssue(props.index)}
+              onClick={() => validated && props.onIssue()}
               disabled={!validated}
             >
               <PlayCircleIcon />
@@ -44,7 +43,7 @@ export default function Doc(props: DocProps) {
           defaultValue={props.value}
           theme={EDITOR_THEME}
           options={{ lineNumbers: false, minimap: { enabled: false } }}
-          onChange={(value, _) => value && props.onChange(props.index, value)}
+          onChange={(value, _) => value && props.onChange(value)}
           onValidate={(markers) => setValidated(markers.length === 0)}
         />
       </CardContent>

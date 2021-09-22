@@ -26,34 +26,30 @@ import {
 } from "@yamdan/jsonld-signatures-bbs";
 
 export type IssuerProps = {
-  onIssue: (issued: string, index: number) => void;
+  onIssue: (issued: string) => void;
   onClick: () => void;
 };
 
 export default function Issuer(props: IssuerProps) {
-  const [docs, setDocs] = useState([JSON.stringify(expVCDocument, null, 2)]);
+  const [doc, setDoc] = useState(JSON.stringify(expVCDocument, null, 2));
   const [key] = useState(new Bls12381G2KeyPair(expExampleBls12381KeyPair));
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
 
-  const handleChange = (index: number, value: string) => {
-    let newDocs = [...docs];
-    newDocs[index] = value;
-    setDocs(newDocs);
+  const handleChange = (value: string) => {
+    setDoc(value);
   };
 
-  const handleIssue = async (index: number) => {
-    const doc = docs[index];
-    const d: {} = JSON.parse(doc);
+  const handleIssue = async () => {
     try {
-      const issuedVC = await jsigs.sign(d, {
+      const issuedVC = await jsigs.sign(JSON.parse(doc), {
         suite: new BbsBlsSignatureTermwise2020({ key }),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
         documentLoader: customLoader,
         expansionMap: false,
         compactProof: true,
       });
-      props.onIssue(JSON.stringify(issuedVC, null, 2), index);
+      props.onIssue(JSON.stringify(issuedVC, null, 2));
     } catch (e: any) {
       setErr(e.message);
       setErrOpen(true);
@@ -81,15 +77,7 @@ export default function Issuer(props: IssuerProps) {
       </CardActionArea>
       <CardContent>
         <Stack spacing={2}>
-          {docs.map((doc, index) => (
-            <Doc
-              key={index}
-              index={index}
-              value={doc}
-              onChange={handleChange}
-              onIssue={handleIssue}
-            />
-          ))}
+          <Doc value={doc} onChange={handleChange} onIssue={handleIssue} />
         </Stack>
       </CardContent>
       <Snackbar
