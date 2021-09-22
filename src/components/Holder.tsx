@@ -15,17 +15,11 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import CredAndReveal from "./CredAndReveal";
 import { CredAndRevealType } from "../App";
-
-const hURIs = `[
-    "http://example.org/credentials/1234",
-    "http://example.org/credentials/9876",
-    "http://example.org/credentials/abcd",
-    "did:example:holder1",
-    "did:example:cityA"
-  ]`;
+import HiddenURIs from "./HiddenURIs";
 
 export type HolderProps = {
   credsAndReveals: CredAndRevealType[];
+  hiddenURIs: string[];
   onCheckboxChange: (index: number, checked: boolean) => void;
   onCredentialChange: (index: number, value: string) => void;
   onCredentialValidate: (index: number, validated: boolean) => void;
@@ -61,7 +55,6 @@ export default function Holder(props: HolderProps) {
         />
       </CardActionArea>
       <CardContent>
-        {" "}
         <Stack spacing={2}>
           {props.credsAndReveals.map((credAndReveal, index) => (
             <CredAndReveal
@@ -86,18 +79,7 @@ export default function Holder(props: HolderProps) {
               }
             />
           ))}
-          <Card elevation={6}>
-            <CardHeader subheader="Hidden URIs" />
-            <CardContent>
-              <Editor
-                height="10vh"
-                defaultLanguage="json"
-                defaultValue={hURIs}
-                theme="vs-dark"
-                options={{ lineNumbers: false, minimap: { enabled: false } }}
-              />
-            </CardContent>
-          </Card>
+          <HiddenURIs uris={props.hiddenURIs} />
         </Stack>
       </CardContent>
     </Card>

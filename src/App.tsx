@@ -25,21 +25,37 @@ import {
   Snackbar,
 } from "@mui/material";
 
+export const MATERIAL_THEME = "light";
+export const EDITOR_THEME = "light";
+// export const MATERIAL_THEME = "dark";
+// export const EDITOR_THEME = "vs-dark";
+
 export const CREDENTIAL_HEIGHT = "40vh";
 
-const darkTheme = createTheme({
+const materialTheme = createTheme({
   palette: {
-    mode: "dark",
+    mode: MATERIAL_THEME,
   },
 });
 
-const hURIs = `[
+const hURIs = [
+  "http://example.org/credentials/1",
   "http://example.org/credentials/1234",
   "http://example.org/credentials/9876",
   "http://example.org/credentials/abcd",
   "did:example:holder1",
-  "did:example:cityA"
-]`;
+  "did:example:holder2",
+  "did:example:cityA",
+  "did:example:cityB",
+  "did:example:cityA",
+  "did:example:cityB",
+  "did:example:cityA",
+  "did:example:cityB",
+  "did:example:cityA",
+  "did:example:cityB",
+  "did:example:cityA",
+  "did:example:cityB",
+];
 
 export type CredAndRevealType = {
   cred: string;
@@ -58,6 +74,7 @@ function App() {
   const [issuerOpen, setIssuerOpen] = useState(true);
   const [verifierOpen, setVerifierOpen] = useState(false);
   const [issuedVCs, setIssuedVCs] = useState([] as string[]);
+  const [hiddenURIs, setHiddenURIs] = useState(hURIs);
   const [credsAndReveals, setCredsAndReveals] = useState(
     [] as CredAndRevealType[]
   );
@@ -144,12 +161,10 @@ function App() {
         return [cred, reveal];
       });
 
-    const hiddenUris = JSON.parse(hURIs);
-
     try {
       const derivedProofs: any[] = await deriveProofMulti(
         documents,
-        hiddenUris,
+        hiddenURIs,
         {
           suite: new BbsBlsSignatureProofTermwise2020(),
           documentLoader: customLoader,
@@ -196,7 +211,7 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={materialTheme}>
       <CssBaseline />
       <AppBar position="static">
         <Toolbar>
@@ -227,6 +242,7 @@ function App() {
         >
           <Holder
             credsAndReveals={credsAndReveals}
+            hiddenURIs={hiddenURIs}
             onCheckboxChange={handleCredsAndRevealsCheckboxChange}
             onCredentialChange={handleCredentialChange}
             onCredentialValidate={handleCredentialValidate}

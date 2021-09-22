@@ -8,6 +8,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import { EDITOR_THEME } from "../App";
 
 export type DocProps = {
   index: number;
@@ -20,7 +21,7 @@ export default function Doc(props: DocProps) {
   const [validated, setValidated] = useState(true);
 
   return (
-    <Card elevation={6} sx={{ height: "88vh" }}>
+    <Card elevation={3} sx={{ height: "85vh" }}>
       <CardHeader
         title="LD Document"
         titleTypographyProps={{ variant: "subtitle1" }}
@@ -41,7 +42,7 @@ export default function Doc(props: DocProps) {
           height="80vh"
           defaultLanguage="json"
           defaultValue={props.value}
-          theme="vs-dark"
+          theme={EDITOR_THEME}
           options={{ lineNumbers: false, minimap: { enabled: false } }}
           onChange={(value, _) => value && props.onChange(props.index, value)}
           onValidate={(markers) => setValidated(markers.length === 0)}

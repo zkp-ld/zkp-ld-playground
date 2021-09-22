@@ -23,7 +23,7 @@ export type CredAndRevealProps = {
 
 export default function CredAndReveal(props: CredAndRevealProps) {
   return (
-    <Card>
+    <>
       <Grid container spacing={1}>
         <Grid item xs={6}>
           <Credential
@@ -63,6 +63,6 @@ export default function CredAndReveal(props: CredAndRevealProps) {
           </Stack>
         </Grid>
       </Grid>
-    </Card>
+    </>
   );
 }
