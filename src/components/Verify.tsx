@@ -1,5 +1,4 @@
-import { Chip, IconButton, Tooltip } from "@mui/material";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import { Chip, Tooltip } from "@mui/material";
 import { VerificationStatus } from "../App";
 
 type VerifyProps = {
@@ -10,7 +9,7 @@ type VerifyProps = {
 
 export default function Verify(props: VerifyProps) {
   let disabled = true;
-  let chip = "";
+  let chip = "unverified";
   let chip_color: "default" | "primary" | "error" | "warning" = "default";
   switch (props.status) {
     case "Accepted":
@@ -33,19 +32,13 @@ export default function Verify(props: VerifyProps) {
   }
 
   return (
-    <>
-      {chip && <Chip label={chip} color={chip_color} />}
-      <Tooltip title="verify">
-        <span>
-          <IconButton
-            aria-label="verify"
-            onClick={() => props.onVerify(props.index)}
-            disabled={disabled}
-          >
-            <PlayCircleIcon />
-          </IconButton>
-        </span>
-      </Tooltip>
-    </>
+    <Tooltip title="verify">
+      <Chip
+        label={chip}
+        color={chip_color}
+        onClick={() => props.onVerify(props.index)}
+        disabled={disabled}
+      />
+    </Tooltip>
   );
 }

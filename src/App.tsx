@@ -108,6 +108,7 @@ function App() {
   const handleCredentialChange = (index: number, value: string) => {
     let newCredsAndReveals = [...credsAndReveals];
     newCredsAndReveals[index].cred = value;
+    newCredsAndReveals[index].credStatus = "Unverified";
     setCredsAndReveals(newCredsAndReveals);
   };
 
@@ -130,10 +131,9 @@ function App() {
   };
 
   const handleVerifyCredential = async (index: number) => {
-    const cred = JSON.parse(credsAndReveals[index].cred);
     const newCredsAndReveals = [...credsAndReveals];
-
     try {
+      const cred = JSON.parse(credsAndReveals[index].cred);
       const result = await jsigs.verify(cred, {
         suite: new BbsBlsSignatureTermwise2020(),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
@@ -192,11 +192,12 @@ function App() {
 
   const handlePresentationChange = (value: string) => {
     setVP(value);
+    setVerificationStatus("Unverified");
   };
 
   const handleVerifyProof = async () => {
-    const proof = JSON.parse(vP);
     try {
+      const proof = JSON.parse(vP);
       const result = await verifyProofMulti(proof, {
         suite: new BbsBlsSignatureProofTermwise2020(),
         purpose: new jsigs.purposes.AssertionProofPurpose(),

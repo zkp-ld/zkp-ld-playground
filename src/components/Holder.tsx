@@ -61,9 +61,7 @@ export default function Holder(props: HolderProps) {
             <CredAndReveal
               key={index}
               index={index}
-              cred={credAndReveal.cred}
-              reveal={credAndReveal.reveal}
-              credStatus={credAndReveal.credStatus}
+              credAndReveal={credAndReveal}
               onCheckboxChange={(index, checked) =>
                 props.onCheckboxChange(index, checked)
               }
