@@ -47,6 +47,7 @@ export default function Holder(props: HolderProps) {
             <Stack direction="row" spacing={2} alignItems="center">
               <Badge
                 badgeContent={props.credsAndReveals.filter((cr) => cr).length}
+                showZero={true}
                 color="primary"
               >
                 <Avatar sx={{ bgcolor: green[500] }} aria-label="holder">
