@@ -37,7 +37,10 @@ export default function Holder(props: HolderProps) {
       <CardActionArea onClick={(_: any) => props.onClick()}>
         <CardHeader
           avatar={
-            <Badge badgeContent={4} color="primary">
+              <Badge
+                badgeContent={props.credsAndReveals.filter((cr) => cr).length}
+                color="primary"
+              >
               <Avatar sx={{ bgcolor: blue[500] }} aria-label="holder">
                 <PhoneAndroidIcon />
               </Avatar>
