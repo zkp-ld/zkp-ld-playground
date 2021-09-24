@@ -10,7 +10,7 @@ import {
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { blue } from "@mui/material/colors";
 import Presentation from "./Presentation";
-import { VerificationStatus } from "../App";
+import { ModeType, VerificationStatus } from "../App";
 import { useState } from "react";
 
 type VerifierProps = {
@@ -19,13 +19,14 @@ type VerifierProps = {
   onVerify: () => void;
   onChange: (value: string) => void;
   onClick: () => void;
+  mode: ModeType;
 };
 
 export default function Verifier(props: VerifierProps) {
   const [validated, setValidated] = useState(true);
 
   return (
-    <Stack>
+    <Stack spacing={2}>
       <Box sx={{ display: "flex", margin: 2, alignItems: "center" }}>
         <Button
           color="inherit"
@@ -64,6 +65,7 @@ export default function Verifier(props: VerifierProps) {
           onVerify={() => props.onVerify()}
           onChange={(value) => props.onChange(value)}
           onValidate={(v) => setValidated(v)}
+          mode={props.mode}
         />
       </Container>
     </Stack>

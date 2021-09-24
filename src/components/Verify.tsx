@@ -29,6 +29,7 @@ export default function Verify(props: VerifyProps) {
       chip = "rejected";
       chip_color = "error";
       chip_icon = <ErrorIcon />;
+      chip_variant = "filled";
       break;
     case "Unverified":
       disabled = false;

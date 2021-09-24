@@ -1,14 +1,24 @@
 import * as React from "react";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+import { useState } from "react";
+import {
+  Alert,
+  AlertTitle,
+  AppBar,
+  CssBaseline,
+  Divider,
+  Grid,
+  Snackbar,
+  Toolbar,
+  Typography,
+  IconButton,
+} from "@mui/material";
+import { createTheme, Theme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
-import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import Issuer from "./components/Issuer";
 import Holder from "./components/Holder";
 import Verifier from "./components/Verifier";
-import { useState } from "react";
+import ModeSwitch from "./components/ModeSwitch";
 import { revealTemplate, customLoader } from "./data";
 import jsigs from "jsonld-signatures";
 import {
@@ -17,27 +27,23 @@ import {
   deriveProofMulti,
   verifyProofMulti,
 } from "@yamdan/jsonld-signatures-bbs";
-import {
-  Alert,
-  AlertTitle,
-  AppBar,
-  CssBaseline,
-  Grid,
-  Snackbar,
-} from "@mui/material";
-
-export const MATERIAL_THEME = "light";
-export const EDITOR_THEME = "light";
-// export const MATERIAL_THEME = "dark";
-// export const EDITOR_THEME = "vs-dark";
 
 export const CREDENTIAL_HEIGHT = "40vh";
 
-const materialTheme = createTheme({
+const lightTheme = createTheme({
   palette: {
-    mode: MATERIAL_THEME,
+    mode: "light",
   },
 });
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
+export type ModeType = {
+  mui: Theme;
+  monaco: "light" | "vs-dark";
+};
 
 export type CredAndRevealArrayType = {
   lastIndex: number;
@@ -74,12 +80,24 @@ function App() {
   );
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
+  const [mode, setMode] = useState({
+    mui: lightTheme,
+    monaco: "light",
+  } as ModeType);
 
   const handleErrClose = (_: any, reason: string) => {
     if (reason === "clickaway") {
       return;
     }
     setErrOpen(false);
+  };
+
+  const handleModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setMode({ mui: darkTheme, monaco: "vs-dark" });
+    } else {
+      setMode({ mui: lightTheme, monaco: "light" });
+    }
   };
 
   const handleIssue = (issuedVC: string) => {
@@ -227,9 +245,9 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={materialTheme}>
+    <ThemeProvider theme={mode.mui}>
       <CssBaseline />
-      <AppBar position="static">
+      <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar>
           <IconButton
             size="large"
@@ -243,6 +261,7 @@ function App() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             ZKP-LD Playground
           </Typography>
+          <ModeSwitch onChange={handleModeChange} />
         </Toolbar>
       </AppBar>
       <Grid container>
@@ -250,8 +269,10 @@ function App() {
           <Issuer
             onClick={() => setIssuerOpen(!issuerOpen)}
             onIssue={handleIssue}
+            mode={mode}
           />
         </Grid>
+        <Divider orientation="vertical" flexItem sx={{ marginRight: "-1px" }} />
         <Grid
           item
           xs={issuerOpen ? (verifierOpen ? 4 : 7) : verifierOpen ? 7 : 10}
@@ -272,8 +293,10 @@ function App() {
             }}
             onSelectedHiddenURIsChange={(selected) => setHiddenURIs(selected)}
             onDeleteCredAndReveal={handleDeleteCredAndReveal}
+            mode={mode}
           />
         </Grid>
+        <Divider orientation="vertical" flexItem sx={{ marginRight: "-1px" }} />
         <Grid item xs={verifierOpen ? 4 : 1}>
           <Verifier
             vP={vP}
@@ -281,6 +304,7 @@ function App() {
             status={verificationStatus}
             onChange={handlePresentationChange}
             onClick={() => setVerifierOpen(!verifierOpen)}
+            mode={mode}
           />
         </Grid>
       </Grid>

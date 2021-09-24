@@ -1,6 +1,6 @@
 import Editor from "@monaco-editor/react";
 import { Card, CardHeader, CardContent } from "@mui/material";
-import { CREDENTIAL_HEIGHT, EDITOR_THEME, VerificationStatus } from "../App";
+import { CREDENTIAL_HEIGHT, ModeType, VerificationStatus } from "../App";
 import Verify from "./Verify";
 
 export type CredentialProps = {
@@ -11,6 +11,7 @@ export type CredentialProps = {
   onChange: (index: number, value: string) => void;
   onValidate: (index: number, validated: boolean) => void;
   onVerify: (index: number) => void;
+  mode: ModeType;
 };
 
 export default function Credential(props: CredentialProps) {
@@ -35,7 +36,7 @@ export default function Credential(props: CredentialProps) {
           height={CREDENTIAL_HEIGHT}
           defaultLanguage="json"
           defaultValue={props.value}
-          theme={EDITOR_THEME}
+          theme={props.mode.monaco}
           options={{ lineNumbers: false, minimap: { enabled: false } }}
           onChange={(value, _) => value && props.onChange(props.index, value)}
           onValidate={(markers) =>

@@ -1,6 +1,6 @@
 import Editor from "@monaco-editor/react";
 import { Card, CardHeader, CardContent } from "@mui/material";
-import { EDITOR_THEME } from "../App";
+import { ModeType } from "../App";
 
 export type DocProps = {
   value: string;
@@ -8,6 +8,7 @@ export type DocProps = {
   onChange: (value: string) => void;
   onIssue: () => void;
   onValidate: (validated: boolean) => void;
+  mode: ModeType;
 };
 
 export default function Doc(props: DocProps) {
@@ -22,7 +23,7 @@ export default function Doc(props: DocProps) {
           height="80vh"
           defaultLanguage="json"
           defaultValue={props.value}
-          theme={EDITOR_THEME}
+          theme={props.mode.monaco}
           options={{ lineNumbers: false, minimap: { enabled: false } }}
           onChange={(value, _) => value && props.onChange(value)}
           onValidate={(markers) => props.onValidate(markers.length === 0)}

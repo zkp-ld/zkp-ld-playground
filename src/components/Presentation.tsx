@@ -1,6 +1,6 @@
 import Editor from "@monaco-editor/react";
 import { Card, CardHeader, CardContent } from "@mui/material";
-import { EDITOR_THEME, VerificationStatus } from "../App";
+import { ModeType, VerificationStatus } from "../App";
 import Verify from "./Verify";
 
 type PresentationProps = {
@@ -10,6 +10,7 @@ type PresentationProps = {
   onChange: (value: string) => void;
   onValidate: (validated: boolean) => void;
   onVerify: () => void;
+  mode: ModeType;
 };
 
 export default function Presentation(props: PresentationProps) {
@@ -34,7 +35,7 @@ export default function Presentation(props: PresentationProps) {
           height="80vh"
           defaultLanguage="json"
           value={props.vP}
-          theme={EDITOR_THEME}
+          theme={props.mode.monaco}
           options={{
             lineNumbers: false,
             minimap: { enabled: false },

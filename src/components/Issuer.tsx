@@ -5,7 +5,6 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   Snackbar,
   Stack,
   Tooltip,
@@ -25,10 +24,12 @@ import {
   Bls12381G2KeyPair,
   BbsBlsSignatureTermwise2020,
 } from "@yamdan/jsonld-signatures-bbs";
+import { ModeType } from "../App";
 
 export type IssuerProps = {
   onIssue: (issued: string) => void;
   onClick: () => void;
+  mode: ModeType;
 };
 
 export default function Issuer(props: IssuerProps) {
@@ -96,15 +97,16 @@ export default function Issuer(props: IssuerProps) {
           </Button>
         </Tooltip>
       </Box>
-      <Container>
+      <Box sx={{ padding: 2 }}>
         <Doc
           value={doc}
           validated={validated}
           onChange={handleChange}
           onIssue={handleIssue}
           onValidate={(v) => setValidated(v)}
+          mode={props.mode}
         />
-      </Container>
+      </Box>
       <Snackbar
         open={errOpen}
         autoHideDuration={10000}
