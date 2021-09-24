@@ -34,6 +34,7 @@ export default function Verify(props: VerifyProps) {
   return (
     <Tooltip title="verify">
       <Chip
+        variant="outlined"
         label={chip}
         color={chip_color}
         onClick={() => props.onVerify(props.index)}

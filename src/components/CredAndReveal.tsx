@@ -2,7 +2,7 @@ import { Checkbox, Grid, IconButton, Stack, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Credential from "./Credential";
 import Reveal from "./Reveal";
-import { CredAndRevealType, VerificationStatus } from "../App";
+import { CredAndRevealType } from "../App";
 
 export type CredAndRevealProps = {
   index: number;

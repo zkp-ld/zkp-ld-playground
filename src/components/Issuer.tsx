@@ -3,14 +3,17 @@ import {
   Alert,
   AlertTitle,
   Avatar,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
+  Box,
+  Button,
+  Container,
+  Grid,
   Snackbar,
   Stack,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { orange } from "@mui/material/colors";
 import {
   customLoader,
@@ -35,6 +38,7 @@ export default function Issuer(props: IssuerProps) {
   const [key] = useState(new Bls12381G2KeyPair(expExampleBls12381KeyPair));
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
+  const [validated, setValidated] = useState(true);
 
   const handleChange = (value: string) => {
     setDoc(value);
@@ -64,22 +68,45 @@ export default function Issuer(props: IssuerProps) {
   };
 
   return (
-    <Card variant="outlined" sx={{ height: "95vh" }}>
-      <CardActionArea onClick={(_: any) => props.onClick()}>
-        <CardHeader
-          avatar={
+    <Stack>
+      <Box sx={{ display: "flex", margin: 2, alignItems: "center" }}>
+        <Button
+          onClick={(_: any) => props.onClick()}
+          sx={{
+            justifyContent: "flex-start",
+            textTransform: "none",
+            flexGrow: 1,
+            color: orange[500],
+          }}
+        >
+          <Stack direction="row" spacing={2} alignItems="center">
             <Avatar sx={{ bgcolor: orange[500] }} aria-label="issuer">
               <CreateIcon />
             </Avatar>
-          }
-          title="Issuer"
+            <Typography>Issuer</Typography>
+          </Stack>
+        </Button>
+        <Tooltip title="issue">
+          <Button
+            variant="contained"
+            aria-label="issue"
+            onClick={handleIssue}
+            disabled={!validated}
+            sx={{ bgcolor: orange[500], "&:hover": { bgcolor: orange[600] } }}
+          >
+            <PlayArrowIcon /> Issue
+          </Button>
+        </Tooltip>
+      </Box>
+      <Container>
+        <Doc
+          value={doc}
+          validated={validated}
+          onChange={handleChange}
+          onIssue={handleIssue}
+          onValidate={(v) => setValidated(v)}
         />
-      </CardActionArea>
-      <CardContent>
-        <Stack spacing={2}>
-          <Doc value={doc} onChange={handleChange} onIssue={handleIssue} />
-        </Stack>
-      </CardContent>
+      </Container>
       <Snackbar
         open={errOpen}
         autoHideDuration={10000}
@@ -90,6 +117,6 @@ export default function Issuer(props: IssuerProps) {
           {err}
         </Alert>
       </Snackbar>
-    </Card>
+    </Stack>
   );
 }

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Editor from "@monaco-editor/react";
 import { Card, CardHeader, CardContent } from "@mui/material";
 import { EDITOR_THEME, VerificationStatus } from "../App";
@@ -6,14 +5,14 @@ import Verify from "./Verify";
 
 type PresentationProps = {
   vP: string;
-  onVerify: () => void;
   status: VerificationStatus;
+  validated: boolean;
   onChange: (value: string) => void;
+  onValidate: (validated: boolean) => void;
+  onVerify: () => void;
 };
 
 export default function Presentation(props: PresentationProps) {
-  const [validated, setValidated] = useState(true);
-
   return (
     <Card elevation={3} sx={{ height: "85vh" }}>
       <CardHeader
@@ -23,7 +22,9 @@ export default function Presentation(props: PresentationProps) {
           <Verify
             onVerify={() => props.onVerify()}
             status={
-              validated && props.vP.trim() !== "" ? props.status : "Disabled"
+              props.validated && props.vP.trim() !== ""
+                ? props.status
+                : "Disabled"
             }
           />
         }
@@ -40,7 +41,7 @@ export default function Presentation(props: PresentationProps) {
           }}
           onChange={(value, _) => value && props.onChange(value)}
           onValidate={(markers) => {
-            setValidated(markers.length === 0);
+            props.onValidate(markers.length === 0);
           }}
         />
       </CardContent>
