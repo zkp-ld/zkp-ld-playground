@@ -2,16 +2,19 @@ import { Checkbox, Grid, IconButton, Stack, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Credential from "./Credential";
 import Reveal from "./Reveal";
+import { VerificationStatus } from "../App";
 
 export type CredAndRevealProps = {
   index: number;
   cred: string;
   reveal: string;
+  credStatus: VerificationStatus;
   onCheckboxChange: (index: number, checked: boolean) => void;
   onCredentialChange: (index: number, value: string) => void;
   onCredentialValidate: (index: number, validated: boolean) => void;
   onRevealChange: (index: number, value: string) => void;
   onRevealValidate: (index: number, validated: boolean) => void;
+  onVerify: (index: number) => void;
 };
 
 export default function CredAndReveal(props: CredAndRevealProps) {
@@ -26,6 +29,8 @@ export default function CredAndReveal(props: CredAndRevealProps) {
             onValidate={(index, validated) =>
               props.onCredentialValidate(index, validated)
             }
+            onVerify={(index) => props.onVerify(index)}
+            status={props.credStatus}
           />
         </Grid>
         <Grid item xs={5}>

@@ -13,6 +13,7 @@ import { revealTemplate, customLoader } from "./data";
 import jsigs from "jsonld-signatures";
 import {
   BbsBlsSignatureProofTermwise2020,
+  BbsBlsSignatureTermwise2020,
   deriveProofMulti,
   verifyProofMulti,
 } from "@yamdan/jsonld-signatures-bbs";
@@ -40,8 +41,9 @@ const materialTheme = createTheme({
 
 export type CredAndRevealType = {
   cred: string;
-  reveal: string;
   credValidated: boolean;
+  credStatus: VerificationStatus;
+  reveal: string;
   revealValidated: boolean;
 };
 
@@ -54,7 +56,6 @@ export type VerificationStatus =
 function App() {
   const [issuerOpen, setIssuerOpen] = useState(true);
   const [verifierOpen, setVerifierOpen] = useState(false);
-  const [issuedVCs, setIssuedVCs] = useState([] as string[]);
   const [hiddenURIs, setHiddenURIs] = useState([] as string[]);
   const [credsAndReveals, setCredsAndReveals] = useState(
     [] as CredAndRevealType[]
@@ -77,15 +78,12 @@ function App() {
   };
 
   const handleIssue = (issuedVC: string) => {
-    let newIssuedVCs = [...issuedVCs];
-    newIssuedVCs.push(issuedVC);
-    setIssuedVCs(newIssuedVCs);
-
     let newCredsAndReveals = [...credsAndReveals];
     newCredsAndReveals.push({
       cred: issuedVC,
       reveal: JSON.stringify(revealTemplate, null, 2),
       credValidated: true,
+      credStatus: "Unverified",
       revealValidated: true,
     });
     setCredsAndReveals(newCredsAndReveals);
@@ -129,6 +127,35 @@ function App() {
     let newCredsAndReveals = [...credsAndReveals];
     newCredsAndReveals[index].revealValidated = validated;
     setCredsAndReveals(newCredsAndReveals);
+  };
+
+  const handleVerifyCredential = async (index: number) => {
+    const cred = JSON.parse(credsAndReveals[index].cred);
+    const newCredsAndReveals = [...credsAndReveals];
+
+    try {
+      const result = await jsigs.verify(cred, {
+        suite: new BbsBlsSignatureTermwise2020(),
+        purpose: new jsigs.purposes.AssertionProofPurpose(),
+        documentLoader: customLoader,
+        expansionMap: false,
+        compactProof: true,
+      });
+      console.log(result);
+
+      if (result.verified === true) {
+        newCredsAndReveals[index].credStatus = "Accepted";
+      } else {
+        newCredsAndReveals[index].credStatus = "Rejected";
+      }
+      setCredsAndReveals(newCredsAndReveals);
+    } catch (e: any) {
+      newCredsAndReveals[index].credStatus = "Rejected";
+      setCredsAndReveals(newCredsAndReveals);
+      console.log(e);
+      setErr(e.message);
+      setErrOpen(true);
+    }
   };
 
   const handlePresent = async () => {
@@ -229,6 +256,7 @@ function App() {
             onCredentialValidate={handleCredentialValidate}
             onRevealChange={handleRevealChange}
             onRevealValidate={handleRevealValidate}
+            onVerify={handleVerifyCredential}
             onPresent={handlePresent}
             onClick={() => {
               setIssuerOpen(false);

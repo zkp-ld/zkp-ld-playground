@@ -1,20 +1,34 @@
 import Editor from "@monaco-editor/react";
 import { Card, CardHeader, CardContent } from "@mui/material";
-import { CREDENTIAL_HEIGHT, EDITOR_THEME } from "../App";
+import { useState } from "react";
+import { CREDENTIAL_HEIGHT, EDITOR_THEME, VerificationStatus } from "../App";
+import Verify from "./Verify";
 
 export type CredentialProps = {
   index: number;
   value: string;
   onChange: (index: number, value: string) => void;
   onValidate: (index: number, validated: boolean) => void;
+  onVerify: (index: number) => void;
+  status: VerificationStatus;
 };
 
 export default function Credential(props: CredentialProps) {
+  const [validated, setValidated] = useState(true);
+
   return (
     <Card elevation={3}>
       <CardHeader
         title={`Verifiable Credential ${props.index + 1}`}
         titleTypographyProps={{ variant: "subtitle1" }}
+        action={
+          <Verify
+            onVerify={() => props.onVerify(props.index)}
+            status={
+              validated && props.value.trim() !== "" ? props.status : "Disabled"
+            }
+          />
+        }
       />
       <CardContent>
         <Editor

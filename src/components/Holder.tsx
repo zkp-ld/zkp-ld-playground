@@ -24,6 +24,7 @@ export type HolderProps = {
   onCredentialValidate: (index: number, validated: boolean) => void;
   onRevealChange: (index: number, value: string) => void;
   onRevealValidate: (index: number, validated: boolean) => void;
+  onVerify: (index: number) => void;
   onPresent: () => void;
   onClick: () => void;
   onSelectedHiddenURIsChange: (selected: string[]) => void;
@@ -62,6 +63,7 @@ export default function Holder(props: HolderProps) {
               index={index}
               cred={credAndReveal.cred}
               reveal={credAndReveal.reveal}
+              credStatus={credAndReveal.credStatus}
               onCheckboxChange={(index, checked) =>
                 props.onCheckboxChange(index, checked)
               }
@@ -77,10 +79,11 @@ export default function Holder(props: HolderProps) {
               onRevealValidate={(index, validated) =>
                 props.onRevealValidate(index, validated)
               }
+              onVerify={(index) => props.onVerify(index)}
             />
           ))}
           <HiddenURIs
-            vcs={props.credsAndReveals.map(
+            vCs={props.credsAndReveals.map(
               (credAndReveal) => credAndReveal.cred
             )}
             onSelectedHiddenURIsChange={(selected) =>

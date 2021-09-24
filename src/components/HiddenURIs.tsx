@@ -1,7 +1,7 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 type HiddenURIsProps = {
-  vcs: string[];
+  vCs: string[];
   onSelectedHiddenURIsChange: (selected: string[]) => void;
 };
 
@@ -34,7 +34,15 @@ export default function HiddenURIs(props: HiddenURIsProps) {
   };
 
   const rowSet = new Set(
-    props.vcs.flatMap((vc) => extractUris(JSON.parse(vc)))
+    props.vCs.flatMap((vc) => {
+      let vcObj = {};
+      try {
+        vcObj = JSON.parse(vc);
+      } catch (e: unknown) {
+        return [];
+      }
+      return extractUris(vcObj);
+    })
   );
   const rowArray = Array.from(rowSet);
   const rows = rowArray.map((v, i) => ({ id: i, col1: v }));
