@@ -39,12 +39,19 @@ const materialTheme = createTheme({
   },
 });
 
+export type CredAndRevealArrayType = {
+  lastIndex: number;
+  value: CredAndRevealType[];
+};
+
 export type CredAndRevealType = {
+  index: number;
   cred: string;
   credValidated: boolean;
   credStatus: VerificationStatus;
   reveal: string;
   revealValidated: boolean;
+  checked: boolean;
 };
 
 export type VerificationStatus =
@@ -57,12 +64,10 @@ function App() {
   const [issuerOpen, setIssuerOpen] = useState(true);
   const [verifierOpen, setVerifierOpen] = useState(false);
   const [hiddenURIs, setHiddenURIs] = useState([] as string[]);
-  const [credsAndReveals, setCredsAndReveals] = useState(
-    [] as CredAndRevealType[]
-  );
-  const [credsAndRevealsChecked, setCredsAndRevealsChecked] = useState(
-    [] as boolean[]
-  );
+  const [credsAndReveals, setCredsAndReveals] = useState({
+    lastIndex: 0,
+    value: [],
+  } as CredAndRevealArrayType);
   const [vP, setVP] = useState("");
   const [verificationStatus, setVerificationStatus] = useState(
     "Unverified" as VerificationStatus
@@ -78,19 +83,21 @@ function App() {
   };
 
   const handleIssue = (issuedVC: string) => {
-    let newCredsAndReveals = [...credsAndReveals];
-    newCredsAndReveals.push({
+    let newCredsAndReveals = {
+      ...credsAndReveals,
+      lastIndex: credsAndReveals.lastIndex + 1,
+    };
+
+    newCredsAndReveals.value.push({
+      index: credsAndReveals.lastIndex,
       cred: issuedVC,
       reveal: JSON.stringify(revealTemplate, null, 2),
       credValidated: true,
       credStatus: "Unverified",
       revealValidated: true,
+      checked: false,
     });
     setCredsAndReveals(newCredsAndReveals);
-
-    let newCredsAndRevealsChecked = [...credsAndRevealsChecked];
-    newCredsAndRevealsChecked.push(false);
-    setCredsAndRevealsChecked(newCredsAndRevealsChecked);
 
     setIssuerOpen(true);
     setVerifierOpen(false);
@@ -100,40 +107,51 @@ function App() {
     index: number,
     checked: boolean
   ) => {
-    let newCredsAndRevealsChecked = [...credsAndRevealsChecked];
-    newCredsAndRevealsChecked[index] = checked;
-    setCredsAndRevealsChecked(newCredsAndRevealsChecked);
+    let newCredsAndReveals = { ...credsAndReveals };
+    newCredsAndReveals.value[index].checked = checked;
+    setCredsAndReveals(newCredsAndReveals);
   };
 
   const handleCredentialChange = (index: number, value: string) => {
-    let newCredsAndReveals = [...credsAndReveals];
-    newCredsAndReveals[index].cred = value;
-    newCredsAndReveals[index].credStatus = "Unverified";
+    let newCredsAndReveals = { ...credsAndReveals };
+    newCredsAndReveals.value[index].cred = value;
+    newCredsAndReveals.value[index].credStatus = "Unverified";
     setCredsAndReveals(newCredsAndReveals);
   };
 
   const handleCredentialValidate = (index: number, validated: boolean) => {
-    let newCredsAndReveals = [...credsAndReveals];
-    newCredsAndReveals[index].credValidated = validated;
+    let newCredsAndReveals = { ...credsAndReveals };
+    newCredsAndReveals.value[index].credValidated = validated;
     setCredsAndReveals(newCredsAndReveals);
   };
 
   const handleRevealChange = (index: number, value: string) => {
-    let newCredsAndReveals = [...credsAndReveals];
-    newCredsAndReveals[index].reveal = value;
+    let newCredsAndReveals = { ...credsAndReveals };
+    newCredsAndReveals.value[index].reveal = value;
     setCredsAndReveals(newCredsAndReveals);
   };
 
   const handleRevealValidate = (index: number, validated: boolean) => {
-    let newCredsAndReveals = [...credsAndReveals];
-    newCredsAndReveals[index].revealValidated = validated;
+    let newCredsAndReveals = { ...credsAndReveals };
+    newCredsAndReveals.value[index].revealValidated = validated;
+    setCredsAndReveals(newCredsAndReveals);
+  };
+
+  const handlePresentationChange = (value: string) => {
+    setVP(value);
+    setVerificationStatus("Unverified");
+  };
+
+  const handleDeleteCredAndReveal = (index: number) => {
+    let newCredsAndReveals = { ...credsAndReveals };
+    delete newCredsAndReveals.value[index];
     setCredsAndReveals(newCredsAndReveals);
   };
 
   const handleVerifyCredential = async (index: number) => {
-    const newCredsAndReveals = [...credsAndReveals];
+    const newCredsAndReveals = { ...credsAndReveals };
     try {
-      const cred = JSON.parse(credsAndReveals[index].cred);
+      const cred = JSON.parse(credsAndReveals.value[index].cred);
       const result = await jsigs.verify(cred, {
         suite: new BbsBlsSignatureTermwise2020(),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
@@ -144,13 +162,13 @@ function App() {
       console.log(result);
 
       if (result.verified === true) {
-        newCredsAndReveals[index].credStatus = "Accepted";
+        newCredsAndReveals.value[index].credStatus = "Accepted";
       } else {
-        newCredsAndReveals[index].credStatus = "Rejected";
+        newCredsAndReveals.value[index].credStatus = "Rejected";
       }
       setCredsAndReveals(newCredsAndReveals);
     } catch (e: any) {
-      newCredsAndReveals[index].credStatus = "Rejected";
+      newCredsAndReveals.value[index].credStatus = "Rejected";
       setCredsAndReveals(newCredsAndReveals);
       console.log(e);
       setErr(e.message);
@@ -160,14 +178,9 @@ function App() {
 
   const handlePresent = async () => {
     try {
-      const documents: [any, any][] = credsAndRevealsChecked
-        .map<[boolean, number]>((c, i) => [c, i])
-        .filter(([c, _]) => c)
-        .map(([_, i]) => {
-          const cred: {} = JSON.parse(credsAndReveals[i].cred);
-          const reveal: {} = JSON.parse(credsAndReveals[i].reveal);
-          return [cred, reveal];
-        });
+      const documents: [any, any][] = credsAndReveals.value
+        .filter((cr) => cr.checked)
+        .map((cr) => [JSON.parse(cr.cred), JSON.parse(cr.reveal)]);
 
       const derivedProofs: any[] = await deriveProofMulti(
         documents,
@@ -187,11 +200,6 @@ function App() {
       setErrOpen(true);
       setVP("");
     }
-  };
-
-  const handlePresentationChange = (value: string) => {
-    setVP(value);
-    setVerificationStatus("Unverified");
   };
 
   const handleVerifyProof = async () => {
@@ -249,7 +257,7 @@ function App() {
           xs={issuerOpen ? (verifierOpen ? 4 : 7) : verifierOpen ? 7 : 10}
         >
           <Holder
-            credsAndReveals={credsAndReveals}
+            credsAndReveals={credsAndReveals.value}
             hiddenURIs={hiddenURIs}
             onCheckboxChange={handleCredsAndRevealsCheckboxChange}
             onCredentialChange={handleCredentialChange}
@@ -263,6 +271,7 @@ function App() {
               setVerifierOpen(false);
             }}
             onSelectedHiddenURIsChange={(selected) => setHiddenURIs(selected)}
+            onDeleteCredAndReveal={handleDeleteCredAndReveal}
           />
         </Grid>
         <Grid item xs={verifierOpen ? 4 : 1}>

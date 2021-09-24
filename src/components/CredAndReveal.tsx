@@ -13,6 +13,7 @@ export type CredAndRevealProps = {
   onRevealChange: (index: number, value: string) => void;
   onRevealValidate: (index: number, validated: boolean) => void;
   onVerify: (index: number) => void;
+  onDelete: (index: number) => void;
 };
 
 export default function CredAndReveal(props: CredAndRevealProps) {
@@ -53,7 +54,7 @@ export default function CredAndReveal(props: CredAndRevealProps) {
               />
             </Tooltip>
             <Tooltip title="delete">
-              <IconButton>
+              <IconButton onClick={() => props.onDelete(props.index)}>
                 <DeleteIcon />
               </IconButton>
             </Tooltip>

@@ -28,6 +28,7 @@ export type HolderProps = {
   onPresent: () => void;
   onClick: () => void;
   onSelectedHiddenURIsChange: (selected: string[]) => void;
+  onDeleteCredAndReveal: (index: number) => void;
 };
 
 export default function Holder(props: HolderProps) {
@@ -57,33 +58,36 @@ export default function Holder(props: HolderProps) {
       </CardActionArea>
       <CardContent>
         <Stack spacing={2}>
-          {props.credsAndReveals.map((credAndReveal, index) => (
-            <CredAndReveal
-              key={index}
-              index={index}
-              credAndReveal={credAndReveal}
-              onCheckboxChange={(index, checked) =>
-                props.onCheckboxChange(index, checked)
-              }
-              onCredentialChange={(index, value) =>
-                props.onCredentialChange(index, value)
-              }
-              onCredentialValidate={(index, validated) =>
-                props.onCredentialValidate(index, validated)
-              }
-              onRevealChange={(index, value) =>
-                props.onRevealChange(index, value)
-              }
-              onRevealValidate={(index, validated) =>
-                props.onRevealValidate(index, validated)
-              }
-              onVerify={(index) => props.onVerify(index)}
-            />
-          ))}
+          {props.credsAndReveals
+            .filter((cr) => cr)
+            .map((credAndReveal) => (
+              <CredAndReveal
+                key={credAndReveal.index}
+                index={credAndReveal.index}
+                credAndReveal={credAndReveal}
+                onCheckboxChange={(index, checked) =>
+                  props.onCheckboxChange(index, checked)
+                }
+                onCredentialChange={(index, value) =>
+                  props.onCredentialChange(index, value)
+                }
+                onCredentialValidate={(index, validated) =>
+                  props.onCredentialValidate(index, validated)
+                }
+                onRevealChange={(index, value) =>
+                  props.onRevealChange(index, value)
+                }
+                onRevealValidate={(index, validated) =>
+                  props.onRevealValidate(index, validated)
+                }
+                onVerify={(index) => props.onVerify(index)}
+                onDelete={(index) => props.onDeleteCredAndReveal(index)}
+              />
+            ))}
           <HiddenURIs
-            vCs={props.credsAndReveals.map(
-              (credAndReveal) => credAndReveal.cred
-            )}
+            vCs={props.credsAndReveals
+              .filter((cr) => cr)
+              .map((credAndReveal) => credAndReveal.cred)}
             onSelectedHiddenURIsChange={(selected) =>
               props.onSelectedHiddenURIsChange(selected)
             }
