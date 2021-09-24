@@ -15,12 +15,14 @@ export default function Verify(props: VerifyProps) {
   let chip = "unverified";
   let chip_color: "default" | "primary" | "error" | "warning" = "default";
   let chip_icon = <ErrorIcon />;
+  let chip_variant: "outlined" | "filled" = "outlined";
   switch (props.status) {
     case "Accepted":
       disabled = false;
       chip = "accepted";
       chip_color = "primary";
       chip_icon = <CheckIcon />;
+      chip_variant = "filled";
       break;
     case "Rejected":
       disabled = false;
@@ -41,7 +43,7 @@ export default function Verify(props: VerifyProps) {
   return (
     <Tooltip title="verify">
       <Chip
-        variant="outlined"
+        variant={chip_variant}
         icon={chip_icon}
         label={chip}
         color={chip_color}

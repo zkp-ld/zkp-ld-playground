@@ -8,7 +8,7 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import { blue } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import CredAndReveal from "./CredAndReveal";
 import { CredAndRevealType } from "../App";
@@ -41,7 +41,7 @@ export default function Holder(props: HolderProps) {
               justifyContent: "flex-start",
               textTransform: "none",
               flexGrow: 1,
-              color: blue[500],
+              color: green[500],
             }}
           >
             <Stack direction="row" spacing={2} alignItems="center">
@@ -49,7 +49,7 @@ export default function Holder(props: HolderProps) {
                 badgeContent={props.credsAndReveals.filter((cr) => cr).length}
                 color="primary"
               >
-                <Avatar sx={{ bgcolor: blue[500] }} aria-label="holder">
+                <Avatar sx={{ bgcolor: green[500] }} aria-label="holder">
                   <PhoneAndroidIcon />
                 </Avatar>
               </Badge>
@@ -67,7 +67,7 @@ export default function Holder(props: HolderProps) {
                     cr.checked && !(cr.credValidated && cr.revealValidated)
                 ) || props.credsAndReveals.every((cr) => !cr.checked)
               }
-              sx={{ bgcolor: blue[500], "&:hover": { bgcolor: blue[600] } }}
+              sx={{ bgcolor: green[500], "&:hover": { bgcolor: green[600] } }}
             >
               Present
             </Button>
