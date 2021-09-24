@@ -6,14 +6,12 @@ import {
   Box,
   Button,
   Container,
-  Grid,
   Snackbar,
   Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { orange } from "@mui/material/colors";
 import {
   customLoader,
@@ -94,7 +92,7 @@ export default function Issuer(props: IssuerProps) {
             disabled={!validated}
             sx={{ bgcolor: orange[500], "&:hover": { bgcolor: orange[600] } }}
           >
-            <PlayArrowIcon /> Issue
+            Issue
           </Button>
         </Tooltip>
       </Box>

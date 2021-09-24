@@ -8,7 +8,6 @@ import {
   Container,
 } from "@mui/material";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { green } from "@mui/material/colors";
 import Presentation from "./Presentation";
 import { VerificationStatus } from "../App";
@@ -53,7 +52,7 @@ export default function Verifier(props: VerifierProps) {
             disabled={!validated}
             sx={{ bgcolor: green[500], "&:hover": { bgcolor: green[600] } }}
           >
-            <PlayArrowIcon /> Verify
+            Verify
           </Button>
         </Tooltip>
       </Box>

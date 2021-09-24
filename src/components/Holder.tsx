@@ -9,7 +9,6 @@ import {
   Grid,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import CredAndReveal from "./CredAndReveal";
 import { CredAndRevealType } from "../App";
@@ -62,9 +61,15 @@ export default function Holder(props: HolderProps) {
               variant="contained"
               aria-label="present"
               onClick={() => props.onPresent()}
+              disabled={
+                props.credsAndReveals.some(
+                  (cr) =>
+                    cr.checked && !(cr.credValidated && cr.revealValidated)
+                ) || props.credsAndReveals.every((cr) => !cr.checked)
+              }
               sx={{ bgcolor: blue[500], "&:hover": { bgcolor: blue[600] } }}
             >
-              <PlayArrowIcon /> Present
+              Present
             </Button>
           </Tooltip>
         </Box>
