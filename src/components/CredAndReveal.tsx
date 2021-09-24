@@ -16,12 +16,6 @@ export type CredAndRevealProps = {
 };
 
 export default function CredAndReveal(props: CredAndRevealProps) {
-  const status = !(
-    props.credAndReveal.credValidated && props.credAndReveal.cred !== ""
-  )
-    ? "Disabled"
-    : props.credAndReveal.credStatus;
-
   return (
     <>
       <Grid container spacing={1}>
@@ -34,7 +28,8 @@ export default function CredAndReveal(props: CredAndRevealProps) {
               props.onCredentialValidate(index, validated)
             }
             onVerify={(index) => props.onVerify(index)}
-            status={status}
+            status={props.credAndReveal.credStatus}
+            validated={props.credAndReveal.credValidated}
           />
         </Grid>
         <Grid item xs={5}>

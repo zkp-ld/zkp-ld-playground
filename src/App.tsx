@@ -159,17 +159,16 @@ function App() {
   };
 
   const handlePresent = async () => {
-    const documents: [any, any][] = credsAndRevealsChecked
-      .map<[boolean, number]>((c, i) => [c, i])
-      .filter(([c, _]) => c)
-      .map(([_, i]) => {
-        // TODO: check validated's
-        const cred: {} = JSON.parse(credsAndReveals[i].cred);
-        const reveal: {} = JSON.parse(credsAndReveals[i].reveal);
-        return [cred, reveal];
-      });
-
     try {
+      const documents: [any, any][] = credsAndRevealsChecked
+        .map<[boolean, number]>((c, i) => [c, i])
+        .filter(([c, _]) => c)
+        .map(([_, i]) => {
+          const cred: {} = JSON.parse(credsAndReveals[i].cred);
+          const reveal: {} = JSON.parse(credsAndReveals[i].reveal);
+          return [cred, reveal];
+        });
+
       const derivedProofs: any[] = await deriveProofMulti(
         documents,
         hiddenURIs,

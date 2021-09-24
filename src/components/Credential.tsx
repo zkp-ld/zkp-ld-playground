@@ -11,11 +11,10 @@ export type CredentialProps = {
   onValidate: (index: number, validated: boolean) => void;
   onVerify: (index: number) => void;
   status: VerificationStatus;
+  validated: boolean;
 };
 
 export default function Credential(props: CredentialProps) {
-  const [validated, setValidated] = useState(true);
-
   return (
     <Card elevation={3}>
       <CardHeader
@@ -25,7 +24,9 @@ export default function Credential(props: CredentialProps) {
           <Verify
             onVerify={() => props.onVerify(props.index)}
             status={
-              validated && props.value.trim() !== "" ? props.status : "Disabled"
+              props.validated && props.value.trim() !== ""
+                ? props.status
+                : "Disabled"
             }
           />
         }
