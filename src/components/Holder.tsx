@@ -9,6 +9,7 @@ import {
   Grid,
 } from "@mui/material";
 import { green } from "@mui/material/colors";
+import Add from "@mui/icons-material/Add";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import CredAndReveal from "./CredAndReveal";
 import { CredAndRevealType, ModeType } from "../App";
@@ -17,6 +18,7 @@ import HiddenURIs from "./HiddenURIs";
 export type HolderProps = {
   credsAndReveals: CredAndRevealType[];
   hiddenURIs: string[];
+  onCredentialAdd: () => void;
   onCheckboxChange: (index: number, checked: boolean) => void;
   onCredentialChange: (index: number, value: string) => void;
   onCredentialValidate: (index: number, validated: boolean) => void;
@@ -36,7 +38,7 @@ export default function Holder(props: HolderProps) {
       <Box sx={{ display: "flex", margin: 2, alignItems: "center" }}>
         <Button
           color="inherit"
-          onClick={(_: any) => props.onClick()}
+          onClick={() => props.onClick()}
           sx={{
             justifyContent: "flex-start",
             textTransform: "none",
@@ -74,7 +76,7 @@ export default function Holder(props: HolderProps) {
         </Tooltip>
       </Box>
       <Box sx={{ height: "60vh", overflow: "auto", padding: 2 }}>
-        <Grid container spacing={2} xs={12}>
+        <Grid container spacing={2}>
           {props.credsAndReveals
             .filter((cr) => cr)
             .map((credAndReveal) => (
@@ -102,6 +104,11 @@ export default function Holder(props: HolderProps) {
                 mode={props.mode}
               />
             ))}
+          <Grid item xs={12}>
+            <Button fullWidth onClick={() => props.onCredentialAdd()}>
+              <Add />
+            </Button>
+          </Grid>
         </Grid>
       </Box>
       <Box sx={{ height: "25vh", overflow: "auto", padding: [0, 2] }}>

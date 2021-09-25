@@ -8,9 +8,6 @@
   "@explicit": true,
   "issuer": {},
   "credentialSubject": {
-    "type": "Person",
-    "@explicit": true,
-    "familyName": {},
-    "homeLocation": {}
+    "@explicit": true
   }
 }

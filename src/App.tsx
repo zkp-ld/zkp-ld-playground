@@ -121,6 +121,24 @@ function App() {
     setVerifierOpen(false);
   };
 
+  const handleCredentialAdd = () => {
+    let newCredsAndReveals = {
+      ...credsAndReveals,
+      lastIndex: credsAndReveals.lastIndex + 1,
+    };
+
+    newCredsAndReveals.value.push({
+      index: credsAndReveals.lastIndex,
+      cred: "{}",
+      reveal: JSON.stringify(revealTemplate, null, 2),
+      credValidated: true,
+      credStatus: "Unverified",
+      revealValidated: true,
+      checked: false,
+    });
+    setCredsAndReveals(newCredsAndReveals);
+  };
+
   const handleCredsAndRevealsCheckboxChange = (
     index: number,
     checked: boolean
@@ -280,6 +298,7 @@ function App() {
           <Holder
             credsAndReveals={credsAndReveals.value}
             hiddenURIs={hiddenURIs}
+            onCredentialAdd={handleCredentialAdd}
             onCheckboxChange={handleCredsAndRevealsCheckboxChange}
             onCredentialChange={handleCredentialChange}
             onCredentialValidate={handleCredentialValidate}
