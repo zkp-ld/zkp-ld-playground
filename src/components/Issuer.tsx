@@ -16,7 +16,9 @@ import {
   customLoader,
   expExampleBls12381KeyPair,
   expVCDocument,
+  expVCDocument2,
 } from "../data";
+import { Person1, Person2, City, Place } from "../data/doc";
 import Doc from "./Doc";
 
 import jsigs from "jsonld-signatures";
@@ -32,8 +34,15 @@ export type IssuerProps = {
   mode: ModeType;
 };
 
+export const exampleDocs: { [key: string]: {} } = {
+  Person1: Person1,
+  Person2: Person2,
+  City: City,
+  Place: Place,
+};
+
 export default function Issuer(props: IssuerProps) {
-  const [doc, setDoc] = useState(JSON.stringify(expVCDocument, null, 2));
+  const [doc, setDoc] = useState("");
   const [key] = useState(new Bls12381G2KeyPair(expExampleBls12381KeyPair));
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
@@ -41,6 +50,10 @@ export default function Issuer(props: IssuerProps) {
 
   const handleChange = (value: string) => {
     setDoc(value);
+  };
+
+  const handleExampleChange = (value: string) => {
+    setDoc(JSON.stringify(exampleDocs[value], null, 2));
   };
 
   const handleIssue = async () => {
@@ -105,6 +118,7 @@ export default function Issuer(props: IssuerProps) {
           onIssue={handleIssue}
           onValidate={(v) => setValidated(v)}
           mode={props.mode}
+          onExampleChange={handleExampleChange}
         />
       </Box>
       <Snackbar

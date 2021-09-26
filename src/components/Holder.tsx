@@ -60,19 +60,22 @@ export default function Holder(props: HolderProps) {
           </Stack>
         </Button>
         <Tooltip title="present">
-          <Button
-            variant="contained"
-            aria-label="present"
-            onClick={() => props.onPresent()}
-            disabled={
-              props.credsAndReveals.some(
-                (cr) => cr.checked && !(cr.credValidated && cr.revealValidated)
-              ) || props.credsAndReveals.every((cr) => !cr.checked)
-            }
-            sx={{ bgcolor: green[500], "&:hover": { bgcolor: green[600] } }}
-          >
-            Present
-          </Button>
+          <span>
+            <Button
+              variant="contained"
+              aria-label="present"
+              onClick={() => props.onPresent()}
+              disabled={
+                props.credsAndReveals.some(
+                  (cr) =>
+                    cr.checked && !(cr.credValidated && cr.revealValidated)
+                ) || props.credsAndReveals.every((cr) => !cr.checked)
+              }
+              sx={{ bgcolor: green[500], "&:hover": { bgcolor: green[600] } }}
+            >
+              Present
+            </Button>
+          </span>
         </Tooltip>
       </Box>
       <Box sx={{ height: "60vh", overflow: "auto", padding: 2 }}>
