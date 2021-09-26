@@ -12,12 +12,7 @@ import {
 } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 import { orange } from "@mui/material/colors";
-import {
-  customLoader,
-  expExampleBls12381KeyPair,
-  expVCDocument,
-  expVCDocument2,
-} from "../data";
+import { customLoader, expExampleBls12381KeyPair } from "../data";
 import { Person1, Person2, City, Place } from "../data/doc";
 import Doc from "./Doc";
 
@@ -122,8 +117,8 @@ export default function Issuer(props: IssuerProps) {
         />
       </Box>
       <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={errOpen}
-        autoHideDuration={10000}
         onClose={handleErrClose}
       >
         <Alert onClose={() => setErrOpen(false)} severity="error">

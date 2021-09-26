@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import {
   Alert,
   AlertTitle,
@@ -19,7 +18,8 @@ import Issuer from "./components/Issuer";
 import Holder from "./components/Holder";
 import Verifier from "./components/Verifier";
 import ModeSwitch from "./components/ModeSwitch";
-import { revealTemplate, customLoader } from "./data";
+import { customLoader } from "./data";
+import { revealTemplate } from "./data/template";
 import jsigs from "jsonld-signatures";
 import {
   BbsBlsSignatureProofTermwise2020,
@@ -92,7 +92,7 @@ function App() {
     setErrOpen(false);
   };
 
-  const handleModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleModeChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       setMode({ mui: darkTheme, monaco: "vs-dark" });
     } else {
@@ -297,7 +297,6 @@ function App() {
         >
           <Holder
             credsAndReveals={credsAndReveals.value}
-            hiddenURIs={hiddenURIs}
             onCredentialAdd={handleCredentialAdd}
             onCheckboxChange={handleCredsAndRevealsCheckboxChange}
             onCredentialChange={handleCredentialChange}
@@ -310,7 +309,10 @@ function App() {
               setIssuerOpen(false);
               setVerifierOpen(false);
             }}
-            onSelectedHiddenURIsChange={(selected) => setHiddenURIs(selected)}
+            onSelectedHiddenURIsChange={(selected) => {
+              console.log(selected);
+              setHiddenURIs(selected);
+            }}
             onDeleteCredAndReveal={handleDeleteCredAndReveal}
             mode={mode}
           />

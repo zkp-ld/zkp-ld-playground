@@ -67,9 +67,9 @@ export default function HiddenURIs(props: HiddenURIsProps) {
           columns={columns}
           rowHeight={25}
           checkboxSelection
-          onSelectionModelChange={(selectionModel) =>
+          onSelectionModelChange={(selectedIDs) =>
             props.onSelectedHiddenURIsChange(
-              selectionModel.map((i) => rowArray[i.valueOf() as number])
+              rowArray.filter((v, i) => selectedIDs.includes(i))
             )
           }
           style={{

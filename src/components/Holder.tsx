@@ -17,7 +17,6 @@ import HiddenURIs from "./HiddenURIs";
 
 export type HolderProps = {
   credsAndReveals: CredAndRevealType[];
-  hiddenURIs: string[];
   onCredentialAdd: () => void;
   onCheckboxChange: (index: number, checked: boolean) => void;
   onCredentialChange: (index: number, value: string) => void;
@@ -117,7 +116,7 @@ export default function Holder(props: HolderProps) {
       <Box sx={{ height: "25vh", overflow: "auto", padding: [0, 2] }}>
         <HiddenURIs
           vCs={props.credsAndReveals
-            .filter((cr) => cr)
+            .filter((cr) => cr?.checked)
             .map((credAndReveal) => credAndReveal.cred)}
           onSelectedHiddenURIsChange={(selected) =>
             props.onSelectedHiddenURIsChange(selected)
