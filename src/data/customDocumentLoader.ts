@@ -32,31 +32,33 @@ import expExampleDidKey2 from "./data/exp_didkey_issuer2.json";
 import expExampleDidDoc2 from "./data/exp_diddoc_issuer2.json";
 import expExampleDidKey3 from "./data/exp_didkey_issuer3.json";
 import expExampleDidDoc3 from "./data/exp_diddoc_issuer3.json";
+import bbsWithProofContext from "./contexts/bbs_with_proof.json";
 
 export const documents: any = {
+  "https://w3id.org/security/suites/bls12381-2020/v1": bbsWithProofContext,
   "https://w3id.org/security/v3-unstable": securityV3,
   "https://www.w3id.org/security/v3-unstable": securityV3,
   "https://www.w3.org/2018/credentials/examples/v1": vcExampleContext,
   "https://www.w3.org/2018/credentials/v1": credentialContext,
   "https://www.w3.org/ns/odrl.jsonld": odrlContext,
   "https://w3id.org/security/suites/jws-2020/v1": jwsContext,
+  "https://w3id.org/citizenship/v1": citizenVocab,
+  "https://w3id.org/security/bbs/v1": bbsContext,
+  "https://schema.org": schemaOrg,
+  "https://schema.org/": schemaOrg,
+  "http://schema.org/": schemaOrg,
   "did:example:489398593#test": exampleDidKey,
   "did:example:489398593": exampleDidDoc,
   "did:example:82612387612873#test": exampleDid826Key,
   "did:example:82612387612873": exampleDid826Doc,
   "did:example:b34ca6cd37bbf23#test": exampleDidb34Key,
   "did:example:b34ca6cd37bbf23": exampleDidb34Doc,
-  "https://w3id.org/citizenship/v1": citizenVocab,
-  "https://w3id.org/security/bbs/v1": bbsContext,
-  "https://schema.org": schemaOrg,
-  "https://schema.org/": schemaOrg,
-  "http://schema.org/": schemaOrg,
   "did:example:issuer1": expExampleDidDoc,
   "did:example:issuer1#bbs-bls-key1": expExampleDidKey,
   "did:example:issuer2": expExampleDidDoc2,
   "did:example:issuer2#bbs-bls-key1": expExampleDidKey2,
   "did:example:issuer3": expExampleDidDoc3,
-  "did:example:issuer3#bbs-bls-key1": expExampleDidKey3
+  "did:example:issuer3#bbs-bls-key1": expExampleDidKey3,
 };
 
 const customDocLoader = (url: string): any => {
@@ -66,7 +68,7 @@ const customDocLoader = (url: string): any => {
     return {
       contextUrl: null, // this is for a context via a link header
       document: context, // this is the actual document that was loaded
-      documentUrl: url // this is the actual context URL after redirects
+      documentUrl: url, // this is the actual context URL after redirects
     };
   }
 

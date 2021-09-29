@@ -1,8 +1,8 @@
 {
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
-    "https://schema.org",
-    "https://w3id.org/security/v3-unstable"
+    "https://w3id.org/security/suites/bls12381-2020/v1",
+    "https://schema.org"
   ],
   "id": "http://example.org/credentials/3/1",
   "type": "VerifiableCredential",
