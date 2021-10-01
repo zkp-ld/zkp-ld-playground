@@ -1,4 +1,5 @@
 import { useState, ChangeEvent } from "react";
+
 import {
   Alert,
   AlertTitle,
@@ -14,12 +15,13 @@ import {
 import { createTheme, Theme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import { ThemeProvider } from "@emotion/react";
+
 import Issuer from "./components/Issuer";
 import Holder from "./components/Holder";
 import Verifier from "./components/Verifier";
 import ModeSwitch from "./components/ModeSwitch";
 import { customLoader } from "./data";
-import { revealTemplate } from "./data/template";
+import { revealTemplate, vpTemplate, VPType } from "./data/template";
 import jsigs from "jsonld-signatures";
 import {
   BbsBlsSignatureProofTermwise2020,
@@ -70,20 +72,20 @@ function App() {
   const [issuerOpen, setIssuerOpen] = useState(true);
   const [verifierOpen, setVerifierOpen] = useState(false);
   const [hiddenURIs, setHiddenURIs] = useState([] as string[]);
-  const [credsAndReveals, setCredsAndReveals] = useState({
-    lastIndex: 0,
-    value: [],
-  } as CredAndRevealArrayType);
+  const [credsAndReveals, setCredsAndReveals] =
+    useState<CredAndRevealArrayType>({
+      lastIndex: 0,
+      value: [],
+    });
   const [vP, setVP] = useState("");
-  const [verificationStatus, setVerificationStatus] = useState(
-    "Unverified" as VerificationStatus
-  );
+  const [verificationStatus, setVerificationStatus] =
+    useState<VerificationStatus>("Unverified");
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
-  const [mode, setMode] = useState({
+  const [mode, setMode] = useState<ModeType>({
     mui: lightTheme,
     monaco: "light",
-  } as ModeType);
+  });
 
   const handleErrClose = (_: any, reason: string) => {
     if (reason === "clickaway") {
@@ -226,7 +228,10 @@ function App() {
           documentLoader: customLoader,
         }
       );
-      setVP(JSON.stringify(derivedProofs, null, 2));
+
+      let vp: VPType = vpTemplate;
+      vp.verifiableCredential = derivedProofs;
+      setVP(JSON.stringify(vp, null, 2));
       setVerificationStatus("Unverified");
       setIssuerOpen(false);
       setVerifierOpen(true);
@@ -240,8 +245,13 @@ function App() {
 
   const handleVerifyProof = async () => {
     try {
-      const proof = JSON.parse(vP);
-      const result = await verifyProofMulti(proof, {
+      const proof: VPType = JSON.parse(vP);
+      const derivedProofs = proof.verifiableCredential;
+      if (derivedProofs == null) {
+        throw new Error("An array of `verifiableCredential` does not exist");
+      }
+
+      const result = await verifyProofMulti(derivedProofs, {
         suite: new BbsBlsSignatureProofTermwise2020(),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
         documentLoader: customLoader,

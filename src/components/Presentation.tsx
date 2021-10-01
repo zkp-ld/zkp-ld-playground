@@ -1,5 +1,6 @@
 import Editor from "@monaco-editor/react";
-import { Card, CardHeader, CardContent } from "@mui/material";
+import { InfoOutlined } from "@mui/icons-material";
+import { Card, CardHeader, CardContent, Tooltip } from "@mui/material";
 import { ModeType, VerificationStatus } from "../App";
 import Verify from "./Verify";
 
@@ -17,7 +18,14 @@ export default function Presentation(props: PresentationProps) {
   return (
     <Card elevation={3} sx={{ height: "85vh" }}>
       <CardHeader
-        title="Verifiable Presentation"
+        title={
+          <>
+            Verifiable Presentation
+            <Tooltip title="`verifiableCredential` array is the only place to be verified; editing the other contents is not detected as a forgery">
+              <InfoOutlined color="primary" />
+            </Tooltip>
+          </>
+        }
         titleTypographyProps={{ variant: "subtitle1" }}
         action={
           <Verify
