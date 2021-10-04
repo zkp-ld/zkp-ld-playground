@@ -21,7 +21,7 @@ import Holder from "./components/Holder";
 import Verifier from "./components/Verifier";
 import ModeSwitch from "./components/ModeSwitch";
 import { customLoader } from "./data";
-import { revealTemplate, vpTemplate, VPType } from "./data/template";
+import { revealTemplate } from "./data/template";
 import jsigs from "jsonld-signatures";
 import {
   BbsBlsSignatureProofTermwise2020,
@@ -229,9 +229,7 @@ function App() {
         }
       );
 
-      let vp: VPType = vpTemplate;
-      vp.verifiableCredential = derivedProofs;
-      setVP(JSON.stringify(vp, null, 2));
+      setVP(JSON.stringify(derivedProofs, null, 2));
       setVerificationStatus("Unverified");
       setIssuerOpen(false);
       setVerifierOpen(true);
@@ -245,12 +243,7 @@ function App() {
 
   const handleVerifyProof = async () => {
     try {
-      const proof: VPType = JSON.parse(vP);
-      const derivedProofs = proof.verifiableCredential;
-      if (derivedProofs == null) {
-        throw new Error("An array of `verifiableCredential` does not exist");
-      }
-
+      const derivedProofs = JSON.parse(vP);
       const result = await verifyProofMulti(derivedProofs, {
         suite: new BbsBlsSignatureProofTermwise2020(),
         purpose: new jsigs.purposes.AssertionProofPurpose(),

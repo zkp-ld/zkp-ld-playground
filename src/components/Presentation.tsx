@@ -20,8 +20,8 @@ export default function Presentation(props: PresentationProps) {
       <CardHeader
         title={
           <>
-            Verifiable Presentation
-            <Tooltip title="`verifiableCredential` array is the only place to be verified; editing the other contents is not detected as a forgery">
+            Derived Proofs
+            <Tooltip title="can be contained in `verifiableCredential` array of verifiable presentation">
               <InfoOutlined color="primary" />
             </Tooltip>
           </>
