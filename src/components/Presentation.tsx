@@ -1,6 +1,5 @@
 import Editor from "@monaco-editor/react";
-import { InfoOutlined } from "@mui/icons-material";
-import { Card, CardHeader, CardContent, Tooltip } from "@mui/material";
+import { Card, CardHeader, CardContent } from "@mui/material";
 import { ModeType, VerificationStatus } from "../App";
 import Verify from "./Verify";
 
@@ -18,14 +17,7 @@ export default function Presentation(props: PresentationProps) {
   return (
     <Card elevation={3} sx={{ height: "85vh" }}>
       <CardHeader
-        title={
-          <>
-            Derived Proofs
-            <Tooltip title="can be contained in `verifiableCredential` array of verifiable presentation">
-              <InfoOutlined color="primary" />
-            </Tooltip>
-          </>
-        }
+        title="Derived Proofs"
         titleTypographyProps={{ variant: "subtitle1" }}
         action={
           <Verify

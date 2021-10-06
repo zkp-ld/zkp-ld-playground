@@ -18,7 +18,7 @@ export default function Credential(props: CredentialProps) {
   return (
     <Card elevation={3}>
       <CardHeader
-        title={`Verifiable Credential ${props.index + 1}`}
+        title={`Signed Document ${props.index + 1}`}
         titleTypographyProps={{ variant: "subtitle1" }}
         action={
           <Verify
