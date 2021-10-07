@@ -313,7 +313,6 @@ function App() {
               setVerifierOpen(false);
             }}
             onSelectedHiddenURIsChange={(selected) => {
-              console.log(selected);
               setHiddenURIs(selected);
             }}
             onDeleteCredAndReveal={handleDeleteCredAndReveal}
