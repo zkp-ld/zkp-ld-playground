@@ -26,7 +26,7 @@ export default function Verifier(props: VerifierProps) {
   const [validated, setValidated] = useState(true);
 
   return (
-    <Stack spacing={2}>
+    <Stack>
       <Box sx={{ display: "flex", margin: 2, alignItems: "center" }}>
         <Button
           color="inherit"
@@ -57,7 +57,7 @@ export default function Verifier(props: VerifierProps) {
           </Button>
         </Tooltip>
       </Box>
-      <Container>
+      <Box sx={{ padding: 2 }}>
         <Presentation
           vP={props.vP}
           status={props.status}
@@ -67,7 +67,7 @@ export default function Verifier(props: VerifierProps) {
           onValidate={(v) => setValidated(v)}
           mode={props.mode}
         />
-      </Container>
+      </Box>
     </Stack>
   );
 }
