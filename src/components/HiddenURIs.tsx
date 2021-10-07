@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import { ModeType } from "../App";
+import { extractUris } from "../utils/uri";
 
 type HiddenURIsProps = {
   vCs: string[];
@@ -9,50 +10,26 @@ type HiddenURIsProps = {
 };
 
 export default function HiddenURIs(props: HiddenURIsProps) {
-  const isUri = (uri: string): boolean => {
+  const vCs = props.vCs.map((vC) => {
     try {
-      new URL(uri);
-    } catch (e) {
-      return false;
+      return JSON.parse(vC);
+    } catch (e: unknown) {
+      return {};
     }
-    return true;
-  };
+  });
 
-  const extractUris = (doc: any): string[] => {
-    const _extractUris = (doc: any, res: string[]): void => {
-      for (const v of Object.values(doc)) {
-        if (typeof v === "object") {
-          _extractUris(v, res);
-        } else if (typeof v === "string") {
-          if (isUri(v)) res.push(v);
-        }
-      }
-    };
-    let d: any = { ...doc };
-    delete d["@context"];
-    delete d["proof"];
-    let res: string[] = [];
-    _extractUris(d, res);
-    return res;
-  };
-
-  const rowSet = new Set(
-    props.vCs.flatMap((vc) => {
-      let vcObj = {};
-      try {
-        vcObj = JSON.parse(vc);
-      } catch (e: unknown) {
-        return [];
-      }
-      return extractUris(vcObj);
-    })
-  );
-  const rowArray = Array.from(rowSet);
+  const rowArray = extractUris(vCs);
   const rows = rowArray.map((v, i) => ({ id: i, col1: v }));
 
   const columns: GridColDef[] = [
     { field: "col1", headerName: "URI", width: 600 },
   ];
+
+  const handleSelectionModelChange = (selectedIDs: GridSelectionModel) => {
+    props.onSelectedHiddenURIsChange(
+      rowArray.filter((_, i) => selectedIDs.includes(i))
+    );
+  };
 
   return (
     <Card elevation={3}>
@@ -67,11 +44,7 @@ export default function HiddenURIs(props: HiddenURIsProps) {
           columns={columns}
           rowHeight={25}
           checkboxSelection
-          onSelectionModelChange={(selectedIDs) =>
-            props.onSelectedHiddenURIsChange(
-              rowArray.filter((v, i) => selectedIDs.includes(i))
-            )
-          }
+          onSelectionModelChange={handleSelectionModelChange}
           style={{
             color:
               props.mode.mui.palette.mode === "light"

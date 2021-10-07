@@ -18,6 +18,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@yamdan/jsonld-signatures-bbs": "0.11.5",
+    "jsonld": "5.2.0",
     "jsonld-signatures": "9.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

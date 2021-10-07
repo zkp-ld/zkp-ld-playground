@@ -1,17 +1,10 @@
-import {
-  Avatar,
-  Stack,
-  Box,
-  Button,
-  Typography,
-  Tooltip,
-  Container,
-} from "@mui/material";
+import { Avatar, Stack, Box, Button, Typography, Tooltip } from "@mui/material";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { blue } from "@mui/material/colors";
 import Presentation from "./Presentation";
 import { ModeType, VerificationStatus } from "../App";
 import { useState } from "react";
+import VerifiedClaims from "./VerifiedClaims";
 
 type VerifierProps = {
   vP: string;
@@ -57,7 +50,7 @@ export default function Verifier(props: VerifierProps) {
           </Button>
         </Tooltip>
       </Box>
-      <Box sx={{ padding: 2 }}>
+      <Box sx={{ height: "60vh", padding: 2 }}>
         <Presentation
           vP={props.vP}
           status={props.status}
@@ -67,6 +60,9 @@ export default function Verifier(props: VerifierProps) {
           onValidate={(v) => setValidated(v)}
           mode={props.mode}
         />
+      </Box>
+      <Box sx={{ height: "28vh", overflow: "auto", padding: [0, 2] }}>
+        <VerifiedClaims vP={props.vP} mode={props.mode} status={props.status} />
       </Box>
     </Stack>
   );
