@@ -33,7 +33,7 @@ export default function Doc(props: DocProps) {
   };
 
   return (
-    <Card elevation={3} sx={{ height: "85vh" }}>
+    <Card elevation={3} sx={{ height: "83vh" }}>
       <CardHeader
         title="Input Document"
         titleTypographyProps={{ variant: "subtitle1" }}

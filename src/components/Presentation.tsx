@@ -15,7 +15,7 @@ type PresentationProps = {
 
 export default function Presentation(props: PresentationProps) {
   return (
-    <Card elevation={3} sx={{ height: "59vh" }}>
+    <Card elevation={3} sx={{ height: "83vh" }}>
       <CardHeader
         title="Derived Proofs"
         titleTypographyProps={{ variant: "subtitle1" }}
@@ -32,7 +32,7 @@ export default function Presentation(props: PresentationProps) {
       />
       <CardContent>
         <Editor
-          height="53vh"
+          height="80vh"
           defaultLanguage="json"
           value={props.vP}
           theme={props.mode.monaco}

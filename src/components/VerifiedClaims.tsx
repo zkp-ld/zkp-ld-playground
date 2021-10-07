@@ -69,7 +69,7 @@ export default function VerifiedClaims(props: VerifiedClaimsProps) {
   };
 
   return (
-    <Card elevation={3}>
+    <Card elevation={3} sx={{ height: "85vh" }}>
       <CardHeader
         title="Verified Claims"
         titleTypographyProps={{ variant: "subtitle1" }}
@@ -101,7 +101,7 @@ export default function VerifiedClaims(props: VerifiedClaimsProps) {
         </FormControl>
 
         <Editor
-          height="30vh"
+          height="80vh"
           defaultLanguage="json"
           value={JSON.stringify(framedClaims, null, 2)}
           theme={props.mode.monaco}

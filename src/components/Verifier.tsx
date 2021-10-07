@@ -50,19 +50,25 @@ export default function Verifier(props: VerifierProps) {
           </Button>
         </Tooltip>
       </Box>
-      <Box sx={{ height: "60vh", padding: 2 }}>
-        <Presentation
-          vP={props.vP}
-          status={props.status}
-          validated={validated}
-          onVerify={() => props.onVerify()}
-          onChange={(value) => props.onChange(value)}
-          onValidate={(v) => setValidated(v)}
-          mode={props.mode}
-        />
-      </Box>
-      <Box sx={{ height: "28vh", overflow: "auto", padding: [0, 2] }}>
-        <VerifiedClaims vP={props.vP} mode={props.mode} status={props.status} />
+      <Box sx={{ height: "85vh", overflow: "auto" }}>
+        <Box sx={{ padding: 2 }}>
+          <Presentation
+            vP={props.vP}
+            status={props.status}
+            validated={validated}
+            onVerify={() => props.onVerify()}
+            onChange={(value) => props.onChange(value)}
+            onValidate={(v) => setValidated(v)}
+            mode={props.mode}
+          />
+        </Box>
+        <Box sx={{ padding: [0, 2] }}>
+          <VerifiedClaims
+            vP={props.vP}
+            mode={props.mode}
+            status={props.status}
+          />
+        </Box>
       </Box>
     </Stack>
   );
