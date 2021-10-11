@@ -12,18 +12,24 @@ import {
 } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 import { orange } from "@mui/material/colors";
-import { customLoader, expExampleBls12381KeyPair } from "../data";
-import { Person1, Person2, City, Place } from "../data/doc";
-import Doc from "./Doc";
-
 import jsigs from "jsonld-signatures";
 import {
   Bls12381G2KeyPair,
   BbsBlsSignatureTermwise2020,
 } from "@yamdan/jsonld-signatures-bbs";
+
 import { ModeType } from "../App";
+import Doc from "./Doc";
+import IssuerKey from "./IssuerKey";
+import { Person1, Person2, City, Place } from "../data/doc";
+import {
+  exampleBls12381KeyPair1,
+  exampleBls12381KeyPair2,
+  exampleBls12381KeyPair3,
+} from "../data/key";
 
 export type IssuerProps = {
+  documentLoader: (documents: any) => any;
   onIssue: (issued: string) => void;
   onClick: () => void;
   mode: ModeType;
@@ -36,27 +42,45 @@ export const exampleDocs: { [key: string]: {} } = {
   Place: Place,
 };
 
+export const exampleKeys: { [key: string]: {} } = {
+  "did:example:issuer1#bbs-bls-key1": exampleBls12381KeyPair1,
+  "did:example:issuer2#bbs-bls-key1": exampleBls12381KeyPair2,
+  "did:example:issuer3#bbs-bls-key1": exampleBls12381KeyPair3,
+};
+
 export default function Issuer(props: IssuerProps) {
   const [doc, setDoc] = useState("");
-  const [key] = useState(new Bls12381G2KeyPair(expExampleBls12381KeyPair));
+  const [key, setKey] = useState(
+    JSON.stringify(exampleKeys["did:example:issuer1#bbs-bls-key1"], null, 2)
+  );
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
-  const [validated, setValidated] = useState(true);
+  const [docValidated, setDocValidated] = useState(true);
+  const [keyValidated, setKeyValidated] = useState(true);
 
-  const handleChange = (value: string) => {
+  const handleDocChange = (value: string) => {
     setDoc(value);
+  };
+
+  const handleKeyChange = (value: string) => {
+    setKey(value);
   };
 
   const handleExampleChange = (value: string) => {
     setDoc(JSON.stringify(exampleDocs[value], null, 2));
   };
 
+  const handleKeyExampleChange = (value: string) => {
+    setKey(JSON.stringify(exampleKeys[value], null, 2));
+  };
+
   const handleIssue = async () => {
     try {
+      const keyObj = new Bls12381G2KeyPair(JSON.parse(key));
       const issuedVC = await jsigs.sign(JSON.parse(doc), {
-        suite: new BbsBlsSignatureTermwise2020({ key }),
+        suite: new BbsBlsSignatureTermwise2020({ key: keyObj }),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
-        documentLoader: customLoader,
+        documentLoader: props.documentLoader,
         expansionMap: false,
         compactProof: true,
       });
@@ -98,7 +122,7 @@ export default function Issuer(props: IssuerProps) {
             variant="contained"
             aria-label="issue"
             onClick={handleIssue}
-            disabled={!validated}
+            disabled={!docValidated || !keyValidated}
             sx={{ bgcolor: orange[500], "&:hover": { bgcolor: orange[600] } }}
           >
             Issue
@@ -108,12 +132,21 @@ export default function Issuer(props: IssuerProps) {
       <Box sx={{ padding: 2 }}>
         <Doc
           value={doc}
-          validated={validated}
-          onChange={handleChange}
-          onIssue={handleIssue}
-          onValidate={(v) => setValidated(v)}
+          validated={docValidated}
           mode={props.mode}
+          onChange={handleDocChange}
+          onIssue={handleIssue}
+          onValidate={(v) => setDocValidated(v)}
           onExampleChange={handleExampleChange}
+        />
+      </Box>
+      <Box sx={{ padding: [0, 2] }}>
+        <IssuerKey
+          value={key}
+          mode={props.mode}
+          onChange={handleKeyChange}
+          onValidate={(v) => setKeyValidated(v)}
+          onExampleChange={handleKeyExampleChange}
         />
       </Box>
       <Snackbar

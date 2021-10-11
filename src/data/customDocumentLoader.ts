@@ -12,14 +12,17 @@
  */
 
 import { extendContextLoader } from "jsonld-signatures";
-import citizenVocab from "./contexts/citizen_vocab.json";
-import credentialContext from "./contexts/credential_vocab.json";
-import odrlContext from "./contexts/odrl.json";
-import securityV3 from "./contexts/v3_unstable.json";
-import bbsContext from "./contexts/bbs.json";
-import jwsContext from "./contexts/jws.json";
-import vcExampleContext from "./contexts/vc_example_vocab.json";
-import schemaOrg from "./contexts/schemaOrg.json";
+
+import citizenVocab from "./context/citizen_vocab.json";
+import credentialContext from "./context/credential_vocab.json";
+import odrlContext from "./context/odrl.json";
+import securityV3 from "./context/v3_unstable.json";
+import bbsContext from "./context/bbs.json";
+import jwsContext from "./context/jws.json";
+import vcExampleContext from "./context/vc_example_vocab.json";
+import schemaOrg from "./context/schemaOrg.json";
+import bbsWithProofContext from "./context/bbs_with_proof.json";
+
 import exampleDidKey from "./data/did_example_489398593_test.json";
 import exampleDidDoc from "./data/did_example_489398593.json";
 import exampleDidb34Key from "./data/did_example_b34ca6cd37bbf23_test.json";
@@ -32,9 +35,30 @@ import expExampleDidKey2 from "./data/exp_didkey_issuer2.json";
 import expExampleDidDoc2 from "./data/exp_diddoc_issuer2.json";
 import expExampleDidKey3 from "./data/exp_didkey_issuer3.json";
 import expExampleDidDoc3 from "./data/exp_diddoc_issuer3.json";
-import bbsWithProofContext from "./contexts/bbs_with_proof.json";
 
-export const documents: any = {
+const _prepareDocs = (obj: any): [string, string][] =>
+  Object.entries(obj).map((e: [string, any]) => [
+    e[0],
+    JSON.stringify(e[1], null, 2),
+  ]);
+
+const _builtinDIDDocs = {
+  "did:example:489398593": exampleDidDoc,
+  "did:example:489398593#test": exampleDidKey,
+  "did:example:82612387612873": exampleDid826Doc,
+  "did:example:82612387612873#test": exampleDid826Key,
+  "did:example:b34ca6cd37bbf23": exampleDidb34Doc,
+  "did:example:b34ca6cd37bbf23#test": exampleDidb34Key,
+  "did:example:issuer1": expExampleDidDoc,
+  "did:example:issuer1#bbs-bls-key1": expExampleDidKey,
+  "did:example:issuer2": expExampleDidDoc2,
+  "did:example:issuer2#bbs-bls-key1": expExampleDidKey2,
+  "did:example:issuer3": expExampleDidDoc3,
+  "did:example:issuer3#bbs-bls-key1": expExampleDidKey3,
+};
+export const builtinDIDDocs = new Map(_prepareDocs(_builtinDIDDocs));
+
+export const _builtinContexts = {
   "https://w3id.org/security/suites/bls12381-2020/v1": bbsWithProofContext,
   "https://w3id.org/security/v3-unstable": securityV3,
   "https://www.w3id.org/security/v3-unstable": securityV3,
@@ -47,34 +71,25 @@ export const documents: any = {
   "https://schema.org": schemaOrg,
   "https://schema.org/": schemaOrg,
   "http://schema.org/": schemaOrg,
-  "did:example:489398593#test": exampleDidKey,
-  "did:example:489398593": exampleDidDoc,
-  "did:example:82612387612873#test": exampleDid826Key,
-  "did:example:82612387612873": exampleDid826Doc,
-  "did:example:b34ca6cd37bbf23#test": exampleDidb34Key,
-  "did:example:b34ca6cd37bbf23": exampleDidb34Doc,
-  "did:example:issuer1": expExampleDidDoc,
-  "did:example:issuer1#bbs-bls-key1": expExampleDidKey,
-  "did:example:issuer2": expExampleDidDoc2,
-  "did:example:issuer2#bbs-bls-key1": expExampleDidKey2,
-  "did:example:issuer3": expExampleDidDoc3,
-  "did:example:issuer3#bbs-bls-key1": expExampleDidKey3,
 };
+export const builtinContexts = new Map(_prepareDocs(_builtinContexts));
 
-const customDocLoader = (url: string): any => {
-  const context = documents[url];
+const customDocLoader =
+  (documents: Map<string, any>) =>
+  (url: string): any => {
+    const context = documents.get(url);
+    if (context) {
+      return {
+        contextUrl: null, // this is for a context via a link header
+        document: context, // this is the actual document that was loaded
+        documentUrl: url, // this is the actual context URL after redirects
+      };
+    }
 
-  if (context) {
-    return {
-      contextUrl: null, // this is for a context via a link header
-      document: context, // this is the actual document that was loaded
-      documentUrl: url, // this is the actual context URL after redirects
-    };
-  }
+    throw new Error(
+      `Error attempted to load document remotely, please cache '${url}'`
+    );
+  };
 
-  throw new Error(
-    `Error attempted to load document remotely, please cache '${url}'`
-  );
-};
-
-export const customLoader = extendContextLoader(customDocLoader);
+export const customLoader = (documents: Map<string, any>) =>
+  extendContextLoader(customDocLoader(documents));

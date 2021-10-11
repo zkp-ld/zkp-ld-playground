@@ -1,5 +1,4 @@
-import { useState, ChangeEvent } from "react";
-
+import { useState, ChangeEvent, useMemo } from "react";
 import {
   Alert,
   AlertTitle,
@@ -10,18 +9,10 @@ import {
   Snackbar,
   Toolbar,
   Typography,
-  IconButton,
+  Container,
 } from "@mui/material";
 import { createTheme, Theme } from "@mui/material/styles";
-import MenuIcon from "@mui/icons-material/Menu";
 import { ThemeProvider } from "@emotion/react";
-
-import Issuer from "./components/Issuer";
-import Holder from "./components/Holder";
-import Verifier from "./components/Verifier";
-import ModeSwitch from "./components/ModeSwitch";
-import { customLoader } from "./data";
-import { revealTemplate } from "./data/template";
 import jsigs from "jsonld-signatures";
 import {
   BbsBlsSignatureProofTermwise2020,
@@ -29,6 +20,14 @@ import {
   deriveProofMulti,
   verifyProofMulti,
 } from "@yamdan/jsonld-signatures-bbs";
+
+import Issuer from "./components/Issuer";
+import Holder from "./components/Holder";
+import Verifier from "./components/Verifier";
+import ModeSwitch from "./components/ModeSwitch";
+import { customLoader, builtinDIDDocs, builtinContexts } from "./data";
+import { revealTemplate } from "./data/template";
+import Registry from "./components/Registry";
 
 export const CREDENTIAL_HEIGHT = "40vh";
 
@@ -69,8 +68,14 @@ export type VerificationStatus =
   | "Disabled";
 
 function App() {
-  const [issuerOpen, setIssuerOpen] = useState(true);
-  const [verifierOpen, setVerifierOpen] = useState(false);
+  const [didDocs, setDIDDocs] = useState(builtinDIDDocs);
+  const [didDocsValidated, setDIDDocsValidated] = useState(
+    new Map([...builtinDIDDocs.keys()].map((k) => [k, true]))
+  );
+  const [contexts, setContexts] = useState(builtinContexts);
+  const [contextsValidated, setContextsValidated] = useState(
+    new Map([...builtinContexts.keys()].map((k) => [k, true]))
+  );
   const [hiddenURIs, setHiddenURIs] = useState([] as string[]);
   const [credsAndReveals, setCredsAndReveals] =
     useState<CredAndRevealArrayType>({
@@ -80,12 +85,34 @@ function App() {
   const [vP, setVP] = useState("");
   const [verificationStatus, setVerificationStatus] =
     useState<VerificationStatus>("Unverified");
+  const [issuerOpen, setIssuerOpen] = useState(true);
+  const [verifierOpen, setVerifierOpen] = useState(false);
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
   const [mode, setMode] = useState<ModeType>({
     mui: lightTheme,
     monaco: "light",
   });
+
+  const documentLoader: (documents: any) => any = useMemo(() => {
+    const validatedDIDDocs = [...didDocs.entries()].filter(([k, _]) =>
+      didDocsValidated.get(k)
+    );
+    const parsedValidatedDIDDocs: [string, any][] = validatedDIDDocs.map(
+      ([id, value]) => [id, JSON.parse(value)]
+    );
+    const validatedContexts = [...contexts.entries()].filter(([k, _]) =>
+      contextsValidated.get(k)
+    );
+    const parsedValidatedContexts: [string, any][] = validatedContexts.map(
+      ([id, value]) => [id, JSON.parse(value)]
+    );
+    const validatedDocs = new Map([
+      ...parsedValidatedDIDDocs,
+      ...parsedValidatedContexts,
+    ]);
+    return customLoader(validatedDocs);
+  }, [didDocs, didDocsValidated, contexts, contextsValidated]);
 
   const handleErrClose = (_: any, reason: string) => {
     if (reason === "clickaway") {
@@ -180,6 +207,22 @@ function App() {
     setVerificationStatus("Unverified");
   };
 
+  const handleDIDDocsChange = (id: string, value: string) => {
+    setDIDDocs(new Map(didDocs.set(id, value)));
+  };
+
+  const handleDIDDocsValidate = (id: string, validated: boolean) => {
+    setDIDDocsValidated(new Map(didDocsValidated.set(id, validated)));
+  };
+
+  const handleContextsChange = (id: string, value: string) => {
+    setContexts(new Map(contexts.set(id, value)));
+  };
+
+  const handleContextsValidate = (id: string, validated: boolean) => {
+    setContextsValidated(new Map(contextsValidated.set(id, validated)));
+  };
+
   const handleDeleteCredAndReveal = (index: number) => {
     let newCredsAndReveals = { ...credsAndReveals };
     delete newCredsAndReveals.value[index];
@@ -193,7 +236,7 @@ function App() {
       const result = await jsigs.verify(cred, {
         suite: new BbsBlsSignatureTermwise2020(),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
-        documentLoader: customLoader,
+        documentLoader,
         expansionMap: false,
         compactProof: true,
       });
@@ -225,7 +268,7 @@ function App() {
         hiddenURIs,
         {
           suite: new BbsBlsSignatureProofTermwise2020(),
-          documentLoader: customLoader,
+          documentLoader,
         }
       );
 
@@ -247,7 +290,7 @@ function App() {
       const result = await verifyProofMulti(derivedProofs, {
         suite: new BbsBlsSignatureProofTermwise2020(),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
-        documentLoader: customLoader,
+        documentLoader,
         expansionMap: false,
         compactProof: true,
       });
@@ -270,15 +313,6 @@ function App() {
       <CssBaseline />
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             ZKP-LD Playground
           </Typography>
@@ -291,6 +325,7 @@ function App() {
             onClick={() => setIssuerOpen(!issuerOpen)}
             onIssue={handleIssue}
             mode={mode}
+            documentLoader={documentLoader}
           />
         </Grid>
         <Divider orientation="vertical" flexItem sx={{ marginRight: "-1px" }} />
@@ -329,6 +364,29 @@ function App() {
             onClick={() => setVerifierOpen(!verifierOpen)}
             mode={mode}
           />
+        </Grid>
+        <Grid item xs={6}>
+          <Container>
+            <Registry
+              name="DIDDocuments"
+              extDocs={didDocs}
+              mode={mode}
+              onChange={handleDIDDocsChange}
+              onValidate={handleDIDDocsValidate}
+            />
+          </Container>
+        </Grid>
+        <Divider orientation="vertical" flexItem sx={{ marginRight: "-1px" }} />
+        <Grid item xs={6}>
+          <Container>
+            <Registry
+              name="Contexts"
+              extDocs={contexts}
+              mode={mode}
+              onChange={handleContextsChange}
+              onValidate={handleContextsValidate}
+            />
+          </Container>
         </Grid>
       </Grid>
       <Snackbar

@@ -77,7 +77,7 @@ export default function Holder(props: HolderProps) {
           </span>
         </Tooltip>
       </Box>
-      <Box sx={{ height: "60vh", overflow: "auto", padding: 2 }}>
+      <Box sx={{ height: "65vh", overflow: "auto", padding: 2 }}>
         <Grid container spacing={2}>
           {props.credsAndReveals
             .filter((cr) => cr)
