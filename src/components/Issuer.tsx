@@ -15,7 +15,7 @@ import { orange } from "@mui/material/colors";
 import jsigs from "jsonld-signatures";
 import {
   Bls12381G2KeyPair,
-  BbsBlsSignatureTermwise2020,
+  BbsTermwiseSignature2021,
 } from "@yamdan/jsonld-signatures-bbs";
 
 import { ModeType } from "../App";
@@ -78,7 +78,7 @@ export default function Issuer(props: IssuerProps) {
     try {
       const keyObj = new Bls12381G2KeyPair(JSON.parse(key));
       const issuedVC = await jsigs.sign(JSON.parse(doc), {
-        suite: new BbsBlsSignatureTermwise2020({ key: keyObj }),
+        suite: new BbsTermwiseSignature2021({ key: keyObj }),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
         documentLoader: props.documentLoader,
         expansionMap: false,

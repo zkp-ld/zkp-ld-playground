@@ -13,6 +13,7 @@ type VerifierProps = {
   onChange: (value: string) => void;
   onClick: () => void;
   mode: ModeType;
+  documentLoader: (documents: any) => any;
 };
 
 export default function Verifier(props: VerifierProps) {
@@ -67,6 +68,7 @@ export default function Verifier(props: VerifierProps) {
             vP={props.vP}
             mode={props.mode}
             status={props.status}
+            documentLoader={props.documentLoader}
           />
         </Box>
       </Box>

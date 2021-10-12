@@ -11,14 +11,15 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
+
 import { ModeType, VerificationStatus } from "../App";
-import { customLoader } from "../data";
 import { extractUris } from "../utils/uri";
 
 type VerifiedClaimsProps = {
   vP: string;
   mode: ModeType;
   status: VerificationStatus;
+  documentLoader: (documents: any) => any;
 };
 
 export default function VerifiedClaims(props: VerifiedClaimsProps) {
@@ -60,9 +61,10 @@ export default function VerifiedClaims(props: VerifiedClaimsProps) {
           "@context": derivedProofs[0]["@context"],
           id: uri,
         },
-        { documentLoader: customLoader }
+        { documentLoader: props.documentLoader }
       );
-    } catch {
+    } catch (e) {
+      console.log(e);
       claims = {};
     }
     setFramedClaims(claims);

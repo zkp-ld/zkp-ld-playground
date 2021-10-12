@@ -17,11 +17,13 @@ import citizenVocab from "./context/citizen_vocab.json";
 import credentialContext from "./context/credential_vocab.json";
 import odrlContext from "./context/odrl.json";
 import securityV3 from "./context/v3_unstable.json";
+import securityV2 from "./context/security-v2.json";
+import securityV1 from "./context/security-v1.json";
 import bbsContext from "./context/bbs.json";
 import jwsContext from "./context/jws.json";
 import vcExampleContext from "./context/vc_example_vocab.json";
 import schemaOrg from "./context/schemaOrg.json";
-import bbsWithProofContext from "./context/bbs_with_proof.json";
+import bbsTermwiseContext from "./context/bbs-termwise-2021.json";
 
 import exampleDidKey from "./data/did_example_489398593_test.json";
 import exampleDidDoc from "./data/did_example_489398593.json";
@@ -43,31 +45,33 @@ const _prepareDocs = (obj: any): [string, string][] =>
   ]);
 
 const _builtinDIDDocs = {
-  "did:example:489398593": exampleDidDoc,
-  "did:example:489398593#test": exampleDidKey,
-  "did:example:82612387612873": exampleDid826Doc,
-  "did:example:82612387612873#test": exampleDid826Key,
-  "did:example:b34ca6cd37bbf23": exampleDidb34Doc,
-  "did:example:b34ca6cd37bbf23#test": exampleDidb34Key,
   "did:example:issuer1": expExampleDidDoc,
   "did:example:issuer1#bbs-bls-key1": expExampleDidKey,
   "did:example:issuer2": expExampleDidDoc2,
   "did:example:issuer2#bbs-bls-key1": expExampleDidKey2,
   "did:example:issuer3": expExampleDidDoc3,
   "did:example:issuer3#bbs-bls-key1": expExampleDidKey3,
+  "did:example:489398593": exampleDidDoc,
+  "did:example:489398593#test": exampleDidKey,
+  "did:example:82612387612873": exampleDid826Doc,
+  "did:example:82612387612873#test": exampleDid826Key,
+  "did:example:b34ca6cd37bbf23": exampleDidb34Doc,
+  "did:example:b34ca6cd37bbf23#test": exampleDidb34Key,
 };
 export const builtinDIDDocs = new Map(_prepareDocs(_builtinDIDDocs));
 
 export const _builtinContexts = {
-  "https://w3id.org/security/suites/bls12381-2020/v1": bbsWithProofContext,
-  "https://w3id.org/security/v3-unstable": securityV3,
-  "https://www.w3id.org/security/v3-unstable": securityV3,
-  "https://www.w3.org/2018/credentials/examples/v1": vcExampleContext,
   "https://www.w3.org/2018/credentials/v1": credentialContext,
+  "https://www.w3.org/2018/credentials/examples/v1": vcExampleContext,
   "https://www.w3.org/ns/odrl.jsonld": odrlContext,
+  "https://www.zkp-ld.org/bbs-termwise-2021.jsonld": bbsTermwiseContext,
+  "https://w3id.org/security/suites/bls12381-2020/v1": bbsContext,
   "https://w3id.org/security/suites/jws-2020/v1": jwsContext,
-  "https://w3id.org/citizenship/v1": citizenVocab,
   "https://w3id.org/security/bbs/v1": bbsContext,
+  "https://w3id.org/security/v3-unstable": securityV3,
+  "https://w3id.org/security/v2": securityV2,
+  "https://w3id.org/security/v1": securityV1,
+  "https://w3id.org/citizenship/v1": citizenVocab,
   "https://schema.org": schemaOrg,
   "https://schema.org/": schemaOrg,
   "http://schema.org/": schemaOrg,

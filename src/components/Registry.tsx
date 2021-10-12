@@ -14,6 +14,7 @@ import Storage from "@mui/icons-material/Storage";
 import Editor from "@monaco-editor/react";
 
 import { ModeType } from "../App";
+import Add from "@mui/icons-material/Add";
 
 export type RegistryProps = {
   name: string;
@@ -62,6 +63,9 @@ export default function Registry(props: RegistryProps) {
                   <ListItemText primary={key} />
                 </ListItemButton>
               ))}
+              <ListItemButton>
+                <Add />
+              </ListItemButton>
             </List>
           </Grid>
           <Grid item xs={6}>

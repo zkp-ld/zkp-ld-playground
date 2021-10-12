@@ -15,8 +15,8 @@ import { createTheme, Theme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import jsigs from "jsonld-signatures";
 import {
-  BbsBlsSignatureProofTermwise2020,
-  BbsBlsSignatureTermwise2020,
+  BbsTermwiseSignature2021,
+  BbsTermwiseSignatureProof2021,
   deriveProofMulti,
   verifyProofMulti,
 } from "@yamdan/jsonld-signatures-bbs";
@@ -234,7 +234,7 @@ function App() {
     try {
       const cred = JSON.parse(credsAndReveals.value[index].cred);
       const result = await jsigs.verify(cred, {
-        suite: new BbsBlsSignatureTermwise2020(),
+        suite: new BbsTermwiseSignature2021(),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
         documentLoader,
         expansionMap: false,
@@ -263,14 +263,11 @@ function App() {
         .filter((cr) => cr.checked)
         .map((cr) => [JSON.parse(cr.cred), JSON.parse(cr.reveal)]);
 
-      const derivedProofs: any[] = await deriveProofMulti(
-        documents,
-        hiddenURIs,
-        {
-          suite: new BbsBlsSignatureProofTermwise2020(),
-          documentLoader,
-        }
-      );
+      const derivedProofs: any[] = await deriveProofMulti(documents, {
+        hiddenUris: hiddenURIs,
+        suite: new BbsTermwiseSignatureProof2021(),
+        documentLoader,
+      });
 
       setVP(JSON.stringify(derivedProofs, null, 2));
       setVerificationStatus("Unverified");
@@ -288,7 +285,7 @@ function App() {
     try {
       const derivedProofs = JSON.parse(vP);
       const result = await verifyProofMulti(derivedProofs, {
-        suite: new BbsBlsSignatureProofTermwise2020(),
+        suite: new BbsTermwiseSignatureProof2021(),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
         documentLoader,
         expansionMap: false,
@@ -363,6 +360,7 @@ function App() {
             onChange={handlePresentationChange}
             onClick={() => setVerifierOpen(!verifierOpen)}
             mode={mode}
+            documentLoader={documentLoader}
           />
         </Grid>
         <Grid item xs={6}>
