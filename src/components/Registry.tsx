@@ -63,9 +63,9 @@ export default function Registry(props: RegistryProps) {
                   <ListItemText primary={key} />
                 </ListItemButton>
               ))}
-              <ListItemButton>
+              {/* <ListItemButton>
                 <Add />
-              </ListItemButton>
+              </ListItemButton> */}
             </List>
           </Grid>
           <Grid item xs={6}>

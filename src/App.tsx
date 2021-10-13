@@ -10,8 +10,11 @@ import {
   Toolbar,
   Typography,
   Container,
+  Tooltip,
+  Link,
 } from "@mui/material";
 import { createTheme, Theme } from "@mui/material/styles";
+import Warning from "@mui/icons-material/Warning";
 import { ThemeProvider } from "@emotion/react";
 import jsigs from "jsonld-signatures";
 import {
@@ -312,6 +315,12 @@ function App() {
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             ZKP-LD Playground
+            <Tooltip
+              title="Experimental: Do not use in production. Possibly be updated or closed
+        without notification."
+            >
+              <Warning color="warning" />
+            </Tooltip>
           </Typography>
           <ModeSwitch onChange={handleModeChange} />
         </Toolbar>
@@ -387,6 +396,14 @@ function App() {
           </Container>
         </Grid>
       </Grid>
+      <Typography variant="body2" color="text.secondary" align="center">
+        <Link
+          color="inherit"
+          href="https://github.com/yamdan/zkp-ld-playground"
+        >
+          Source code
+        </Link>
+      </Typography>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={errOpen}
