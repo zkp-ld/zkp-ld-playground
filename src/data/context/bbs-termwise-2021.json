@@ -8,6 +8,7 @@
       "@type": "@id",
       "@container": "@graph"
     },
+    "range": "https://www.zkp-ld.org/security#range",
     "BbsTermwiseSignature2021": {
       "@id": "https://www.zkp-ld.org/security#BbsTermwiseSignature2021",
       "@context": {

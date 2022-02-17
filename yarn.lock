@@ -2529,30 +2529,30 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@yamdan/bbs-signatures@0.6.8":
-  version "0.6.8"
-  resolved "https://registry.yarnpkg.com/@yamdan/bbs-signatures/-/bbs-signatures-0.6.8.tgz#3223cce7ac2b4888126ce88ab2e05e6f6da944bb"
-  integrity sha512-lbDSlnJvl8nq5z5uJG4d21H+Jfe7LrIUBrwTiHQ6bDPCObzBs+5NDwQYHaXiLRjnwq32ITqs7YDxWQencLqyIw==
+"@yamdan/bbs-signatures@0.6.10-unstable.db56fd3":
+  version "0.6.10-unstable.db56fd3"
+  resolved "https://registry.yarnpkg.com/@yamdan/bbs-signatures/-/bbs-signatures-0.6.10-unstable.db56fd3.tgz#a359ac486e6529f8437b5949271acc6009fcd639"
+  integrity sha512-mkfwLbzTl/uF3SyNo/G8GIe35j3x2CRJzCiyjpPGJ6lFkGC+2h0twABQCO/Mlt4bEARxdUJRCUojH+8E9ePT2Q==
   dependencies:
     "@stablelib/random" "1.0.1"
 
-"@yamdan/bls12381-key-pair@0.7.6":
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/@yamdan/bls12381-key-pair/-/bls12381-key-pair-0.7.6.tgz#d52882a94e39fa81946847ed6b0277d35f5b8d67"
-  integrity sha512-4Mqr3yGLDdcTbN7sq5iBP4v+tOwqJ9xglD9OrUI81A4eJjXtgErQKibaF9tW4bn4S+MCOp5jF8/UJ7diV8ym0A==
+"@yamdan/bls12381-key-pair@0.7.10-unstable.78193fd":
+  version "0.7.10-unstable.78193fd"
+  resolved "https://registry.yarnpkg.com/@yamdan/bls12381-key-pair/-/bls12381-key-pair-0.7.10-unstable.78193fd.tgz#0215b8fd288544bf5e36d1c218889c6af8ba88e0"
+  integrity sha512-CVTNUIoJnQRtNu9r3T+zZbjKubTy9lI7UlrMT3HKjA+7a9cMOsZglYFkwfUr2WDN+/GjqZf2WaQdv4KjSLNI5w==
   dependencies:
-    "@yamdan/bbs-signatures" "0.6.8"
+    "@yamdan/bbs-signatures" "0.6.10-unstable.db56fd3"
     bs58 "4.0.1"
     rfc4648 "1.5.0"
 
-"@yamdan/jsonld-signatures-bbs@0.11.10":
-  version "0.11.10"
-  resolved "https://registry.yarnpkg.com/@yamdan/jsonld-signatures-bbs/-/jsonld-signatures-bbs-0.11.10.tgz#e281980bfa3e0d749e9a5317ed499c6a4e0091fa"
-  integrity sha512-NAleYzjwTvgTKikINSG/OUtUJzAiUBzEduhvSE/AUB5hF2MwzjM3wh4ljdwk4G4AJ7WwkJSWyM1CoMwP37DTew==
+"@yamdan/jsonld-signatures-bbs@0.11.11-unstable.60ecdb9":
+  version "0.11.11-unstable.60ecdb9"
+  resolved "https://registry.yarnpkg.com/@yamdan/jsonld-signatures-bbs/-/jsonld-signatures-bbs-0.11.11-unstable.60ecdb9.tgz#f1c0fb211891dcdff29d33f274d9df435eff9f3e"
+  integrity sha512-0lWVj3pz5ZGvPUGiS3e60wAQUYUsxq/wDYmGf/UQE0KN6WbROD5WuFr+pB2GFdHajUBysHam2JjO3HnpLWditw==
   dependencies:
     "@stablelib/random" "1.0.1"
-    "@yamdan/bbs-signatures" "0.6.8"
-    "@yamdan/bls12381-key-pair" "0.7.6"
+    "@yamdan/bbs-signatures" "0.6.10-unstable.db56fd3"
+    "@yamdan/bls12381-key-pair" "0.7.10-unstable.78193fd"
     bs58 "4.0.1"
     jsonld "5.2.0"
     jsonld-signatures "9.3.0"
@@ -3140,9 +3140,9 @@ balanced-match@^1.0.0:
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
 base-x@^3.0.2:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.8.tgz#1e1106c2537f0162e8b52474a557ebb09000018d"
-  integrity sha512-Rl/1AWP4J/zRrk54hhlxH4drNxPJXYUaKffODVI53/dAsV4t9fBxyxYKAVPU1XBHxYwOWP9h9H0hM2MVw4YfJA==
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.9.tgz#6349aaabb58526332de9f60995e548a53fe21320"
+  integrity sha512-H7JU6iBHTal1gp56aKoaa//YUxEaAOUiydvrV/pILqIHXTtqxSkATOnDA2u+jZ/61sD+L/412+7kzXRtWukhpQ==
   dependencies:
     safe-buffer "^5.0.1"
 

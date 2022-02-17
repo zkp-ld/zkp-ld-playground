@@ -314,7 +314,7 @@ function App() {
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            ZKP-LD Playground
+            ZKP-LD Playground Beta
             <Tooltip
               title="Experimental: Do not use in production. Possibly be updated or closed
         without notification."
