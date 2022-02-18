@@ -1,8 +1,8 @@
 {
   "name": "zkp-ld-playground",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "private": true,
-  "homepage": "https://www.zkp-ld.org",
+  "homepage": "https://zkp-ld.org",
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
@@ -18,7 +18,7 @@
     "@types/node": "^16.10.2",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "@yamdan/jsonld-signatures-bbs": "0.11.11-unstable.60ecdb9",
+    "@yamdan/jsonld-signatures-bbs": "0.11.12-unstable.d88f198",
     "gh-pages": "^3.2.3",
     "jsonld": "5.2.0",
     "jsonld-signatures": "9.3.0",

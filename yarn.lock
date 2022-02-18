@@ -2545,10 +2545,10 @@
     bs58 "4.0.1"
     rfc4648 "1.5.0"
 
-"@yamdan/jsonld-signatures-bbs@0.11.11-unstable.60ecdb9":
-  version "0.11.11-unstable.60ecdb9"
-  resolved "https://registry.yarnpkg.com/@yamdan/jsonld-signatures-bbs/-/jsonld-signatures-bbs-0.11.11-unstable.60ecdb9.tgz#f1c0fb211891dcdff29d33f274d9df435eff9f3e"
-  integrity sha512-0lWVj3pz5ZGvPUGiS3e60wAQUYUsxq/wDYmGf/UQE0KN6WbROD5WuFr+pB2GFdHajUBysHam2JjO3HnpLWditw==
+"@yamdan/jsonld-signatures-bbs@0.11.12-unstable.d88f198":
+  version "0.11.12-unstable.d88f198"
+  resolved "https://registry.yarnpkg.com/@yamdan/jsonld-signatures-bbs/-/jsonld-signatures-bbs-0.11.12-unstable.d88f198.tgz#585d89c459c8f986a88277eefbd05675e0b26591"
+  integrity sha512-VZRFwuEWb6K81JxyK0lDin8EBgmrNqn9veBC9B296FnuWXxGjIXFZazVQkzoHO2hlrKP51td5aXdHMeRsugPmg==
   dependencies:
     "@stablelib/random" "1.0.1"
     "@yamdan/bbs-signatures" "0.6.10-unstable.db56fd3"

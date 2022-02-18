@@ -8,9 +8,9 @@
       "@type": "@id",
       "@container": "@graph"
     },
-    "range": "https://www.zkp-ld.org/security#range",
+    "range": "https://zkp-ld.org/security#range",
     "BbsTermwiseSignature2021": {
-      "@id": "https://www.zkp-ld.org/security#BbsTermwiseSignature2021",
+      "@id": "https://zkp-ld.org/security#BbsTermwiseSignature2021",
       "@context": {
         "@version": 1.1,
         "@protected": true,
@@ -51,7 +51,7 @@
       }
     },
     "BbsTermwiseSignatureProof2021": {
-      "@id": "https://www.zkp-ld.org/security#BbsTermwiseSignatureProof2021",
+      "@id": "https://zkp-ld.org/security#BbsTermwiseSignatureProof2021",
       "@context": {
         "@version": 1.1,
         "@protected": true,
