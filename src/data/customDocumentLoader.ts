@@ -51,7 +51,7 @@ export const _builtinContexts = {
   "https://www.w3.org/2018/credentials/v1": credentialContext,
   "https://www.w3.org/2018/credentials/examples/v1": vcExampleContext,
   "https://www.w3.org/ns/odrl.jsonld": odrlContext,
-  "https://www.zkp-ld.org/bbs-termwise-2021.jsonld": bbsTermwiseContext,
+  "https://zkp-ld.org/bbs-termwise-2021.jsonld": bbsTermwiseContext,
   "https://w3id.org/security/suites/bls12381-2020/v1": bbsContext,
   "https://w3id.org/security/suites/jws-2020/v1": jwsContext,
   "https://w3id.org/security/bbs/v1": bbsContext,
