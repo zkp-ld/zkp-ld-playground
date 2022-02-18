@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/yamdan/zkp-ld-playground/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/yamdan/zkp-ld-playground/static/js/main.d8f68109.chunk.js",
+    "main.js.map": "/yamdan/zkp-ld-playground/static/js/main.d8f68109.chunk.js.map",
+    "runtime-main.js": "/yamdan/zkp-ld-playground/static/js/runtime-main.930c5b71.js",
+    "runtime-main.js.map": "/yamdan/zkp-ld-playground/static/js/runtime-main.930c5b71.js.map",
+    "static/js/2.efe9d292.chunk.js": "/yamdan/zkp-ld-playground/static/js/2.efe9d292.chunk.js",
+    "static/js/2.efe9d292.chunk.js.map": "/yamdan/zkp-ld-playground/static/js/2.efe9d292.chunk.js.map",
+    "static/js/3.aa5f0f0f.chunk.js": "/yamdan/zkp-ld-playground/static/js/3.aa5f0f0f.chunk.js",
+    "static/js/3.aa5f0f0f.chunk.js.map": "/yamdan/zkp-ld-playground/static/js/3.aa5f0f0f.chunk.js.map",
+    "index.html": "/yamdan/zkp-ld-playground/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/yamdan/zkp-ld-playground/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.efe9d292.chunk.js.LICENSE.txt": "/yamdan/zkp-ld-playground/static/js/2.efe9d292.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.930c5b71.js",
+    "static/js/2.efe9d292.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.d8f68109.chunk.js"
+  ]
+}
