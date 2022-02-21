@@ -34,7 +34,7 @@ import { revealTemplate } from "./data/template";
 import Registry from "./components/Registry";
 
 export const CREDENTIAL_HEIGHT = "40vh";
-const VERSION = "v0.1.8";
+const VERSION = "v0.1.9";
 
 const lightTheme = createTheme({
   palette: {
