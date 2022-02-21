@@ -3,6 +3,7 @@ import {
   Alert,
   AlertTitle,
   AppBar,
+  Chip,
   CssBaseline,
   Divider,
   Grid,
@@ -33,6 +34,7 @@ import { revealTemplate } from "./data/template";
 import Registry from "./components/Registry";
 
 export const CREDENTIAL_HEIGHT = "40vh";
+const VERSION = "v0.1.8";
 
 const lightTheme = createTheme({
   palette: {
@@ -314,7 +316,7 @@ function App() {
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            ZKP-LD Playground Beta
+            ZKP-LD Playground
             <Tooltip
               title="Experimental: Do not use in production. Possibly be updated or closed
         without notification."
@@ -322,6 +324,7 @@ function App() {
               <Warning color="warning" />
             </Tooltip>
           </Typography>
+          <Chip label={VERSION} />
           <ModeSwitch onChange={handleModeChange} />
         </Toolbar>
       </AppBar>
