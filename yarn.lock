@@ -2529,30 +2529,30 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@yamdan/bbs-signatures@0.6.11":
-  version "0.6.11"
-  resolved "https://registry.yarnpkg.com/@yamdan/bbs-signatures/-/bbs-signatures-0.6.11.tgz#b8851cf1465f5fd6e1ff9463396310cce0563a79"
-  integrity sha512-43cInX9pVlgqKn9HuCv6BYCc7Qnddh+pLbqFLnt+upwm6fk7HmKmlPQ/fFGc8pf7P7ICvnD3qNX69POz3xrDXA==
+"@yamdan/bbs-signatures@0.6.12":
+  version "0.6.12"
+  resolved "https://registry.yarnpkg.com/@yamdan/bbs-signatures/-/bbs-signatures-0.6.12.tgz#73ba065aa9c972b3f7a1fc0e0bc547428a91870c"
+  integrity sha512-iBDyRgy29j4QRYbOHYI1qtNMSsA7/nFXmyVpowSkTMQqtp3suvE29TiOoZ6zLqoAXpY39vjba2Oyhw+bkOIU5w==
   dependencies:
     "@stablelib/random" "1.0.1"
 
-"@yamdan/bls12381-key-pair@0.7.11":
-  version "0.7.11"
-  resolved "https://registry.yarnpkg.com/@yamdan/bls12381-key-pair/-/bls12381-key-pair-0.7.11.tgz#772f1a5adcd0843ab4b928ae40b7db673c7197b0"
-  integrity sha512-k5BHv7SlfNggWdwzz0Lbc4A+9o6ikacgNw45etiD7WbUBJmY0pxeoOtFvoTARD4Nd3aLZe17fwtsyMAtn9fDZg==
+"@yamdan/bls12381-key-pair@0.7.12":
+  version "0.7.12"
+  resolved "https://registry.yarnpkg.com/@yamdan/bls12381-key-pair/-/bls12381-key-pair-0.7.12.tgz#39e217c4abaf3f5bfe0713be24e32195f5f3b00e"
+  integrity sha512-ylmx2tDdnYH4dw9N5N1iQDXkzYZ7ZYhPvhEkiUAPkB7Qh30lq/tERgnnyvqObncveNO5aFsnoon/L5kI3LqEaw==
   dependencies:
-    "@yamdan/bbs-signatures" "0.6.11"
+    "@yamdan/bbs-signatures" "0.6.12"
     bs58 "4.0.1"
     rfc4648 "1.5.0"
 
-"@yamdan/jsonld-signatures-bbs@0.11.13":
-  version "0.11.13"
-  resolved "https://registry.yarnpkg.com/@yamdan/jsonld-signatures-bbs/-/jsonld-signatures-bbs-0.11.13.tgz#de1f09cee3d88aa8267b906b0e5f4be2661de0e0"
-  integrity sha512-XFoiy8XNvv2cSVQMWkabLN/OFYwekLLERQUHB1PyanYPlGHeFiEIzrhLMWGaCG+RpgWGv6QMyNnSaooqa1MdhQ==
+"@yamdan/jsonld-signatures-bbs@0.11.14":
+  version "0.11.14"
+  resolved "https://registry.yarnpkg.com/@yamdan/jsonld-signatures-bbs/-/jsonld-signatures-bbs-0.11.14.tgz#98e79627a4cfcc513fc632722ac8ce3337c2afb3"
+  integrity sha512-Q4hVK78MHTHNRdlaFU4XkUMGDsR8QWXrnvDe/jvz+unVTdv3zfOAEb+kM2SOfw9KiJegMD/cIoeGdybgs7DM4g==
   dependencies:
     "@stablelib/random" "1.0.1"
-    "@yamdan/bbs-signatures" "0.6.11"
-    "@yamdan/bls12381-key-pair" "0.7.11"
+    "@yamdan/bbs-signatures" "0.6.12"
+    "@yamdan/bls12381-key-pair" "0.7.12"
     bs58 "4.0.1"
     jsonld "5.2.0"
     jsonld-signatures "9.3.0"
