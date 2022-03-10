@@ -16,7 +16,7 @@ import jsigs from "jsonld-signatures";
 import {
   Bls12381G2KeyPair,
   BbsTermwiseSignature2021,
-} from "@yamdan/jsonld-signatures-bbs";
+} from "@zkp-ld/jsonld-signatures-bbs";
 
 import { ModeType } from "../App";
 import Doc from "./Doc";

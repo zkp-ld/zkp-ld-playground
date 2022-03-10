@@ -23,7 +23,7 @@ import {
   BbsTermwiseSignatureProof2021,
   deriveProofMulti,
   verifyProofMulti,
-} from "@yamdan/jsonld-signatures-bbs";
+} from "@zkp-ld/jsonld-signatures-bbs";
 
 import Issuer from "./components/Issuer";
 import Holder from "./components/Holder";
@@ -34,7 +34,7 @@ import { revealTemplate } from "./data/template";
 import Registry from "./components/Registry";
 
 export const CREDENTIAL_HEIGHT = "40vh";
-const VERSION = "v0.1.10";
+const VERSION = "v0.1.11";
 
 const lightTheme = createTheme({
   palette: {
@@ -402,7 +402,7 @@ function App() {
       <Typography variant="body2" color="text.secondary" align="center">
         <Link
           color="inherit"
-          href="https://github.com/yamdan/zkp-ld-playground"
+          href="https://github.com/zkp-ld/zkp-ld-playground"
         >
           Source code
         </Link>
