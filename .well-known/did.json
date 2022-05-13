@@ -1,0 +1,24 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/jws-2020/v1",
+    "https://zkp-ld.org/bbs-termwise-2021.jsonld"
+  ],
+  "id": "did:web:zkp-ld.org",
+  "verificationMethod": [
+    {
+      "id": "did:web:zkp-ld.org#bls12381g2",
+      "type": "JsonWebKey2020",
+      "controller": "did:web:zkp-ld.org",
+      "publicKeyJwk": {
+        "kid": "did:web:zkp-ld.org#bls12381g2",
+        "kty": "OKP",
+        "crv": "Bls12381G2",
+        "x": "hCoqNweVC2xVDefGNWN5SRJRrv0MrBoC-2wW3y_a8v_74KZaBmectYSxeBm8QSoDDZtuuhIkokd_0iWZ1Qbu8Hz6LvT-LBznyiE4NBL6nYUzYI-Eg8-3eCBt03QAdRgS"
+      }
+    }
+  ],
+  "assertionMethod": [
+    "did:web:zkp-ld.org#bls12381g2"
+  ]
+}
