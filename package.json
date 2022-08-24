@@ -1,8 +1,8 @@
 {
   "name": "zkp-ld-playground",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "private": true,
-  "homepage": "https://zkp-ld.org",
+  "homepage": "https://playground.zkp-ld.org",
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
