@@ -1,6 +1,6 @@
 {
   "name": "zkp-ld-playground",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "private": true,
   "homepage": "https://playground.zkp-ld.org",
   "dependencies": {
@@ -18,7 +18,7 @@
     "@types/node": "^16.10.2",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "@zkp-ld/jsonld-signatures-bbs": "0.11.16",
+    "@zkp-ld/jsonld-signatures-bbs": "0.11.17",
     "gh-pages": "^3.2.3",
     "jsonld": "5.2.0",
     "jsonld-signatures": "9.3.0",

@@ -2545,10 +2545,10 @@
     bs58 "4.0.1"
     rfc4648 "1.5.0"
 
-"@zkp-ld/jsonld-signatures-bbs@0.11.16":
-  version "0.11.16"
-  resolved "https://registry.yarnpkg.com/@zkp-ld/jsonld-signatures-bbs/-/jsonld-signatures-bbs-0.11.16.tgz#cf69e136ea7b427406223516bc472a5fb0453f2c"
-  integrity sha512-u6jllxdJVD+MmNoUNhoX6AgTD7BNiefnsIG4PCwfa7MFylXXgzwVSlt/THyqilVCcRRsIGJZLiUwNCn4uutjmA==
+"@zkp-ld/jsonld-signatures-bbs@0.11.17":
+  version "0.11.17"
+  resolved "https://registry.yarnpkg.com/@zkp-ld/jsonld-signatures-bbs/-/jsonld-signatures-bbs-0.11.17.tgz#978d0b5e0da231cca76b8e2bf5e011911a85d591"
+  integrity sha512-xPyZk84IjlEXGUXiE+xO3fAj43abFAacOAOn5WlczSNU5KoQQClWR58f/fNPkVtzquU/PoTz/qSLgzQ4D7gyfg==
   dependencies:
     "@stablelib/random" "1.0.1"
     "@zkp-ld/bbs-signatures" "0.6.14"
