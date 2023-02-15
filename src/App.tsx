@@ -242,7 +242,7 @@ function App() {
         suite: new BbsTermwiseSignature2021(),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
         documentLoader,
-        expansionMap: false,
+        expansionMap: true,
         compactProof: true,
       });
       console.log(result);
@@ -293,7 +293,7 @@ function App() {
         suite: new BbsTermwiseSignatureProof2021(),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
         documentLoader,
-        expansionMap: false,
+        expansionMap: true,
         compactProof: true,
       });
       console.log(result);

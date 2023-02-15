@@ -81,7 +81,7 @@ export default function Issuer(props: IssuerProps) {
         suite: new BbsTermwiseSignature2021({ key: keyObj }),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
         documentLoader: props.documentLoader,
-        expansionMap: false,
+        expansionMap: true,
         compactProof: true,
       });
       props.onIssue(JSON.stringify(issuedVC, null, 2));
