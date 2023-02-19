@@ -1,7 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
 import { styled } from "@mui/system";
-import { useSwitch, UseSwitchProps } from "@mui/core/SwitchUnstyled";
+import { useSwitch, UseSwitchParameters } from "@mui/base/SwitchUnstyled";
 
 const SwitchRoot = styled("span")(`
   display: inline-block;
@@ -71,7 +71,7 @@ const SwitchTrack = styled("span")(
 `
 );
 
-export default function ModeSwitch(props: UseSwitchProps) {
+export default function ModeSwitch(props: UseSwitchParameters) {
   const { getInputProps, checked, disabled, focusVisible } = useSwitch(props);
 
   const stateClasses = {
