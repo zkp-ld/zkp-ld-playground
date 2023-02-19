@@ -1,57 +1,36 @@
 {
   "name": "zkp-ld-playground",
-  "version": "0.1.16",
   "private": true,
+  "version": "0.1.16",
+  "type": "module",
   "homepage": "https://playground.zkp-ld.org",
-  "dependencies": {
-    "@emotion/react": "^11.4.1",
-    "@emotion/styled": "^11.3.0",
-    "@monaco-editor/react": "^4.2.2",
-    "@mui/icons-material": "^5.0.0",
-    "@mui/material": "^5.0.0",
-    "@mui/styles": "^5.0.0",
-    "@mui/x-data-grid": "^5.0.0-beta.1",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^12.1.1",
-    "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.2",
-    "@types/node": "^16.10.2",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@zkp-ld/jsonld-signatures-bbs": "0.11.17",
-    "gh-pages": "^3.2.3",
-    "jsonld": "5.2.0",
-    "jsonld-signatures": "9.3.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "typescript": "^4.1.2",
-    "web-vitals": "^2.1.0"
-  },
   "scripts": {
-    "start": "BROWSER=none react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "yarn run build",
-    "deploy": "gh-pages -d build -t"
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@monaco-editor/react": "^4.4.6",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "^5.11.9",
+    "@mui/styles": "^5.11.9",
+    "@mui/x-data-grid": "^5.17.24",
+    "@zkp-ld/jsonld-signatures-bbs": "0.11.17",
+    "buffer": "^6.0.3",
+    "jsonld": "8.1.0",
+    "jsonld-signatures": "11.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react": "^3.1.0",
+    "gh-pages": "^5.0.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
   }
 }
