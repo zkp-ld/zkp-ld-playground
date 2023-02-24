@@ -10,7 +10,7 @@
 
 ## prerequisite
 
-- Node.js
+- Node.js (v16, v18)
 - Yarn
 
 ## usage
@@ -21,7 +21,7 @@ Clone this repository and run the app:
 $ git clone https://github.com/zkp-ld/zkp-ld-playground.git
 $ cd zkp-ld-playground
 $ yarn
-$ yarn start
+$ yarn dev
 ```
 
-Then open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Then open [http://localhost:5173](http://localhost:5173) to view it in the browser.
