@@ -32,9 +32,10 @@ import ModeSwitch from "./components/ModeSwitch";
 import { customLoader, builtinDIDDocs, builtinContexts } from "./data";
 import { revealTemplate } from "./data/template";
 import Registry from "./components/Registry";
+import * as pack from "../package.json";
 
 export const CREDENTIAL_HEIGHT = "40vh";
-const VERSION = "v0.1.16";
+const VERSION = `v${pack.version}`;
 
 const lightTheme = createTheme({
   palette: {
