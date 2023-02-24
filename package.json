@@ -17,7 +17,7 @@
     "@mui/material": "^5.11.9",
     "@mui/styles": "^5.11.9",
     "@mui/x-data-grid": "^5.17.24",
-    "@zkp-ld/jsonld-signatures-bbs": "0.11.17",
+    "@zkp-ld/jsonld-signatures-bbs": "0.12.0",
     "buffer": "^6.0.3",
     "jsonld": "8.1.0",
     "jsonld-signatures": "11.1.0",
