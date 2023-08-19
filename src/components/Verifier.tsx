@@ -7,6 +7,7 @@ import { useState } from "react";
 
 type VerifierProps = {
   vP: string;
+  didDocumentsValidated: boolean;
   status: VerificationStatus;
   onVerify: () => void;
   onChange: (value: string) => void;
@@ -19,7 +20,7 @@ export default function Verifier(props: VerifierProps) {
 
   return (
     <Stack>
-      <Box sx={{ display: "flex", margin: 2, alignItems: "center" }}>
+      <Box sx={{ display: "flex", margin: 1, alignItems: "center" }}>
         <Button
           color="inherit"
           onClick={(_: any) => props.onClick()}
@@ -42,14 +43,14 @@ export default function Verifier(props: VerifierProps) {
             variant="contained"
             aria-label="verify"
             onClick={() => props.onVerify()}
-            disabled={!validated}
+            disabled={!validated || !props.didDocumentsValidated}
             sx={{ bgcolor: blue[500], "&:hover": { bgcolor: blue[600] } }}
           >
             Verify
           </Button>
         </Tooltip>
       </Box>
-      <Box sx={{ height: "85vh", overflow: "auto" }}>
+      <Box sx={{ height: "80vh", overflow: "auto" }}>
         <Box sx={{ padding: 2 }}>
           <Presentation
             vP={props.vP}

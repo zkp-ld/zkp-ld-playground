@@ -7,6 +7,7 @@ import { CredAndRevealType, ModeType } from "../App";
 export type CredAndRevealProps = {
   index: number;
   credAndReveal: CredAndRevealType;
+  didDocumentsValidated: boolean;
   onCheckboxChange: (index: number, checked: boolean) => void;
   onCredentialChange: (index: number, value: string) => void;
   onCredentialValidate: (index: number, validated: boolean) => void;
@@ -24,6 +25,7 @@ export default function CredAndReveal(props: CredAndRevealProps) {
         <Credential
           index={props.index}
           value={props.credAndReveal.cred}
+          didDocumentsValidated={props.didDocumentsValidated}
           onChange={(index, value) => props.onCredentialChange(index, value)}
           onValidate={(index, validated) =>
             props.onCredentialValidate(index, validated)

@@ -16,6 +16,7 @@ import { CredAndRevealType, ModeType } from "../App";
 
 export type HolderProps = {
   credsAndReveals: CredAndRevealType[];
+  didDocumentsValidated: boolean;
   onCredentialAdd: () => void;
   onCheckboxChange: (index: number, checked: boolean) => void;
   onCredentialChange: (index: number, value: string) => void;
@@ -32,7 +33,7 @@ export type HolderProps = {
 export default function Holder(props: HolderProps) {
   return (
     <Stack>
-      <Box sx={{ display: "flex", margin: 2, alignItems: "center" }}>
+      <Box sx={{ display: "flex", margin: 1, alignItems: "center" }}>
         <Button
           color="inherit"
           onClick={() => props.onClick()}
@@ -66,7 +67,9 @@ export default function Holder(props: HolderProps) {
                 props.credsAndReveals.some(
                   (cr) =>
                     cr.checked && !(cr.credValidated && cr.revealValidated)
-                ) || props.credsAndReveals.every((cr) => !cr.checked)
+                )
+                || props.credsAndReveals.every((cr) => !cr.checked)
+                || !props.didDocumentsValidated
               }
               sx={{ bgcolor: green[500], "&:hover": { bgcolor: green[600] } }}
             >
@@ -75,7 +78,7 @@ export default function Holder(props: HolderProps) {
           </span>
         </Tooltip>
       </Box>
-      <Box sx={{ height: "65vh", overflow: "auto", padding: 2 }}>
+      <Box sx={{ height: "76vh", overflow: "auto", padding: 2 }}>
         <Grid container spacing={2}>
           {props.credsAndReveals
             .filter((cr) => cr)
@@ -84,6 +87,7 @@ export default function Holder(props: HolderProps) {
                 key={credAndReveal.index}
                 index={credAndReveal.index}
                 credAndReveal={credAndReveal}
+                didDocumentsValidated={props.didDocumentsValidated}
                 onCheckboxChange={(index, checked) =>
                   props.onCheckboxChange(index, checked)
                 }

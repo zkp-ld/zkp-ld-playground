@@ -10,7 +10,6 @@ import {
   Snackbar,
   Toolbar,
   Typography,
-  Container,
   Tooltip,
   Link,
 } from "@mui/material";
@@ -19,14 +18,16 @@ import Warning from "@mui/icons-material/Warning";
 import { ThemeProvider } from "@emotion/react";
 import { verify, deriveProof, verifyProof } from '@zkp-ld/jsonld-proofs';
 
+import * as pack from "../package.json";
 import Issuer from "./components/Issuer";
 import Holder from "./components/Holder";
 import Verifier from "./components/Verifier";
 import ModeSwitch from "./components/ModeSwitch";
-import { builtinDIDDocs } from "./data";
-import { revealTemplate } from "./data/template";
 import Registry from "./components/Registry";
-import * as pack from "../package.json";
+import {
+  exampleKeyPairs,
+} from "./data/key";
+import { exampleDIDDocs } from "./data/customDocumentLoader";
 
 export const CREDENTIAL_HEIGHT = "40vh";
 const VERSION = `v${pack.version}`;
@@ -35,21 +36,7 @@ const VP_CONTEXT = [
   "https://www.w3.org/2018/credentials/v1",
   "https://w3id.org/security/data-integrity/v1",
   "https://zkp-ld.org/bbs-termwise-2021.jsonld",
-  "https://schema.org",
-  {
-    "isPatientOf": "http://example.org/vocab/isPatientOf",
-    "lotNumber": "http://example.org/vocab/lotNumber",
-    "vaccine": {
-      "@id": "http://example.org/vocab/vaccine",
-      "@type": "@id"
-    },
-    "vaccinationDate": {
-      "@id": "http://example.org/vocab/vaccinationDate",
-      "@type": "xsd:dateTime"
-    },
-    "Vaccination": "http://example.org/vocab/Vaccination",
-    "Vaccine": "http://example.org/vocab/Vaccine"
-  }
+  "https://schema.org"
 ];
 
 const lightTheme = createTheme({
@@ -89,11 +76,10 @@ export type VerificationStatus =
   | "Disabled";
 
 function App() {
-  const [didDocs, setDIDDocs] = useState(builtinDIDDocs);
-  const [didDocsValidated, setDIDDocsValidated] = useState(
-    new Map([...builtinDIDDocs.keys()].map((k) => [k, true]))
-  );
-  const [hiddenURIs, setHiddenURIs] = useState([] as string[]);
+  const [keyPairs, setKeyPairs] = useState(exampleKeyPairs);
+  const [keyPairsValidated, setKeyPairsValidated] = useState(true);
+  const [didDocs, setDIDDocs] = useState(exampleDIDDocs);
+  const [didDocsValidated, setDIDDocsValidated] = useState(true);
   const [credsAndReveals, setCredsAndReveals] =
     useState<CredAndRevealArrayType>({
       lastIndex: 0,
@@ -135,7 +121,7 @@ function App() {
     newCredsAndReveals.value.push({
       index: credsAndReveals.lastIndex,
       cred: issuedVC,
-      reveal: JSON.stringify(revealTemplate, null, 2),
+      reveal: issuedVC,
       credValidated: true,
       credStatus: "Unverified",
       revealValidated: true,
@@ -156,7 +142,7 @@ function App() {
     newCredsAndReveals.value.push({
       index: credsAndReveals.lastIndex,
       cred: "{}",
-      reveal: JSON.stringify(revealTemplate, null, 2),
+      reveal: "{}",
       credValidated: true,
       credStatus: "Unverified",
       revealValidated: true,
@@ -204,12 +190,20 @@ function App() {
     setVerificationStatus("Unverified");
   };
 
-  const handleDIDDocsChange = (id: string, value: string) => {
-    setDIDDocs(new Map(didDocs.set(id, value)));
+  const handleKeyPairsChange = (value: string) => {
+    setKeyPairs(value);
   };
 
-  const handleDIDDocsValidate = (id: string, validated: boolean) => {
-    setDIDDocsValidated(new Map(didDocsValidated.set(id, validated)));
+  const handleKeyPairsValidate = (validated: boolean) => {
+    setKeyPairsValidated(validated);
+  };
+
+  const handleDIDDocsChange = (value: string) => {
+    setDIDDocs(value);
+  };
+
+  const handleDIDDocsValidate = (validated: boolean) => {
+    setDIDDocsValidated(validated);
   };
 
   const handleDeleteCredAndReveal = (index: number) => {
@@ -222,7 +216,7 @@ function App() {
     const newCredsAndReveals = { ...credsAndReveals };
     try {
       const cred = JSON.parse(credsAndReveals.value[index].cred);
-      const dids = JSON.parse(didDocs.get("example") as string);
+      const dids = JSON.parse(didDocs);
       const result = await verify(cred, dids); // TODO: fix it
       console.log(result);
 
@@ -247,7 +241,7 @@ function App() {
         .filter((cr) => cr.checked)
         .map((cr) => ({ vc: JSON.parse(cr.cred), disclosed: JSON.parse(cr.reveal) }));
       const nonce = "NONCE"; // TODO: fix
-      const dids = JSON.parse(didDocs.get("example") as string);
+      const dids = JSON.parse(didDocs);
       const derivedProof = await deriveProof(vcWithDisclosedPairs, nonce, dids, VP_CONTEXT);
 
       setVP(JSON.stringify(derivedProof, null, 2));
@@ -266,7 +260,7 @@ function App() {
     try {
       const derivedProof = JSON.parse(vP);
       const nonce = "NONCE"; // TODO: fix
-      const dids = JSON.parse(didDocs.get("example") as string);
+      const dids = JSON.parse(didDocs);
       const result = await verifyProof(derivedProof, nonce, dids);
       console.log(result);
       if (result.verified === true) {
@@ -306,6 +300,8 @@ function App() {
             onClick={() => setIssuerOpen(!issuerOpen)}
             onIssue={handleIssue}
             mode={mode}
+            keyPairs={keyPairs}
+            keyPairsValidated={keyPairsValidated}
           />
         </Grid>
         <Divider orientation="vertical" flexItem sx={{ marginRight: "-1px" }} />
@@ -315,6 +311,7 @@ function App() {
         >
           <Holder
             credsAndReveals={credsAndReveals.value}
+            didDocumentsValidated={didDocsValidated}
             onCredentialAdd={handleCredentialAdd}
             onCheckboxChange={handleCredsAndRevealsCheckboxChange}
             onCredentialChange={handleCredentialChange}
@@ -335,6 +332,7 @@ function App() {
         <Grid item xs={verifierOpen ? 4 : 1}>
           <Verifier
             vP={vP}
+            didDocumentsValidated={didDocsValidated}
             onVerify={handleVerifyProof}
             status={verificationStatus}
             onChange={handlePresentationChange}
@@ -342,16 +340,16 @@ function App() {
             mode={mode}
           />
         </Grid>
-        <Grid item xs={6}>
-          <Container>
-            <Registry
-              name="DIDDocuments"
-              extDocs={didDocs}
-              mode={mode}
-              onChange={handleDIDDocsChange}
-              onValidate={handleDIDDocsValidate}
-            />
-          </Container>
+        <Grid item xs={12}>
+          <Registry
+            keyPairs={keyPairs}
+            didDocuments={didDocs}
+            onKeyPairsChange={handleKeyPairsChange}
+            onKeyPairsValidate={handleKeyPairsValidate}
+            onDIDDocumentsChange={handleDIDDocsChange}
+            onDIDDocumentsValidate={handleDIDDocsValidate}
+            mode={mode}
+          />
         </Grid>
         <Divider orientation="vertical" flexItem sx={{ marginRight: "-1px" }} />
         <Grid item xs={6}>
@@ -360,7 +358,7 @@ function App() {
       <Typography variant="body2" color="text.secondary" align="center">
         <Link
           color="inherit"
-          href="https://github.com/zkp-ld/zkp-ld-playground"
+          href="https://github.com/zkp-ld/zkp-ld-playground/tree/v2"
         >
           Source code
         </Link>

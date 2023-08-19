@@ -15,17 +15,15 @@ import { orange } from "@mui/material/colors";
 import { sign } from "@zkp-ld/jsonld-proofs";
 
 import { ModeType } from "../App";
-import Doc from "./Doc";
-import IssuerKey from "./IssuerKey";
+import CredentialDraft from "./CredentialDraft";
 import { Person1, Person2, City, Place } from "../data/doc";
-import {
-  exampleKeyPairs,
-} from "../data/key";
 
 export type IssuerProps = {
   onIssue: (issued: string) => void;
   onClick: () => void;
   mode: ModeType;
+  keyPairs: string;
+  keyPairsValidated: boolean;
 };
 
 export const exampleDocs: { [key: string]: {} } = {
@@ -35,39 +33,23 @@ export const exampleDocs: { [key: string]: {} } = {
   Place: Place,
 };
 
-export const exampleKeys: { [key: string]: {} } = {
-  "example": exampleKeyPairs,
-};
-
 export default function Issuer(props: IssuerProps) {
   const [doc, setDoc] = useState("");
-  const [key, setKey] = useState(
-    JSON.stringify(exampleKeys["example"], null, 2)
-  );
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
   const [docValidated, setDocValidated] = useState(true);
-  const [keyValidated, setKeyValidated] = useState(true);
 
   const handleDocChange = (value: string) => {
     setDoc(value);
-  };
-
-  const handleKeyChange = (value: string) => {
-    setKey(value);
   };
 
   const handleExampleChange = (value: string) => {
     setDoc(JSON.stringify(exampleDocs[value], null, 2));
   };
 
-  const handleKeyExampleChange = (value: string) => {
-    setKey(JSON.stringify(exampleKeys[value], null, 2));
-  };
-
   const handleIssue = async () => {
     try {
-      const issuedVC = await sign(JSON.parse(doc), JSON.parse(key));
+      const issuedVC = await sign(JSON.parse(doc), JSON.parse(props.keyPairs));
       props.onIssue(JSON.stringify(issuedVC, null, 2));
     } catch (e: any) {
       setErr(e.message);
@@ -84,7 +66,7 @@ export default function Issuer(props: IssuerProps) {
 
   return (
     <Stack>
-      <Box sx={{ display: "flex", margin: 2, alignItems: "center" }}>
+      <Box sx={{ display: "flex", margin: 1, alignItems: "center" }}>
         <Button
           onClick={(_: any) => props.onClick()}
           sx={{
@@ -106,7 +88,7 @@ export default function Issuer(props: IssuerProps) {
             variant="contained"
             aria-label="issue"
             onClick={handleIssue}
-            disabled={!docValidated || !keyValidated}
+            disabled={!docValidated || !props.keyPairsValidated}
             sx={{ bgcolor: orange[500], "&:hover": { bgcolor: orange[600] } }}
           >
             Issue
@@ -114,7 +96,7 @@ export default function Issuer(props: IssuerProps) {
         </Tooltip>
       </Box>
       <Box sx={{ padding: 2 }}>
-        <Doc
+        <CredentialDraft
           value={doc}
           validated={docValidated}
           mode={props.mode}
@@ -122,15 +104,6 @@ export default function Issuer(props: IssuerProps) {
           onIssue={handleIssue}
           onValidate={(v) => setDocValidated(v)}
           onExampleChange={handleExampleChange}
-        />
-      </Box>
-      <Box sx={{ padding: [0, 2] }}>
-        <IssuerKey
-          value={key}
-          mode={props.mode}
-          onChange={handleKeyChange}
-          onValidate={(v) => setKeyValidated(v)}
-          onExampleChange={handleKeyExampleChange}
         />
       </Box>
       <Snackbar
