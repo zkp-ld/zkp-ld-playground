@@ -7,5 +7,8 @@ export default defineConfig({
   define: {
     'process.argv': process.argv, // TODO: temporary solution for json-diff & vite combination (see: https://github.com/andreyvit/json-diff/issues/123)
     'process.env': process.env, // TODO: temporary solution for json-diff & vite combination (see: https://github.com/andreyvit/json-diff/issues/123)
+  },
+  build: {
+    outDir: "dist-v2",
   }
 });
