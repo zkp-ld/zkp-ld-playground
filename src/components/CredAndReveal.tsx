@@ -54,6 +54,7 @@ export default function CredAndReveal(props: CredAndRevealProps) {
             onChange={(e) =>
               props.onCheckboxChange(props.index, e.target.checked)
             }
+            checked={props.credAndReveal.checked}
           />
           <Tooltip title="delete">
             <IconButton onClick={() => props.onDelete(props.index)}>

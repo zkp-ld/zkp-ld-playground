@@ -125,7 +125,7 @@ function App() {
       credValidated: true,
       credStatus: "Unverified",
       revealValidated: true,
-      checked: false,
+      checked: true,
     });
     setCredsAndReveals(newCredsAndReveals);
 
