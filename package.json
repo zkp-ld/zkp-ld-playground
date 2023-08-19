@@ -1,9 +1,9 @@
 {
   "name": "zkp-ld-playground",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
-  "homepage": "https://playground.zkp-ld.org",
+  "homepage": "https://playground.zkp-ld.org/v2",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
@@ -19,14 +19,14 @@
     "@mui/material": "^5.11.9",
     "@mui/system": "^5.14.5",
     "@mui/x-data-grid": "^6.11.2",
-    "@zkp-ld/jsonld-signatures-bbs": "0.12.0",
+    "@zkp-ld/jsonld-proofs": "0.3.0",
     "buffer": "^6.0.3",
     "jsonld": "^8.2.0",
-    "jsonld-signatures": "^11.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/jsonld": "^1.5.9",
     "@types/node": "^20.5.1",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
