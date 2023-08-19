@@ -15,7 +15,7 @@
 
 ## prerequisite
 
-- Node.js (v16, v18)
+- Node.js
 - npm
 
 ## usage
