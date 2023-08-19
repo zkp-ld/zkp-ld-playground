@@ -4,7 +4,6 @@ import { blue } from "@mui/material/colors";
 import Presentation from "./Presentation";
 import { ModeType, VerificationStatus } from "../App";
 import { useState } from "react";
-import VerifiedClaims from "./VerifiedClaims";
 
 type VerifierProps = {
   vP: string;
@@ -13,7 +12,6 @@ type VerifierProps = {
   onChange: (value: string) => void;
   onClick: () => void;
   mode: ModeType;
-  documentLoader: (documents: any) => any;
 };
 
 export default function Verifier(props: VerifierProps) {
@@ -61,14 +59,6 @@ export default function Verifier(props: VerifierProps) {
             onChange={(value) => props.onChange(value)}
             onValidate={(v) => setValidated(v)}
             mode={props.mode}
-          />
-        </Box>
-        <Box sx={{ padding: [0, 2] }}>
-          <VerifiedClaims
-            vP={props.vP}
-            mode={props.mode}
-            status={props.status}
-            documentLoader={props.documentLoader}
           />
         </Box>
       </Box>

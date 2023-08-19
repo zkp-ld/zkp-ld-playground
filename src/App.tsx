@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useMemo } from "react";
+import { useState, ChangeEvent } from "react";
 import {
   Alert,
   AlertTitle,
@@ -17,25 +17,40 @@ import {
 import { createTheme, Theme } from "@mui/material/styles";
 import Warning from "@mui/icons-material/Warning";
 import { ThemeProvider } from "@emotion/react";
-import jsigs from "jsonld-signatures";
-import {
-  BbsTermwiseSignature2021,
-  BbsTermwiseSignatureProof2021,
-  deriveProofMulti,
-  verifyProofMulti,
-} from "@zkp-ld/jsonld-signatures-bbs";
+import { verify, deriveProof, verifyProof } from '@zkp-ld/jsonld-proofs';
 
 import Issuer from "./components/Issuer";
 import Holder from "./components/Holder";
 import Verifier from "./components/Verifier";
 import ModeSwitch from "./components/ModeSwitch";
-import { customLoader, builtinDIDDocs, builtinContexts } from "./data";
+import { builtinDIDDocs } from "./data";
 import { revealTemplate } from "./data/template";
 import Registry from "./components/Registry";
 import * as pack from "../package.json";
 
 export const CREDENTIAL_HEIGHT = "40vh";
 const VERSION = `v${pack.version}`;
+
+const VP_CONTEXT = [
+  "https://www.w3.org/2018/credentials/v1",
+  "https://w3id.org/security/data-integrity/v1",
+  "https://zkp-ld.org/bbs-termwise-2021.jsonld",
+  "https://schema.org",
+  {
+    "isPatientOf": "http://example.org/vocab/isPatientOf",
+    "lotNumber": "http://example.org/vocab/lotNumber",
+    "vaccine": {
+      "@id": "http://example.org/vocab/vaccine",
+      "@type": "@id"
+    },
+    "vaccinationDate": {
+      "@id": "http://example.org/vocab/vaccinationDate",
+      "@type": "xsd:dateTime"
+    },
+    "Vaccination": "http://example.org/vocab/Vaccination",
+    "Vaccine": "http://example.org/vocab/Vaccine"
+  }
+];
 
 const lightTheme = createTheme({
   palette: {
@@ -78,10 +93,6 @@ function App() {
   const [didDocsValidated, setDIDDocsValidated] = useState(
     new Map([...builtinDIDDocs.keys()].map((k) => [k, true]))
   );
-  const [contexts, setContexts] = useState(builtinContexts);
-  const [contextsValidated, setContextsValidated] = useState(
-    new Map([...builtinContexts.keys()].map((k) => [k, true]))
-  );
   const [hiddenURIs, setHiddenURIs] = useState([] as string[]);
   const [credsAndReveals, setCredsAndReveals] =
     useState<CredAndRevealArrayType>({
@@ -99,26 +110,6 @@ function App() {
     mui: lightTheme,
     monaco: "light",
   });
-
-  const documentLoader: (documents: any) => any = useMemo(() => {
-    const validatedDIDDocs = [...didDocs.entries()].filter(([k, _]) =>
-      didDocsValidated.get(k)
-    );
-    const parsedValidatedDIDDocs: [string, any][] = validatedDIDDocs.map(
-      ([id, value]) => [id, JSON.parse(value)]
-    );
-    const validatedContexts = [...contexts.entries()].filter(([k, _]) =>
-      contextsValidated.get(k)
-    );
-    const parsedValidatedContexts: [string, any][] = validatedContexts.map(
-      ([id, value]) => [id, JSON.parse(value)]
-    );
-    const validatedDocs = new Map([
-      ...parsedValidatedDIDDocs,
-      ...parsedValidatedContexts,
-    ]);
-    return customLoader(validatedDocs);
-  }, [didDocs, didDocsValidated, contexts, contextsValidated]);
 
   const handleErrClose = (_: any, reason: string) => {
     if (reason === "clickaway") {
@@ -221,14 +212,6 @@ function App() {
     setDIDDocsValidated(new Map(didDocsValidated.set(id, validated)));
   };
 
-  const handleContextsChange = (id: string, value: string) => {
-    setContexts(new Map(contexts.set(id, value)));
-  };
-
-  const handleContextsValidate = (id: string, validated: boolean) => {
-    setContextsValidated(new Map(contextsValidated.set(id, validated)));
-  };
-
   const handleDeleteCredAndReveal = (index: number) => {
     let newCredsAndReveals = { ...credsAndReveals };
     delete newCredsAndReveals.value[index];
@@ -239,12 +222,8 @@ function App() {
     const newCredsAndReveals = { ...credsAndReveals };
     try {
       const cred = JSON.parse(credsAndReveals.value[index].cred);
-      const result = await jsigs.verify(cred, {
-        suite: new BbsTermwiseSignature2021(),
-        purpose: new jsigs.purposes.AssertionProofPurpose(),
-        documentLoader,
-        compactProof: true,
-      });
+      const dids = JSON.parse(didDocs.get("example") as string);
+      const result = await verify(cred, dids); // TODO: fix it
       console.log(result);
 
       if (result.verified === true) {
@@ -264,17 +243,14 @@ function App() {
 
   const handlePresent = async () => {
     try {
-      const documents: [any, any][] = credsAndReveals.value
+      const vcWithDisclosedPairs = credsAndReveals.value
         .filter((cr) => cr.checked)
-        .map((cr) => [JSON.parse(cr.cred), JSON.parse(cr.reveal)]);
+        .map((cr) => ({ vc: JSON.parse(cr.cred), disclosed: JSON.parse(cr.reveal) }));
+      const nonce = "NONCE"; // TODO: fix
+      const dids = JSON.parse(didDocs.get("example") as string);
+      const derivedProof = await deriveProof(vcWithDisclosedPairs, nonce, dids, VP_CONTEXT);
 
-      const derivedProofs: any[] = await deriveProofMulti(documents, {
-        hiddenUris: hiddenURIs,
-        suite: new BbsTermwiseSignatureProof2021(),
-        documentLoader,
-      });
-
-      setVP(JSON.stringify(derivedProofs, null, 2));
+      setVP(JSON.stringify(derivedProof, null, 2));
       setVerificationStatus("Unverified");
       setIssuerOpen(false);
       setVerifierOpen(true);
@@ -288,13 +264,10 @@ function App() {
 
   const handleVerifyProof = async () => {
     try {
-      const derivedProofs = JSON.parse(vP);
-      const result = await verifyProofMulti(derivedProofs, {
-        suite: new BbsTermwiseSignatureProof2021(),
-        purpose: new jsigs.purposes.AssertionProofPurpose(),
-        documentLoader,
-        compactProof: true,
-      });
+      const derivedProof = JSON.parse(vP);
+      const nonce = "NONCE"; // TODO: fix
+      const dids = JSON.parse(didDocs.get("example") as string);
+      const result = await verifyProof(derivedProof, nonce, dids);
       console.log(result);
       if (result.verified === true) {
         setVerificationStatus("Accepted");
@@ -333,7 +306,6 @@ function App() {
             onClick={() => setIssuerOpen(!issuerOpen)}
             onIssue={handleIssue}
             mode={mode}
-            documentLoader={documentLoader}
           />
         </Grid>
         <Divider orientation="vertical" flexItem sx={{ marginRight: "-1px" }} />
@@ -355,9 +327,6 @@ function App() {
               setIssuerOpen(false);
               setVerifierOpen(false);
             }}
-            onSelectedHiddenURIsChange={(selected) => {
-              setHiddenURIs(selected);
-            }}
             onDeleteCredAndReveal={handleDeleteCredAndReveal}
             mode={mode}
           />
@@ -371,7 +340,6 @@ function App() {
             onChange={handlePresentationChange}
             onClick={() => setVerifierOpen(!verifierOpen)}
             mode={mode}
-            documentLoader={documentLoader}
           />
         </Grid>
         <Grid item xs={6}>
@@ -387,15 +355,6 @@ function App() {
         </Grid>
         <Divider orientation="vertical" flexItem sx={{ marginRight: "-1px" }} />
         <Grid item xs={6}>
-          <Container>
-            <Registry
-              name="Contexts"
-              extDocs={contexts}
-              mode={mode}
-              onChange={handleContextsChange}
-              onValidate={handleContextsValidate}
-            />
-          </Container>
         </Grid>
       </Grid>
       <Typography variant="body2" color="text.secondary" align="center">

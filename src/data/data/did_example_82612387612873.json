@@ -1,5 +1,0 @@
-{
-  "@context": "https://w3id.org/security/v2",
-  "id": "did:example:82612387612873",
-  "assertionMethod": ["did:example:82612387612873#test"]
-}

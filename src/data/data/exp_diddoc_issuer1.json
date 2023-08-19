@@ -1,5 +1,0 @@
-{
-  "@context": "https://w3id.org/security/v2",
-  "id": "did:example:issuer1",
-  "assertionMethod": ["did:example:issuer1#bbs-bls-key1"]
-}

@@ -12,24 +12,17 @@ import {
 } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 import { orange } from "@mui/material/colors";
-import jsigs from "jsonld-signatures";
-import {
-  Bls12381G2KeyPair,
-  BbsTermwiseSignature2021,
-} from "@zkp-ld/jsonld-signatures-bbs";
+import { sign } from "@zkp-ld/jsonld-proofs";
 
 import { ModeType } from "../App";
 import Doc from "./Doc";
 import IssuerKey from "./IssuerKey";
 import { Person1, Person2, City, Place } from "../data/doc";
 import {
-  exampleBls12381KeyPair1,
-  exampleBls12381KeyPair2,
-  exampleBls12381KeyPair3,
+  exampleKeyPairs,
 } from "../data/key";
 
 export type IssuerProps = {
-  documentLoader: (documents: any) => any;
   onIssue: (issued: string) => void;
   onClick: () => void;
   mode: ModeType;
@@ -43,15 +36,13 @@ export const exampleDocs: { [key: string]: {} } = {
 };
 
 export const exampleKeys: { [key: string]: {} } = {
-  "did:example:issuer1#bbs-bls-key1": exampleBls12381KeyPair1,
-  "did:example:issuer2#bbs-bls-key1": exampleBls12381KeyPair2,
-  "did:example:issuer3#bbs-bls-key1": exampleBls12381KeyPair3,
+  "example": exampleKeyPairs,
 };
 
 export default function Issuer(props: IssuerProps) {
   const [doc, setDoc] = useState("");
   const [key, setKey] = useState(
-    JSON.stringify(exampleKeys["did:example:issuer1#bbs-bls-key1"], null, 2)
+    JSON.stringify(exampleKeys["example"], null, 2)
   );
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
@@ -76,13 +67,7 @@ export default function Issuer(props: IssuerProps) {
 
   const handleIssue = async () => {
     try {
-      const keyObj = new Bls12381G2KeyPair(JSON.parse(key));
-      const issuedVC = await jsigs.sign(JSON.parse(doc), {
-        suite: new BbsTermwiseSignature2021({ key: keyObj }),
-        purpose: new jsigs.purposes.AssertionProofPurpose(),
-        documentLoader: props.documentLoader,
-        compactProof: true,
-      });
+      const issuedVC = await sign(JSON.parse(doc), JSON.parse(key));
       props.onIssue(JSON.stringify(issuedVC, null, 2));
     } catch (e: any) {
       setErr(e.message);

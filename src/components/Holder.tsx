@@ -13,7 +13,6 @@ import Add from "@mui/icons-material/Add";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import CredAndReveal from "./CredAndReveal";
 import { CredAndRevealType, ModeType } from "../App";
-import HiddenURIs from "./HiddenURIs";
 
 export type HolderProps = {
   credsAndReveals: CredAndRevealType[];
@@ -26,7 +25,6 @@ export type HolderProps = {
   onVerify: (index: number) => void;
   onPresent: () => void;
   onClick: () => void;
-  onSelectedHiddenURIsChange: (selected: string[]) => void;
   onDeleteCredAndReveal: (index: number) => void;
   mode: ModeType;
 };
@@ -112,17 +110,6 @@ export default function Holder(props: HolderProps) {
             </Button>
           </Grid>
         </Grid>
-      </Box>
-      <Box sx={{ height: "25vh", overflow: "auto", padding: [0, 2] }}>
-        <HiddenURIs
-          vCs={props.credsAndReveals
-            .filter((cr) => cr?.checked)
-            .map((credAndReveal) => credAndReveal.cred)}
-          onSelectedHiddenURIsChange={(selected) =>
-            props.onSelectedHiddenURIsChange(selected)
-          }
-          mode={props.mode}
-        />
       </Box>
     </Stack>
   );
