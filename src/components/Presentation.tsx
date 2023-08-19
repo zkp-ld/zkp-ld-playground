@@ -37,7 +37,7 @@ export default function Presentation(props: PresentationProps) {
           value={props.vP}
           theme={props.mode.monaco}
           options={{
-            lineNumbers: false,
+            lineNumbers: 'off',
             minimap: { enabled: false },
           }}
           onChange={(value, _) => value && props.onChange(value)}

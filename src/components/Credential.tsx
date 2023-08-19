@@ -37,7 +37,7 @@ export default function Credential(props: CredentialProps) {
           defaultLanguage="json"
           defaultValue={props.value}
           theme={props.mode.monaco}
-          options={{ lineNumbers: false, minimap: { enabled: false } }}
+          options={{ lineNumbers: 'off', minimap: { enabled: false } }}
           onChange={(value, _) => value && props.onChange(props.index, value)}
           onValidate={(markers) =>
             props.onValidate(props.index, markers.length === 0)

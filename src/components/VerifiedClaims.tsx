@@ -108,7 +108,7 @@ export default function VerifiedClaims(props: VerifiedClaimsProps) {
           value={JSON.stringify(framedClaims, null, 2)}
           theme={props.mode.monaco}
           options={{
-            lineNumbers: false,
+            lineNumbers: 'off',
             minimap: { enabled: false },
             readOnly: true,
           }}

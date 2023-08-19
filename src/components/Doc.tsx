@@ -69,7 +69,7 @@ export default function Doc(props: DocProps) {
           defaultLanguage="json"
           value={props.value}
           theme={props.mode.monaco}
-          options={{ lineNumbers: false, minimap: { enabled: false } }}
+          options={{ lineNumbers: 'off', minimap: { enabled: false } }}
           onChange={(value, _) => value && props.onChange(value)}
           onValidate={(markers) => props.onValidate(markers.length === 0)}
         />

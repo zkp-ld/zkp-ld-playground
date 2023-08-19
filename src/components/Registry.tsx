@@ -75,7 +75,7 @@ export default function Registry(props: RegistryProps) {
               defaultLanguage="json"
               defaultValue={props.extDocs.get(selected)}
               theme={props.mode.monaco}
-              options={{ lineNumbers: false, minimap: { enabled: false } }}
+              options={{ lineNumbers: 'off', minimap: { enabled: false } }}
               onChange={(value, _) => value && handleChange(value)}
               onValidate={(markers) => {
                 handleValidate(markers.length === 0);

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from "@mui/material";
-import { DataGrid, GridColDef, GridSelectionModel } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { ModeType } from "../App";
 import { extractUris } from "../utils/uri";
 
@@ -25,7 +25,7 @@ export default function HiddenURIs(props: HiddenURIsProps) {
     { field: "col1", headerName: "URI", width: 600 },
   ];
 
-  const handleSelectionModelChange = (selectedIDs: GridSelectionModel) => {
+  const handleSelectionModelChange = (selectedIDs: GridRowSelectionModel) => {
     props.onSelectedHiddenURIsChange(
       rowArray.filter((_, i) => selectedIDs.includes(i))
     );
@@ -44,7 +44,7 @@ export default function HiddenURIs(props: HiddenURIsProps) {
           columns={columns}
           rowHeight={25}
           checkboxSelection
-          onSelectionModelChange={handleSelectionModelChange}
+          onRowSelectionModelChange={handleSelectionModelChange}
           style={{
             color:
               props.mode.mui.palette.mode === "light"
