@@ -4,82 +4,53 @@ import {
   Box,
   Avatar,
   Typography,
-  List,
-  ListItemButton,
-  ListItemText,
   Grid,
 } from "@mui/material";
 import { brown } from "@mui/material/colors";
-import Storage from "@mui/icons-material/Storage";
-import Editor from "@monaco-editor/react";
+import Key from "@mui/icons-material/Key";
 
 import { ModeType } from "../App";
-import Add from "@mui/icons-material/Add";
+import KeyPairs from "./KeyPairs";
+import DIDDocuments from "./DIDDocuments";
 
 export type RegistryProps = {
-  name: string;
-  extDocs: Map<string, string>;
+  keyPairs: string;
+  didDocuments: string;
+  onKeyPairsChange: (value: string) => void;
+  onKeyPairsValidate: (validated: boolean) => void;
+  onDIDDocumentsChange: (value: string) => void;
+  onDIDDocumentsValidate: (validated: boolean) => void;
   mode: ModeType;
-  onChange: (id: string, value: string) => void;
-  onValidate: (id: string, validated: boolean) => void;
 };
 
 export default function Registry(props: RegistryProps) {
-  const [selected, setSelected] = useState("");
-
-  const handleSelectDoc = (key: string) => {
-    setSelected(key);
-  };
-
-  const handleChange = (value: string) => {
-    props.onChange(selected, value);
-  };
-
-  const handleValidate = (value: boolean) => {
-    props.onValidate(selected, value);
-  };
-
   return (
     <Stack>
-      <Box sx={{ display: "flex", margin: 2, alignItems: "center" }}>
+      <Box sx={{ display: "flex", margin: 1, alignItems: "center" }}>
         <Stack direction="row" spacing={2} alignItems="center">
           <Avatar sx={{ bgcolor: brown[500] }} aria-label="issuer">
-            <Storage />
+            <Key />
           </Avatar>
-          <Typography color={brown[500]}>{props.name}</Typography>
+          <Typography color={brown[500]}>Registry</Typography>
         </Stack>
       </Box>
 
-      <Box sx={{ padding: 2 }}>
+      <Box sx={{ padding: 1 }}>
         <Grid container>
           <Grid item xs={6}>
-            <List dense sx={{ maxHeight: "76vh", overflow: "auto" }}>
-              {Array.from(props.extDocs.keys()).map((key: string) => (
-                <ListItemButton
-                  key={`item-${key}`}
-                  selected={key === selected}
-                  onClick={(_) => handleSelectDoc(key)}
-                >
-                  <ListItemText primary={key} />
-                </ListItemButton>
-              ))}
-              {/* <ListItemButton>
-                <Add />
-              </ListItemButton> */}
-            </List>
+            <KeyPairs
+              value={props.keyPairs}
+              mode={props.mode}
+              onChange={props.onKeyPairsChange}
+              onValidate={props.onKeyPairsValidate}
+            />
           </Grid>
           <Grid item xs={6}>
-            <Editor
-              height="76vh"
-              path={selected}
-              defaultLanguage="json"
-              defaultValue={props.extDocs.get(selected)}
-              theme={props.mode.monaco}
-              options={{ lineNumbers: 'off', minimap: { enabled: false } }}
-              onChange={(value, _) => value && handleChange(value)}
-              onValidate={(markers) => {
-                handleValidate(markers.length === 0);
-              }}
+            <DIDDocuments
+              value={props.didDocuments}
+              mode={props.mode}
+              onChange={props.onDIDDocumentsChange}
+              onValidate={props.onDIDDocumentsValidate}
             />
           </Grid>
         </Grid>

@@ -17,7 +17,7 @@ export default function Presentation(props: PresentationProps) {
   return (
     <Card elevation={3}>
       <CardHeader
-        title="Derived Proofs"
+        title="Verifiable Presentation"
         titleTypographyProps={{ variant: "subtitle1" }}
         action={
           <Verify
@@ -32,7 +32,7 @@ export default function Presentation(props: PresentationProps) {
       />
       <CardContent>
         <Editor
-          height="75vh"
+          height="70vh"
           defaultLanguage="json"
           value={props.vP}
           theme={props.mode.monaco}

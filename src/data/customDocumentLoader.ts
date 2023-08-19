@@ -1,18 +1,9 @@
 import { Url, RemoteDocument } from 'jsonld/jsonld-spec';
 
 import { CONTEXTS } from './contexts';
-import exampleDidDoc from "./data/exampleDidDoc.json";
+import exampleDidDocsObj from "./data/exampleDidDoc.json";
 
-const _prepareDocs = (obj: any): [string, string][] =>
-  Object.entries(obj).map((e: [string, any]) => [
-    e[0],
-    JSON.stringify(e[1], null, 2),
-  ]);
-
-const _builtinDIDDocs = {
-  "example": exampleDidDoc,
-};
-export const builtinDIDDocs = new Map(_prepareDocs(_builtinDIDDocs));
+export const exampleDIDDocs = JSON.stringify(exampleDidDocsObj, null, 2);
 
 export const customLoader = async (
   url: Url,

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Editor from "@monaco-editor/react";
 import {
   Card,
@@ -10,41 +9,43 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-
+import { useState } from "react";
 import { ModeType } from "../App";
-import { exampleKeys } from "./Issuer";
+import { exampleDocs } from "./Issuer";
 
-type IssuerKeyProps = {
+export type DocProps = {
   value: string;
+  validated: boolean;
   onChange: (value: string) => void;
+  onIssue: () => void;
   onValidate: (validated: boolean) => void;
   mode: ModeType;
   onExampleChange: (value: string) => void;
 };
 
-export default function IssuerKey(props: IssuerKeyProps) {
-  const [keyID, setKeyID] = useState("did:example:issuer1#bbs-bls-key1");
+export default function CredentialDraft(props: DocProps) {
+  const [example, setExample] = useState("");
 
-  const handleKeyChange = (event: SelectChangeEvent) => {
+  const handleExampleChange = (event: SelectChangeEvent) => {
     const value = event.target.value;
-    setKeyID(value);
+    setExample(value);
     props.onExampleChange(value);
   };
 
   return (
     <Card elevation={3}>
       <CardHeader
-        title="Keys"
+        title="Verifiable Credential Draft"
         titleTypographyProps={{ variant: "subtitle1" }}
         action={
           <FormControl fullWidth sx={{ minWidth: 120 }}>
-            <InputLabel id="signing-key-label">signing key</InputLabel>
+            <InputLabel id="document-examples-label">Examples</InputLabel>
             <Select
-              labelId="signing-key-label"
-              id="signing-key"
-              value={keyID}
-              label="signing key"
-              onChange={handleKeyChange}
+              labelId="document-examples-label"
+              id="document-examples"
+              value={example}
+              label="Examples"
+              onChange={handleExampleChange}
               autoWidth
               style={{
                 color:
@@ -53,7 +54,7 @@ export default function IssuerKey(props: IssuerKeyProps) {
                     : "rgba(255,255,255,0.85)",
               }}
             >
-              {Object.keys(exampleKeys).map((k) => (
+              {Object.keys(exampleDocs).map((k) => (
                 <MenuItem key={k} value={k}>
                   {k}
                 </MenuItem>
@@ -64,7 +65,7 @@ export default function IssuerKey(props: IssuerKeyProps) {
       />
       <CardContent>
         <Editor
-          height="8vh"
+          height="70vh"
           defaultLanguage="json"
           value={props.value}
           theme={props.mode.monaco}

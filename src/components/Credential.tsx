@@ -8,6 +8,7 @@ export type CredentialProps = {
   value: string;
   status: VerificationStatus;
   validated: boolean;
+  didDocumentsValidated: boolean;
   onChange: (index: number, value: string) => void;
   onValidate: (index: number, validated: boolean) => void;
   onVerify: (index: number) => void;
@@ -18,13 +19,13 @@ export default function Credential(props: CredentialProps) {
   return (
     <Card elevation={3}>
       <CardHeader
-        title={`Signed Document ${props.index + 1}`}
+        title={`Verifiable Credential ${props.index + 1}`}
         titleTypographyProps={{ variant: "subtitle1" }}
         action={
           <Verify
             onVerify={() => props.onVerify(props.index)}
             status={
-              props.validated && props.value.trim() !== ""
+              props.validated && props.value.trim() !== "" && props.didDocumentsValidated
                 ? props.status
                 : "Disabled"
             }

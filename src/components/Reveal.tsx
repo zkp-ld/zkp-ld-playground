@@ -14,7 +14,7 @@ export default function Reveal(props: RevealProps) {
   return (
     <Card elevation={3}>
       <CardHeader
-        title={`Reveal Document ${props.index + 1}`}
+        title={`Redacted Credential ${props.index + 1}`}
         titleTypographyProps={{ variant: "subtitle1" }}
       />
       <CardContent>
