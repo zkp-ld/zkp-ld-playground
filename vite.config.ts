@@ -7,5 +7,8 @@ export default defineConfig({
   build: {
     outDir: "dist",
   },
-  base: './'
+  base: './',
+  resolve: {
+    preserveSymlinks: true,
+  }
 });
