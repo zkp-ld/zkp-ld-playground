@@ -16,7 +16,7 @@ import {
 import { createTheme, Theme } from "@mui/material/styles";
 import Warning from "@mui/icons-material/Warning";
 import { ThemeProvider } from "@emotion/react";
-import { verify, deriveProof, verifyProof } from '@zkp-ld/jsonld-proofs';
+import { verify, deriveProof, verifyProof } from "@zkp-ld/jsonld-proofs";
 
 import * as pack from "../package.json";
 import Issuer from "./components/Issuer";
@@ -24,9 +24,7 @@ import Holder from "./components/Holder";
 import Verifier from "./components/Verifier";
 import ModeSwitch from "./components/ModeSwitch";
 import Registry from "./components/Registry";
-import {
-  exampleKeyPairs,
-} from "./data/key";
+import { exampleKeyPairs } from "./data/key";
 import { exampleDIDDocs } from "./data/customDocumentLoader";
 
 export const CREDENTIAL_HEIGHT = "40vh";
@@ -36,7 +34,7 @@ const VP_CONTEXT = [
   "https://www.w3.org/2018/credentials/v1",
   "https://w3id.org/security/data-integrity/v1",
   "https://zkp-ld.org/bbs-termwise-2021.jsonld",
-  "https://schema.org"
+  "https://schema.org",
 ];
 
 const lightTheme = createTheme({
@@ -237,12 +235,15 @@ function App() {
 
   const handlePresent = async () => {
     try {
-      const vcWithDisclosedPairs = credsAndReveals.value
+      const vcPairs = credsAndReveals.value
         .filter((cr) => cr.checked)
-        .map((cr) => ({ vc: JSON.parse(cr.cred), disclosed: JSON.parse(cr.reveal) }));
+        .map((cr) => ({
+          original: JSON.parse(cr.cred),
+          disclosed: JSON.parse(cr.reveal),
+        }));
       const nonce = "NONCE"; // TODO: fix
       const dids = JSON.parse(didDocs);
-      const derivedProof = await deriveProof(vcWithDisclosedPairs, nonce, dids, VP_CONTEXT);
+      const derivedProof = await deriveProof(vcPairs, nonce, dids, VP_CONTEXT);
 
       setVP(JSON.stringify(derivedProof, null, 2));
       setVerificationStatus("Unverified");
@@ -352,8 +353,7 @@ function App() {
           />
         </Grid>
         <Divider orientation="vertical" flexItem sx={{ marginRight: "-1px" }} />
-        <Grid item xs={6}>
-        </Grid>
+        <Grid item xs={6}></Grid>
       </Grid>
       <Typography variant="body2" color="text.secondary" align="center">
         <Link
