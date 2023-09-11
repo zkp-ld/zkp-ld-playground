@@ -6,7 +6,7 @@ import multikeyV1Context from './contexts/multikey-v1.json';
 import schemaOrgContext from './contexts/schemaorg.json';
 
 export const DATA_INTEGRITY_CONTEXT =
-  'https://w3id.org/security/data-integrity/v1';
+  'https://www.w3.org/ns/data-integrity/v1';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const CONTEXTS: Record<string, any> = {
