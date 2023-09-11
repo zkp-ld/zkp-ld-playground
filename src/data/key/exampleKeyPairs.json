@@ -2,7 +2,7 @@
   {
     "@context": [
       "https://www.w3.org/ns/did/v1",
-      "https://w3id.org/security/data-integrity/v1",
+      "https://www.w3.org/ns/data-integrity/v1",
       "https://w3id.org/security/multikey/v1"
     ],
     "id": "did:example:issuer0",
@@ -17,7 +17,7 @@
   {
     "@context": [
       "https://www.w3.org/ns/did/v1",
-      "https://w3id.org/security/data-integrity/v1",
+      "https://www.w3.org/ns/data-integrity/v1",
       "https://w3id.org/security/multikey/v1"
     ],
     "id": "did:example:issuer1",
@@ -32,7 +32,7 @@
   {
     "@context": [
       "https://www.w3.org/ns/did/v1",
-      "https://w3id.org/security/data-integrity/v1",
+      "https://www.w3.org/ns/data-integrity/v1",
       "https://w3id.org/security/multikey/v1"
     ],
     "id": "did:example:issuer2",
@@ -47,7 +47,7 @@
   {
     "@context": [
       "https://www.w3.org/ns/did/v1",
-      "https://w3id.org/security/data-integrity/v1",
+      "https://www.w3.org/ns/data-integrity/v1",
       "https://w3id.org/security/multikey/v1"
     ],
     "id": "did:example:issuer3",
