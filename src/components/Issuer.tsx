@@ -17,6 +17,7 @@ import { sign } from "@zkp-ld/jsonld-proofs";
 import { ModeType } from "../App";
 import CredentialDraft from "./CredentialDraft";
 import { Person1, Person2, City, Place } from "../data/doc";
+import { DocumentLoader } from "@zkp-ld/jsonld-proofs/lib/types";
 
 export type IssuerProps = {
   onIssue: (issued: string) => void;
@@ -24,6 +25,7 @@ export type IssuerProps = {
   mode: ModeType;
   keyPairs: string;
   keyPairsValidated: boolean;
+  documentLoader: DocumentLoader;
 };
 
 export const exampleDocs: { [key: string]: {} } = {
@@ -49,7 +51,11 @@ export default function Issuer(props: IssuerProps) {
 
   const handleIssue = async () => {
     try {
-      const issuedVC = await sign(JSON.parse(doc), JSON.parse(props.keyPairs));
+      const issuedVC = await sign(
+        JSON.parse(doc),
+        JSON.parse(props.keyPairs),
+        props.documentLoader
+      );
       props.onIssue(JSON.stringify(issuedVC, null, 2));
     } catch (e: any) {
       setErr(e.message);
