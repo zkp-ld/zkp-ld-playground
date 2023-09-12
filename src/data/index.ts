@@ -1,7 +1,6 @@
-import {
-  customLoader,
-} from "./customDocumentLoader";
+import { CONTEXTS } from "./contexts";
+import { exampleDIDDocs } from "./didDocuments";
+import { customDocumentLoader } from "./documentLoader";
+import { exampleKeyPairs } from "./key";
 
-export {
-  customLoader,
-};
+export { CONTEXTS, exampleDIDDocs, customDocumentLoader, exampleKeyPairs };

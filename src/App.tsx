@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useMemo } from "react";
 import {
   Alert,
   AlertTitle,
@@ -24,8 +24,13 @@ import Holder from "./components/Holder";
 import Verifier from "./components/Verifier";
 import ModeSwitch from "./components/ModeSwitch";
 import Registry from "./components/Registry";
-import { exampleKeyPairs } from "./data/key";
-import { exampleDIDDocs } from "./data/customDocumentLoader";
+import {
+  customDocumentLoader,
+  exampleDIDDocs,
+  exampleKeyPairs,
+  CONTEXTS,
+} from "./data";
+import { JsonLd } from "jsonld/jsonld-spec";
 
 export const CREDENTIAL_HEIGHT = "40vh";
 const VERSION = `v${pack.version}`;
@@ -78,6 +83,11 @@ function App() {
   const [keyPairsValidated, setKeyPairsValidated] = useState(true);
   const [didDocs, setDIDDocs] = useState(exampleDIDDocs);
   const [didDocsValidated, setDIDDocsValidated] = useState(true);
+  const [contexts, setContexts] = useState(new Map(CONTEXTS));
+  const [contextsValidated, setContextsValidated] = useState(
+    new Map<string, boolean>(CONTEXTS.map(([k, _]) => [k, true]))
+  );
+  const [enableRemote, setEnableRemote] = useState(false);
   const [credsAndReveals, setCredsAndReveals] =
     useState<CredAndRevealArrayType>({
       lastIndex: 0,
@@ -94,6 +104,17 @@ function App() {
     mui: lightTheme,
     monaco: "light",
   });
+
+  const documentLoader = useMemo(() => {
+    const validatedContexts = [...contexts.entries()].filter(([k, _]) =>
+      contextsValidated.get(k)
+    );
+    const parsedValidatedContextsPairs: [string, JsonLd][] =
+      validatedContexts.map(([k, v]) => [k, JSON.parse(v) as JsonLd]);
+    const parsedValidatedContexts = new Map(parsedValidatedContextsPairs);
+
+    return customDocumentLoader(parsedValidatedContexts, enableRemote);
+  }, [didDocs, didDocsValidated, contexts, contextsValidated, enableRemote]);
 
   const handleErrClose = (_: any, reason: string) => {
     if (reason === "clickaway") {
@@ -204,6 +225,18 @@ function App() {
     setDIDDocsValidated(validated);
   };
 
+  const handleContextsChange = (id: string, value: string) => {
+    setContexts(new Map(contexts.set(id, value)));
+  };
+
+  const handleContextsValidate = (id: string, validated: boolean) => {
+    setContextsValidated(new Map(contextsValidated.set(id, validated)));
+  };
+
+  const handleContextsEnableRemoteChange = (value: boolean) => {
+    setEnableRemote(value);
+  };
+
   const handleDeleteCredAndReveal = (index: number) => {
     let newCredsAndReveals = { ...credsAndReveals };
     delete newCredsAndReveals.value[index];
@@ -215,7 +248,7 @@ function App() {
     try {
       const cred = JSON.parse(credsAndReveals.value[index].cred);
       const dids = JSON.parse(didDocs);
-      const result = await verify(cred, dids); // TODO: fix it
+      const result = await verify(cred, dids, documentLoader); // TODO: fix it
       console.log(result);
 
       if (result.verified === true) {
@@ -243,7 +276,13 @@ function App() {
         }));
       const nonce = "NONCE"; // TODO: fix
       const dids = JSON.parse(didDocs);
-      const derivedProof = await deriveProof(vcPairs, nonce, dids, VP_CONTEXT);
+      const derivedProof = await deriveProof(
+        vcPairs,
+        nonce,
+        dids,
+        VP_CONTEXT,
+        documentLoader
+      );
 
       setVP(JSON.stringify(derivedProof, null, 2));
       setVerificationStatus("Unverified");
@@ -262,7 +301,12 @@ function App() {
       const derivedProof = JSON.parse(vP);
       const nonce = "NONCE"; // TODO: fix
       const dids = JSON.parse(didDocs);
-      const result = await verifyProof(derivedProof, nonce, dids);
+      const result = await verifyProof(
+        derivedProof,
+        nonce,
+        dids,
+        documentLoader
+      );
       console.log(result);
       if (result.verified === true) {
         setVerificationStatus("Accepted");
@@ -303,6 +347,7 @@ function App() {
             mode={mode}
             keyPairs={keyPairs}
             keyPairsValidated={keyPairsValidated}
+            documentLoader={documentLoader}
           />
         </Grid>
         <Divider orientation="vertical" flexItem sx={{ marginRight: "-1px" }} />
@@ -345,10 +390,15 @@ function App() {
           <Registry
             keyPairs={keyPairs}
             didDocuments={didDocs}
+            contexts={contexts}
             onKeyPairsChange={handleKeyPairsChange}
             onKeyPairsValidate={handleKeyPairsValidate}
             onDIDDocumentsChange={handleDIDDocsChange}
             onDIDDocumentsValidate={handleDIDDocsValidate}
+            onContextsChange={handleContextsChange}
+            onContextsValidate={handleContextsValidate}
+            enableRemote={enableRemote}
+            onContextsEnableRemoteChange={handleContextsEnableRemoteChange}
             mode={mode}
           />
         </Grid>
