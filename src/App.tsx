@@ -1,19 +1,27 @@
-import { useState, ChangeEvent, useMemo } from "react";
+import { useState, ChangeEvent, MouseEvent, useMemo } from "react";
 import {
   Alert,
   AlertTitle,
   AppBar,
+  Box,
   Chip,
   CssBaseline,
   Divider,
   Grid,
+  IconButton,
+  Link,
   Snackbar,
   Toolbar,
   Typography,
   Tooltip,
   useMediaQuery,
+  ToggleButtonGroup,
+  ToggleButton,
 } from "@mui/material";
-import { createTheme, Theme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import GitHub from "@mui/icons-material/GitHub";
 import Warning from "@mui/icons-material/Warning";
 import { ThemeProvider } from "@emotion/react";
 import { verify, deriveProof, verifyProof } from "@zkp-ld/jsonld-proofs";
@@ -22,7 +30,6 @@ import * as pack from "../package.json";
 import Issuer from "./components/Issuer";
 import Holder from "./components/Holder";
 import Verifier from "./components/Verifier";
-import ModeSwitch from "./components/ModeSwitch";
 import Registry from "./components/Registry";
 import {
   customDocumentLoader,
@@ -33,7 +40,7 @@ import {
 import { JsonLd } from "jsonld/jsonld-spec";
 
 export const CREDENTIAL_HEIGHT = "40vh";
-const VERSION = `v${pack.version}`;
+const CURRENT_VERSION = `v${pack.version}`;
 
 const VP_CONTEXT = [
   "https://www.w3.org/2018/credentials/v1",
@@ -41,6 +48,7 @@ const VP_CONTEXT = [
   "https://schema.org",
 ];
 
+export type ModeType = "light" | "dark";
 const lightTheme = createTheme({
   palette: {
     mode: "light",
@@ -51,7 +59,6 @@ const darkTheme = createTheme({
     mode: "dark",
   },
 });
-export type ModeType = "light" | "dark";
 
 export type CredAndRevealArrayType = {
   lastIndex: number;
@@ -128,7 +135,11 @@ function App() {
     setErrOpen(false);
   };
 
-  const handleModeChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleModeChange = (e: MouseEvent<HTMLElement>, newMode: ModeType) => {
+    setMode(newMode);
+  };
+
+  const handleModeChangeOld = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       setMode("dark");
     } else {
@@ -331,25 +342,66 @@ function App() {
       <CssBaseline />
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            color="inherit"
+            component="div"
+            sx={{ mr: 1 }}
+          >
             ZKP-LD Playground
-            <Tooltip
-              title="Experimental: Do not use in production. Possibly be updated or closed
-        without notification."
-            >
-              <Warning color="warning" />
-            </Tooltip>
           </Typography>
-          <Chip
-            label={VERSION}
-            component="a"
-            href="https://github.com/zkp-ld/zkp-ld-playground/tree/v2"
-            clickable
-          />
-          <ModeSwitch
-            defaultChecked={mode === "dark"}
+
+          <Chip label={CURRENT_VERSION} sx={{ mr: 1 }} />
+
+          <Tooltip
+            title="Experimental: Do not use in production. Possibly be updated or closed
+        without notification."
+            sx={{ mr: 1 }}
+          >
+            <Warning color="warning" />
+          </Tooltip>
+
+          <Box sx={{ flexGrow: 1 }} />
+
+          <Tooltip title="go back to classic v1">
+            <Link
+              href="/v1"
+              target="_blank"
+              rel="noopener"
+              variant="body2"
+              sx={{ mr: 1 }}
+            >
+              classic
+            </Link>
+          </Tooltip>
+
+          <Tooltip title="GitHub repository" sx={{ mr: 1 }}>
+            <Link
+              href="https://github.com/zkp-ld/zkp-ld-playground/"
+              target="_blank"
+              rel="noopener"
+            >
+              <IconButton color="inherit">
+                <GitHub />
+              </IconButton>
+            </Link>
+          </Tooltip>
+
+          <ToggleButtonGroup
+            value={mode}
+            size="small"
+            color="primary"
+            exclusive
             onChange={handleModeChange}
-          />
+            aria-label="light or dark mode"
+          >
+            <ToggleButton value="light" aria-label="light mode">
+              <LightModeIcon />
+            </ToggleButton>
+            <ToggleButton value="dark" aria-label="dark mode">
+              <DarkModeIcon />
+            </ToggleButton>
+          </ToggleButtonGroup>
         </Toolbar>
       </AppBar>
       <Grid container>
