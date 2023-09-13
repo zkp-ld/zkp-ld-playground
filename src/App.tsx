@@ -342,7 +342,12 @@ function App() {
               <Warning color="warning" />
             </Tooltip>
           </Typography>
-          <Chip label={VERSION} />
+          <Chip
+            label={VERSION}
+            component="a"
+            href="https://github.com/zkp-ld/zkp-ld-playground/tree/v2"
+            clickable
+          />
           <ModeSwitch onChange={handleModeChange} />
         </Toolbar>
       </AppBar>
@@ -412,14 +417,6 @@ function App() {
         <Divider orientation="vertical" flexItem sx={{ marginRight: "-1px" }} />
         <Grid item xs={6}></Grid>
       </Grid>
-      <Typography variant="body2" color="text.secondary" align="center">
-        <Link
-          color="inherit"
-          href="https://github.com/zkp-ld/zkp-ld-playground/tree/v2"
-        >
-          Source code
-        </Link>
-      </Typography>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={errOpen}
