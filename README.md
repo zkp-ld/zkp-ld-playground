@@ -11,7 +11,7 @@
 - Based on a [forked extension](https://github.com/zkp-ld/jsonld-signatures-bbs) of MATTR's [jsonld-signatures-bbs](https://github.com/mattrglobal/jsonld-signatures-bbs)
 - Hosted at <https://playground.zkp-ld.org>
 
-## [v2](https://github.com/zkp-ld/zkp-ld-playground/tree/v2)
+## [v2](https://github.com/zkp-ld/zkp-ld-playground/)
 
 - Built on [jsonld-proofs](https://github.com/zkp-ld/jsonld-proofs), [rdf-proofs-wasm](https://github.com/zkp-ld/rdf-proofs-wasm), [rdf-proofs](https://github.com/zkp-ld/rdf-proofs), and [docknetwork/crypto](https://github.com/docknetwork/crypto)
 - Supports "user-friendly" selective disclosure (TODO: elaborate further)
