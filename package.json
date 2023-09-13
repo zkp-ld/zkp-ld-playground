@@ -1,9 +1,9 @@
 {
   "name": "zkp-ld-playground",
   "private": true,
-  "version": "2.3.1",
+  "version": "2.4.0",
   "type": "module",
-  "homepage": "https://playground.zkp-ld.org/v2/",
+  "homepage": "https://playground.zkp-ld.org/",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
