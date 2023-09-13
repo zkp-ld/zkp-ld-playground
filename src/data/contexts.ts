@@ -1,4 +1,3 @@
-import bbsTermwiseContext from "./contexts/bbs-termwise-2021.json";
 import credentialV1Context from "./contexts/credentials_v1.json";
 import dataIntegrityContext from "./contexts/data-integrity-v1.json";
 import didV1Context from "./contexts/did-v1.json";
@@ -6,7 +5,6 @@ import multikeyV1Context from "./contexts/multikey-v1.json";
 import schemaOrgContext from "./contexts/schemaorg.json";
 
 const _contexts: [string, any][] = [
-  ["https://zkp-ld.org/bbs-termwise-2021.jsonld", bbsTermwiseContext],
   ["https://www.w3.org/2018/credentials/v1", credentialV1Context],
   ["https://www.w3.org/ns/data-integrity/v1", dataIntegrityContext],
   ["https://www.w3.org/ns/did/v1", didV1Context],
