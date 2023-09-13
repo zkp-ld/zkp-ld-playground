@@ -11,7 +11,7 @@ import {
   Toolbar,
   Typography,
   Tooltip,
-  Link,
+  useMediaQuery,
 } from "@mui/material";
 import { createTheme, Theme } from "@mui/material/styles";
 import Warning from "@mui/icons-material/Warning";
@@ -51,10 +51,7 @@ const darkTheme = createTheme({
     mode: "dark",
   },
 });
-export type ModeType = {
-  mui: Theme;
-  monaco: "light" | "vs-dark";
-};
+export type ModeType = "light" | "dark";
 
 export type CredAndRevealArrayType = {
   lastIndex: number;
@@ -82,6 +79,8 @@ const defaultDocumentLoader = customDocumentLoader(
 );
 
 function App() {
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
   const [keyPairs, setKeyPairs] = useState(exampleKeyPairs);
   const [keyPairsValidated, setKeyPairsValidated] = useState(true);
   const [didDocs, setDIDDocs] = useState(exampleDIDDocs);
@@ -103,10 +102,9 @@ function App() {
   const [verifierOpen, setVerifierOpen] = useState(false);
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
-  const [mode, setMode] = useState<ModeType>({
-    mui: lightTheme,
-    monaco: "light",
-  });
+  const [mode, setMode] = useState(
+    prefersDarkMode ? ("dark" as ModeType) : ("light" as ModeType)
+  );
 
   const documentLoader = useMemo(() => {
     try {
@@ -132,9 +130,9 @@ function App() {
 
   const handleModeChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setMode({ mui: darkTheme, monaco: "vs-dark" });
+      setMode("dark");
     } else {
-      setMode({ mui: lightTheme, monaco: "light" });
+      setMode("light");
     }
   };
 
@@ -329,7 +327,7 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={mode.mui}>
+    <ThemeProvider theme={mode === "light" ? lightTheme : darkTheme}>
       <CssBaseline />
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar>
@@ -348,7 +346,10 @@ function App() {
             href="https://github.com/zkp-ld/zkp-ld-playground/tree/v2"
             clickable
           />
-          <ModeSwitch onChange={handleModeChange} />
+          <ModeSwitch
+            defaultChecked={mode === "dark"}
+            onChange={handleModeChange}
+          />
         </Toolbar>
       </AppBar>
       <Grid container>

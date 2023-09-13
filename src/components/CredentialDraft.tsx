@@ -49,7 +49,7 @@ export default function CredentialDraft(props: DocProps) {
               autoWidth
               style={{
                 color:
-                  props.mode.mui.palette.mode === "light"
+                  props.mode === "light"
                     ? "rgba(0,0,0,.85)"
                     : "rgba(255,255,255,0.85)",
               }}
@@ -68,8 +68,8 @@ export default function CredentialDraft(props: DocProps) {
           height="70vh"
           defaultLanguage="json"
           value={props.value}
-          theme={props.mode.monaco}
-          options={{ lineNumbers: 'off', minimap: { enabled: false } }}
+          theme={props.mode === "light" ? "light" : "vs-dark"}
+          options={{ lineNumbers: "off", minimap: { enabled: false } }}
           onChange={(value, _) => value && props.onChange(value)}
           onValidate={(markers) => props.onValidate(markers.length === 0)}
         />

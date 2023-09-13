@@ -81,7 +81,7 @@ export default function Contexts(props: ContextsProps) {
                   path={selected}
                   defaultLanguage="json"
                   defaultValue={props.contexts.get(selected)}
-                  theme={props.mode.monaco}
+                  theme={props.mode === "light" ? "light" : "vs-dark"}
                   options={{ lineNumbers: "off", minimap: { enabled: false } }}
                   onChange={(value, _) => value && handleChange(value)}
                   onValidate={(markers) => {

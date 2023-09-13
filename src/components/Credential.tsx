@@ -25,7 +25,9 @@ export default function Credential(props: CredentialProps) {
           <Verify
             onVerify={() => props.onVerify(props.index)}
             status={
-              props.validated && props.value.trim() !== "" && props.didDocumentsValidated
+              props.validated &&
+              props.value.trim() !== "" &&
+              props.didDocumentsValidated
                 ? props.status
                 : "Disabled"
             }
@@ -37,8 +39,8 @@ export default function Credential(props: CredentialProps) {
           height={CREDENTIAL_HEIGHT}
           defaultLanguage="json"
           defaultValue={props.value}
-          theme={props.mode.monaco}
-          options={{ lineNumbers: 'off', minimap: { enabled: false } }}
+          theme={props.mode === "light" ? "light" : "vs-dark"}
+          options={{ lineNumbers: "off", minimap: { enabled: false } }}
           onChange={(value, _) => value && props.onChange(props.index, value)}
           onValidate={(markers) =>
             props.onValidate(props.index, markers.length === 0)

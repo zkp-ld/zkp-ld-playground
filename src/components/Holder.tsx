@@ -67,9 +67,9 @@ export default function Holder(props: HolderProps) {
                 props.credsAndReveals.some(
                   (cr) =>
                     cr.checked && !(cr.credValidated && cr.revealValidated)
-                )
-                || props.credsAndReveals.every((cr) => !cr.checked)
-                || !props.didDocumentsValidated
+                ) ||
+                props.credsAndReveals.every((cr) => !cr.checked) ||
+                !props.didDocumentsValidated
               }
               sx={{ bgcolor: green[500], "&:hover": { bgcolor: green[600] } }}
             >

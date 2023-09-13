@@ -1,11 +1,5 @@
-import { useState } from "react";
 import Editor from "@monaco-editor/react";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  Box,
-} from "@mui/material";
+import { Card, CardHeader, CardContent, Box } from "@mui/material";
 
 import { ModeType } from "../App";
 
@@ -29,8 +23,8 @@ export default function DIDDocuments(props: DIDDocumentsProps) {
             height="76vh"
             defaultLanguage="json"
             value={props.value}
-            theme={props.mode.monaco}
-            options={{ lineNumbers: 'off', minimap: { enabled: false } }}
+            theme={props.mode === "light" ? "light" : "vs-dark"}
+            options={{ lineNumbers: "off", minimap: { enabled: false } }}
             onChange={(value, _) => value && props.onChange(value)}
             onValidate={(markers) => {
               props.onValidate(markers.length === 0);
