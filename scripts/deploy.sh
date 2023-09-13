@@ -12,4 +12,4 @@ git add v2
 git commit -m "Update v2"
 git push origin gh-pages
 
-git checkout v2
+git checkout main
