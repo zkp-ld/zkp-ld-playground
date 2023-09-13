@@ -43,7 +43,7 @@ export default function Contexts(props: ContextsProps) {
       <Box sx={{ padding: 1 }}>
         <Card elevation={3}>
           <CardHeader
-            title="Contexts"
+            title="Cached Contexts"
             titleTypographyProps={{ variant: "subtitle1" }}
             action={
               <FormControlLabel
@@ -56,7 +56,7 @@ export default function Contexts(props: ContextsProps) {
                     checked={props.enableRemote}
                   />
                 }
-                label="Fetch remote contexts"
+                label="Allow remote fetch if no cache"
               />
             }
           />

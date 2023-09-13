@@ -78,6 +78,10 @@ export type VerificationStatus =
   | "Unverified"
   | "Disabled";
 
+const defaultDocumentLoader = customDocumentLoader(
+  new Map(CONTEXTS.map(([k, v]) => [k, JSON.parse(v) as JsonLd]))
+);
+
 function App() {
   const [keyPairs, setKeyPairs] = useState(exampleKeyPairs);
   const [keyPairsValidated, setKeyPairsValidated] = useState(true);
@@ -106,15 +110,19 @@ function App() {
   });
 
   const documentLoader = useMemo(() => {
-    const validatedContexts = [...contexts.entries()].filter(([k, _]) =>
-      contextsValidated.get(k)
-    );
-    const parsedValidatedContextsPairs: [string, JsonLd][] =
-      validatedContexts.map(([k, v]) => [k, JSON.parse(v) as JsonLd]);
-    const parsedValidatedContexts = new Map(parsedValidatedContextsPairs);
+    try {
+      const validatedContexts = [...contexts.entries()].filter(([k, _]) =>
+        contextsValidated.get(k)
+      );
+      const parsedValidatedContextsPairs: [string, JsonLd][] =
+        validatedContexts.map(([k, v]) => [k, JSON.parse(v) as JsonLd]);
+      const parsedValidatedContexts = new Map(parsedValidatedContextsPairs);
 
-    return customDocumentLoader(parsedValidatedContexts, enableRemote);
-  }, [didDocs, didDocsValidated, contexts, contextsValidated, enableRemote]);
+      return customDocumentLoader(parsedValidatedContexts, enableRemote);
+    } catch {
+      return defaultDocumentLoader;
+    }
+  }, [contexts, contextsValidated, enableRemote]);
 
   const handleErrClose = (_: any, reason: string) => {
     if (reason === "clickaway") {
