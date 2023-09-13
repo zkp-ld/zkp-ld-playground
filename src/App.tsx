@@ -38,7 +38,6 @@ const VERSION = `v${pack.version}`;
 const VP_CONTEXT = [
   "https://www.w3.org/2018/credentials/v1",
   "https://www.w3.org/ns/data-integrity/v1",
-  "https://zkp-ld.org/bbs-termwise-2021.jsonld",
   "https://schema.org",
 ];
 
