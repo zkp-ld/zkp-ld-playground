@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://playground.zkp-ld.org",
+  "homepage": "https://playground.zkp-ld.org/v1/",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
