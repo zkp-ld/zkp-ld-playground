@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, MouseEvent, useMemo } from "react";
+import { useState, MouseEvent, useMemo } from "react";
 import {
   Alert,
   AlertTitle,
@@ -137,14 +137,6 @@ function App() {
 
   const handleModeChange = (e: MouseEvent<HTMLElement>, newMode: ModeType) => {
     setMode(newMode);
-  };
-
-  const handleModeChangeOld = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setMode("dark");
-    } else {
-      setMode("light");
-    }
   };
 
   const handleIssue = (issuedVC: string) => {
