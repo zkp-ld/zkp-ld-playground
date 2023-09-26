@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Avatar,
   Stack,
@@ -7,16 +8,27 @@ import {
   Typography,
   Button,
   Grid,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  TextField,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import Add from "@mui/icons-material/Add";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import TuneIcon from "@mui/icons-material/Tune";
 import CredAndReveal from "./CredAndReveal";
 import { CredAndRevealType, ModeType } from "../App";
 
 export type HolderProps = {
   credsAndReveals: CredAndRevealType[];
   didDocumentsValidated: boolean;
+  secret: string;
+  commitSecret: boolean;
+  blinding: string;
   onCredentialAdd: () => void;
   onCheckboxChange: (index: number, checked: boolean) => void;
   onCredentialChange: (index: number, value: string) => void;
@@ -27,10 +39,19 @@ export type HolderProps = {
   onPresent: () => void;
   onClick: () => void;
   onDeleteCredAndReveal: (index: number) => void;
+  onSecretChange: (value: string) => void;
+  onCommitSecretChange: (checked: boolean) => void;
   mode: ModeType;
 };
 
 export default function Holder(props: HolderProps) {
+  const handleSecretChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    props.onSecretChange(e.target.value);
+  };
+  const handleCommitSecretChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    props.onCommitSecretChange(e.target.checked);
+  };
+
   return (
     <Stack>
       <Box sx={{ display: "flex", margin: 1, alignItems: "center" }}>
@@ -63,14 +84,6 @@ export default function Holder(props: HolderProps) {
               variant="contained"
               aria-label="present"
               onClick={() => props.onPresent()}
-              disabled={
-                props.credsAndReveals.some(
-                  (cr) =>
-                    cr.checked && !(cr.credValidated && cr.revealValidated)
-                ) ||
-                props.credsAndReveals.every((cr) => !cr.checked) ||
-                !props.didDocumentsValidated
-              }
               sx={{ bgcolor: green[500], "&:hover": { bgcolor: green[600] } }}
             >
               Present
@@ -78,6 +91,40 @@ export default function Holder(props: HolderProps) {
           </span>
         </Tooltip>
       </Box>
+      <Accordion sx={{ margin: 2 }}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <TuneIcon sx={{ marginRight: "8px" }} /> Options
+        </AccordionSummary>
+        <AccordionDetails>
+          <Stack spacing={1}>
+            <TextField
+              label="Secret"
+              size="small"
+              value={props.secret}
+              onChange={handleSecretChange}
+              InputLabelProps={{ shrink: true }}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  inputProps={{ "aria-label": "controlled" }}
+                  checked={props.commitSecret}
+                  onChange={handleCommitSecretChange}
+                />
+              }
+              label="Include secret commitment in VP"
+            />
+            <TextField
+              label="Blinding"
+              size="small"
+              value={props.blinding}
+              InputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              helperText="auto-generated"
+            />
+          </Stack>
+        </AccordionDetails>
+      </Accordion>
       <Box sx={{ height: "76vh", overflow: "auto", padding: 2 }}>
         <Grid container spacing={2}>
           {props.credsAndReveals
