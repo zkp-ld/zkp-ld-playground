@@ -1,16 +1,24 @@
 import { useState } from "react";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Alert,
   AlertTitle,
   Avatar,
   Box,
   Button,
+  Checkbox,
+  FormControlLabel,
   Snackbar,
   Stack,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import TuneIcon from "@mui/icons-material/Tune";
 import { orange } from "@mui/material/colors";
 import { sign } from "@zkp-ld/jsonld-proofs";
 
@@ -18,9 +26,10 @@ import { ModeType } from "../App";
 import CredentialDraft from "./CredentialDraft";
 import { Person1, Person2, City, Place } from "../data/doc";
 import { DocumentLoader } from "@zkp-ld/jsonld-proofs/lib/types";
+import { blindSign } from "@zkp-ld/jsonld-proofs/lib/api";
 
 export type IssuerProps = {
-  onIssue: (issued: string) => void;
+  onIssue: (issued: string, isBlind: boolean) => void;
   onClick: () => void;
   mode: ModeType;
   keyPairs: string;
@@ -40,6 +49,8 @@ export default function Issuer(props: IssuerProps) {
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
   const [docValidated, setDocValidated] = useState(true);
+  const [commitment, setCommitment] = useState("");
+  const [isBlind, setIsBlind] = useState(false);
 
   const handleDocChange = (value: string) => {
     setDoc(value);
@@ -51,12 +62,19 @@ export default function Issuer(props: IssuerProps) {
 
   const handleIssue = async () => {
     try {
-      const issuedVC = await sign(
-        JSON.parse(doc),
-        JSON.parse(props.keyPairs),
-        props.documentLoader
-      );
-      props.onIssue(JSON.stringify(issuedVC, null, 2));
+      const issuedVC = isBlind
+        ? await blindSign(
+            commitment,
+            JSON.parse(doc),
+            JSON.parse(props.keyPairs),
+            props.documentLoader
+          )
+        : await sign(
+            JSON.parse(doc),
+            JSON.parse(props.keyPairs),
+            props.documentLoader
+          );
+      props.onIssue(JSON.stringify(issuedVC, null, 2), isBlind);
     } catch (e: any) {
       setErr(e.message);
       setErrOpen(true);
@@ -68,6 +86,16 @@ export default function Issuer(props: IssuerProps) {
       return;
     }
     setErrOpen(false);
+  };
+
+  const handleCommitmentChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setCommitment(e.target.value);
+  };
+
+  const handleIsBlindChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsBlind(e.target.checked);
   };
 
   return (
@@ -101,6 +129,32 @@ export default function Issuer(props: IssuerProps) {
           </Button>
         </Tooltip>
       </Box>
+      <Accordion sx={{ margin: 2 }}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <TuneIcon sx={{ marginRight: "8px" }} /> Options
+        </AccordionSummary>
+        <AccordionDetails>
+          <Stack spacing={1}>
+            <TextField
+              label="Commitment"
+              size="small"
+              value={commitment}
+              onChange={handleCommitmentChange}
+              InputLabelProps={{ shrink: true }}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  inputProps={{ "aria-label": "controlled" }}
+                  checked={isBlind}
+                  onChange={handleIsBlindChange}
+                />
+              }
+              label="Blindly issue with commitment"
+            />
+          </Stack>
+        </AccordionDetails>
+      </Accordion>
       <Box sx={{ padding: 2 }}>
         <CredentialDraft
           value={doc}

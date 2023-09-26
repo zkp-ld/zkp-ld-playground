@@ -1,4 +1,5 @@
 import { useState, MouseEvent, useMemo } from "react";
+import { JsonLd } from "jsonld/jsonld-spec";
 import {
   Alert,
   AlertTitle,
@@ -24,7 +25,13 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import GitHub from "@mui/icons-material/GitHub";
 import Warning from "@mui/icons-material/Warning";
 import { ThemeProvider } from "@emotion/react";
-import { verify, deriveProof, verifyProof } from "@zkp-ld/jsonld-proofs";
+import {
+  verify,
+  deriveProof,
+  verifyProof,
+  unblind,
+  blindVerify,
+} from "@zkp-ld/jsonld-proofs";
 
 import * as pack from "../package.json";
 import Issuer from "./components/Issuer";
@@ -37,15 +44,16 @@ import {
   exampleKeyPairs,
   CONTEXTS,
 } from "./data";
-import { JsonLd } from "jsonld/jsonld-spec";
 
-export const CREDENTIAL_HEIGHT = "40vh";
+const CRYPTOSUITE_BOUND_SIGN = "bbs-termwise-bound-signature-2023";
+export const CREDENTIAL_HEIGHT = "50vh";
 const CURRENT_VERSION = `v${pack.version}`;
 
 const VP_CONTEXT = [
   "https://www.w3.org/2018/credentials/v1",
   "https://www.w3.org/ns/data-integrity/v1",
   "https://schema.org",
+  "https://zkp-ld.org/context.jsonld",
 ];
 
 export type ModeType = "light" | "dark";
@@ -103,6 +111,14 @@ function App() {
       value: [],
     });
   const [vP, setVP] = useState("");
+  const [holderSecret, setHolderSecret] = useState("");
+  const [holderCommitSecret, setHolderCommitSecret] = useState(false);
+  const [holderBlinding, setHolderBlinding] = useState("");
+  const [verifierChallenge, setVerifierChallenge] = useState("shouldBeRandom");
+  const [verifierDomain, setVerifierDomain] = useState("example.org");
+  const [vpContext, setVpContext] = useState(
+    JSON.stringify(VP_CONTEXT, null, 2)
+  );
   const [verificationStatus, setVerificationStatus] =
     useState<VerificationStatus>("Unverified");
   const [issuerOpen, setIssuerOpen] = useState(true);
@@ -139,11 +155,20 @@ function App() {
     setMode(newMode);
   };
 
-  const handleIssue = (issuedVC: string) => {
+  const handleIssue = async (issuedVC: string, isBlind: boolean) => {
     let newCredsAndReveals = {
       ...credsAndReveals,
       lastIndex: credsAndReveals.lastIndex + 1,
     };
+
+    if (isBlind) {
+      const issuedVCObj = await unblind(
+        JSON.parse(issuedVC),
+        holderBlinding,
+        documentLoader
+      );
+      issuedVC = JSON.stringify(issuedVCObj, null, 2);
+    }
 
     newCredsAndReveals.value.push({
       index: credsAndReveals.lastIndex,
@@ -251,12 +276,39 @@ function App() {
     setCredsAndReveals(newCredsAndReveals);
   };
 
+  const handleHolderSecretChange = (value: string) => {
+    setHolderSecret(value);
+  };
+
+  const handleHolderCommitSecretChange = (checked: boolean) => {
+    setHolderCommitSecret(checked);
+  };
+
+  const handleVerifierChallengeChange = (value: string) => {
+    setVerifierChallenge(value);
+  };
+
+  const handleVerifierDomainChange = (value: string) => {
+    setVerifierDomain(value);
+  };
+
+  const handleVpContextChange = (value: string) => {
+    setVpContext(value);
+  };
+
   const handleVerifyCredential = async (index: number) => {
     const newCredsAndReveals = { ...credsAndReveals };
     try {
       const cred = JSON.parse(credsAndReveals.value[index].cred);
       const dids = JSON.parse(didDocs);
-      const result = await verify(cred, dids, documentLoader); // TODO: fix it
+
+      let result;
+      if (cred.proof.cryptosuite === CRYPTOSUITE_BOUND_SIGN) {
+        const secret = new Uint8Array(Buffer.from(holderSecret));
+        result = await blindVerify(secret, cred, dids, documentLoader);
+      } else {
+        result = await verify(cred, dids, documentLoader);
+      }
       console.log(result);
 
       if (result.verified === true) {
@@ -282,17 +334,25 @@ function App() {
           original: JSON.parse(cr.cred),
           disclosed: JSON.parse(cr.reveal),
         }));
-      const nonce = "NONCE"; // TODO: fix
-      const dids = JSON.parse(didDocs);
-      const derivedProof = await deriveProof(
+      const secret =
+        holderSecret !== ""
+          ? new Uint8Array(Buffer.from(holderSecret))
+          : undefined;
+      const { vp, blinding } = await deriveProof(
         vcPairs,
-        nonce,
-        dids,
-        VP_CONTEXT,
-        documentLoader
+        JSON.parse(didDocs),
+        JSON.parse(vpContext),
+        documentLoader,
+        verifierChallenge,
+        verifierDomain,
+        secret,
+        holderCommitSecret
       );
 
-      setVP(JSON.stringify(derivedProof, null, 2));
+      setVP(JSON.stringify(vp, null, 2));
+      if (blinding !== undefined) {
+        setHolderBlinding(blinding);
+      }
       setVerificationStatus("Unverified");
       setIssuerOpen(false);
       setVerifierOpen(true);
@@ -307,13 +367,13 @@ function App() {
   const handleVerifyProof = async () => {
     try {
       const derivedProof = JSON.parse(vP);
-      const nonce = "NONCE"; // TODO: fix
       const dids = JSON.parse(didDocs);
       const result = await verifyProof(
         derivedProof,
-        nonce,
         dids,
-        documentLoader
+        documentLoader,
+        verifierChallenge,
+        verifierDomain
       );
       console.log(result);
       if (result.verified === true) {
@@ -428,6 +488,11 @@ function App() {
               setVerifierOpen(false);
             }}
             onDeleteCredAndReveal={handleDeleteCredAndReveal}
+            secret={holderSecret}
+            commitSecret={holderCommitSecret}
+            blinding={holderBlinding}
+            onSecretChange={handleHolderSecretChange}
+            onCommitSecretChange={handleHolderCommitSecretChange}
             mode={mode}
           />
         </Grid>
@@ -436,10 +501,16 @@ function App() {
           <Verifier
             vP={vP}
             didDocumentsValidated={didDocsValidated}
+            vpContext={vpContext}
+            onVpContextChange={handleVpContextChange}
             onVerify={handleVerifyProof}
             status={verificationStatus}
             onChange={handlePresentationChange}
             onClick={() => setVerifierOpen(!verifierOpen)}
+            challenge={verifierChallenge}
+            domain={verifierDomain}
+            onChallengeChange={handleVerifierChallengeChange}
+            onDomainChange={handleVerifierDomainChange}
             mode={mode}
           />
         </Grid>
