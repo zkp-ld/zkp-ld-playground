@@ -44,6 +44,7 @@ import {
   exampleKeyPairs,
   CONTEXTS,
 } from "./data";
+import { requestBlindSign } from "@zkp-ld/jsonld-proofs/lib/api";
 
 const CRYPTOSUITE_BOUND_SIGN = "bbs-termwise-bound-signature-2023";
 export const CREDENTIAL_HEIGHT = "50vh";
@@ -113,6 +114,7 @@ function App() {
   const [vP, setVP] = useState("");
   const [holderSecret, setHolderSecret] = useState("");
   const [holderCommitSecret, setHolderCommitSecret] = useState(false);
+  const [holderCommitment, setHolderCommitment] = useState("");
   const [holderBlinding, setHolderBlinding] = useState("");
   const [verifierChallenge, setVerifierChallenge] = useState("shouldBeRandom");
   const [verifierDomain, setVerifierDomain] = useState("example.org");
@@ -284,6 +286,23 @@ function App() {
     setHolderCommitSecret(checked);
   };
 
+  const handleCommit = async () => {
+    try {
+      const secret = new Uint8Array(Buffer.from(holderSecret));
+      const { commitment, blinding } = await requestBlindSign(
+        secret,
+        undefined,
+        true
+      );
+      setHolderCommitment(commitment);
+      setHolderBlinding(blinding);
+    } catch (e: any) {
+      console.log(e);
+      setErr(e.message);
+      setErrOpen(true);
+    }
+  };
+
   const handleVerifierChallengeChange = (value: string) => {
     setVerifierChallenge(value);
   };
@@ -338,7 +357,12 @@ function App() {
         holderSecret !== ""
           ? new Uint8Array(Buffer.from(holderSecret))
           : undefined;
-      const { vp, blinding } = await deriveProof(
+
+      const blindSignRequest = holderCommitSecret
+        ? { commitment: holderCommitment, blinding: holderBlinding }
+        : undefined;
+
+      const vp = await deriveProof(
         vcPairs,
         JSON.parse(didDocs),
         JSON.parse(vpContext),
@@ -346,13 +370,10 @@ function App() {
         verifierChallenge,
         verifierDomain,
         secret,
-        holderCommitSecret
+        blindSignRequest
       );
 
       setVP(JSON.stringify(vp, null, 2));
-      if (blinding !== undefined) {
-        setHolderBlinding(blinding);
-      }
       setVerificationStatus("Unverified");
       setIssuerOpen(false);
       setVerifierOpen(true);
@@ -490,9 +511,11 @@ function App() {
             onDeleteCredAndReveal={handleDeleteCredAndReveal}
             secret={holderSecret}
             commitSecret={holderCommitSecret}
+            commitment={holderCommitment}
             blinding={holderBlinding}
             onSecretChange={handleHolderSecretChange}
             onCommitSecretChange={handleHolderCommitSecretChange}
+            onCommit={handleCommit}
             mode={mode}
           />
         </Grid>
@@ -537,6 +560,7 @@ function App() {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={errOpen}
         onClose={handleErrClose}
+        autoHideDuration={10000}
       >
         <Alert onClose={() => setErrOpen(false)} severity="error">
           <AlertTitle>Error</AlertTitle>
