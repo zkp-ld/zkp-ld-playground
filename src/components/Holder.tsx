@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Avatar,
   Stack,
@@ -28,6 +28,7 @@ export type HolderProps = {
   didDocumentsValidated: boolean;
   secret: string;
   commitSecret: boolean;
+  commitment: string;
   blinding: string;
   onCredentialAdd: () => void;
   onCheckboxChange: (index: number, checked: boolean) => void;
@@ -38,6 +39,7 @@ export type HolderProps = {
   onVerify: (index: number) => void;
   onPresent: () => void;
   onClick: () => void;
+  onCommit: () => void;
   onDeleteCredAndReveal: (index: number) => void;
   onSecretChange: (value: string) => void;
   onCommitSecretChange: (checked: boolean) => void;
@@ -96,13 +98,37 @@ export default function Holder(props: HolderProps) {
           <TuneIcon sx={{ marginRight: "8px" }} /> Options
         </AccordionSummary>
         <AccordionDetails>
-          <Stack spacing={1}>
+          <Stack spacing={2}>
             <TextField
               label="Secret"
               size="small"
               value={props.secret}
               onChange={handleSecretChange}
               InputLabelProps={{ shrink: true }}
+            />
+            <Button
+              variant="contained"
+              aria-label="commit"
+              onClick={() => props.onCommit()}
+              sx={{ bgcolor: green[500], "&:hover": { bgcolor: green[600] } }}
+            >
+              Commit
+            </Button>
+            <TextField
+              label="Commitment"
+              size="small"
+              value={props.commitment}
+              InputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              helperText="auto-generated"
+            />
+            <TextField
+              label="Blinding"
+              size="small"
+              value={props.blinding}
+              InputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+              helperText="auto-generated"
             />
             <FormControlLabel
               control={
@@ -112,15 +138,7 @@ export default function Holder(props: HolderProps) {
                   onChange={handleCommitSecretChange}
                 />
               }
-              label="Include secret commitment in VP"
-            />
-            <TextField
-              label="Blinding"
-              size="small"
-              value={props.blinding}
-              InputProps={{ readOnly: true }}
-              InputLabelProps={{ shrink: true }}
-              helperText="auto-generated"
+              label="Include commitment in VP"
             />
           </Stack>
         </AccordionDetails>
