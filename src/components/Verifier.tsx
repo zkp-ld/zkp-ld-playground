@@ -67,26 +67,24 @@ export default function Verifier(props: VerifierProps) {
             <Typography>Verifier</Typography>
           </Stack>
         </Button>
-        <Tooltip title="verify">
-          <Button
-            variant="contained"
-            aria-label="verify"
-            onClick={() => props.onVerify()}
-            disabled={
-              !validated || !vpContextValidated || !props.didDocumentsValidated
-            }
-            sx={{ bgcolor: blue[500], "&:hover": { bgcolor: blue[600] } }}
-          >
-            Verify
-          </Button>
-        </Tooltip>
+        <Button
+          variant="contained"
+          aria-label="verify"
+          onClick={() => props.onVerify()}
+          disabled={
+            !validated || !vpContextValidated || !props.didDocumentsValidated
+          }
+          sx={{ bgcolor: blue[500], "&:hover": { bgcolor: blue[600] } }}
+        >
+          Verify
+        </Button>
       </Box>
       <Accordion sx={{ margin: 2 }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <TuneIcon sx={{ marginRight: "8px" }} /> Options
         </AccordionSummary>
         <AccordionDetails>
-          <Stack spacing={1}>
+          <Stack spacing={2}>
             <Tooltip
               title="Specify the challenge (a one-time random string) that the Holder should use when creating their blind sign request, which will be embedded within the Verifiable Presentation."
               sx={{ mr: 1 }}

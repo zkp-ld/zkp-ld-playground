@@ -132,24 +132,22 @@ export default function Issuer(props: IssuerProps) {
             <Typography>Issuer</Typography>
           </Stack>
         </Button>
-        <Tooltip title="issue">
-          <Button
-            variant="contained"
-            aria-label="issue"
-            onClick={handleIssue}
-            disabled={!docValidated || !props.keyPairsValidated}
-            sx={{ bgcolor: orange[500], "&:hover": { bgcolor: orange[600] } }}
-          >
-            Issue
-          </Button>
-        </Tooltip>
+        <Button
+          variant="contained"
+          aria-label="issue"
+          onClick={handleIssue}
+          disabled={!docValidated || !props.keyPairsValidated}
+          sx={{ bgcolor: orange[500], "&:hover": { bgcolor: orange[600] } }}
+        >
+          Issue
+        </Button>
       </Box>
       <Accordion sx={{ margin: 2 }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <TuneIcon sx={{ marginRight: "8px" }} /> Options
         </AccordionSummary>
         <AccordionDetails>
-          <Stack spacing={1}>
+          <Stack spacing={2}>
             <Tooltip
               title="Specify the challenge (a one-time random string) that the Holder should use when creating their blind sign request."
               sx={{ mr: 1 }}
