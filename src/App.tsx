@@ -131,6 +131,7 @@ function App() {
     });
   const [vP, setVP] = useState("");
   const [holderSecret, setHolderSecret] = useState("");
+  const [holderWithPpid, setHolderWithPpid] = useState(false);
   const [holderCommitSecret, setHolderCommitSecret] = useState(false);
   const [holderCommitment, setHolderCommitment] = useState("");
   const [holderBlinding, setHolderBlinding] = useState("");
@@ -307,6 +308,10 @@ function App() {
     setHolderCommitSecret(checked);
   };
 
+  const handleHolderWithPpidChange = (checked: boolean) => {
+    setHolderWithPpid(checked);
+  };
+
   const handleCommit = async () => {
     try {
       const secret = new Uint8Array(Buffer.from(holderSecret));
@@ -398,7 +403,8 @@ function App() {
         verifierChallenge,
         verifierDomain,
         secret,
-        blindSignRequest
+        blindSignRequest,
+        holderWithPpid
       );
 
       setVP(JSON.stringify(vp, null, 2));
@@ -542,11 +548,13 @@ function App() {
             }}
             onDeleteCredAndReveal={handleDeleteCredAndReveal}
             secret={holderSecret}
+            withPpid={holderWithPpid}
             commitSecret={holderCommitSecret}
             commitment={holderCommitment}
             blinding={holderBlinding}
             pokForCommitment={holderPokForCommitment}
             onSecretChange={handleHolderSecretChange}
+            onWithPpidChange={handleHolderWithPpidChange}
             onCommitSecretChange={handleHolderCommitSecretChange}
             onCommit={handleCommit}
             mode={mode}

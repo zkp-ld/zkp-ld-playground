@@ -31,6 +31,7 @@ export type HolderProps = {
   commitment: string;
   blinding: string;
   pokForCommitment: string;
+  withPpid: boolean;
   onCredentialAdd: () => void;
   onCheckboxChange: (index: number, checked: boolean) => void;
   onCredentialChange: (index: number, value: string) => void;
@@ -44,12 +45,16 @@ export type HolderProps = {
   onDeleteCredAndReveal: (index: number) => void;
   onSecretChange: (value: string) => void;
   onCommitSecretChange: (checked: boolean) => void;
+  onWithPpidChange: (checked: boolean) => void;
   mode: ModeType;
 };
 
 export default function Holder(props: HolderProps) {
   const handleSecretChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     props.onSecretChange(e.target.value);
+  };
+  const handleWithPpidChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    props.onWithPpidChange(e.target.checked);
   };
   const handleCommitSecretChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.onCommitSecretChange(e.target.checked);
@@ -109,6 +114,16 @@ export default function Holder(props: HolderProps) {
                 InputLabelProps={{ shrink: true }}
               />
             </Tooltip>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  inputProps={{ "aria-label": "controlled" }}
+                  checked={props.withPpid}
+                  onChange={handleWithPpidChange}
+                />
+              }
+              label="Include PPID in VP"
+            />
             <Tooltip title="To have the Issuer issue a bound credential, press the 'commit' button to generate a blind sign request.">
               <Button
                 variant="contained"
