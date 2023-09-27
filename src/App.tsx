@@ -31,6 +31,7 @@ import {
   verifyProof,
   unblind,
   blindVerify,
+  requestBlindSign,
 } from "@zkp-ld/jsonld-proofs";
 
 import * as pack from "../package.json";
@@ -44,7 +45,6 @@ import {
   exampleKeyPairs,
   CONTEXTS,
 } from "./data";
-import { requestBlindSign } from "@zkp-ld/jsonld-proofs/lib/api";
 
 const CRYPTOSUITE_BOUND_SIGN = "bbs-termwise-bound-signature-2023";
 export const CREDENTIAL_HEIGHT = "50vh";
@@ -116,7 +116,10 @@ function App() {
   const [holderCommitSecret, setHolderCommitSecret] = useState(false);
   const [holderCommitment, setHolderCommitment] = useState("");
   const [holderBlinding, setHolderBlinding] = useState("");
-  const [verifierChallenge, setVerifierChallenge] = useState("shouldBeRandom");
+  const [holderPokForCommitment, setHolderPokForCommitment] = useState("");
+  const [issuerChallenge, setIssuerChallenge] = useState("issuerChallenge");
+  const [verifierChallenge, setVerifierChallenge] =
+    useState("verifierChallenge");
   const [verifierDomain, setVerifierDomain] = useState("example.org");
   const [vpContext, setVpContext] = useState(
     JSON.stringify(VP_CONTEXT, null, 2)
@@ -289,18 +292,25 @@ function App() {
   const handleCommit = async () => {
     try {
       const secret = new Uint8Array(Buffer.from(holderSecret));
-      const { commitment, blinding } = await requestBlindSign(
+      const { commitment, blinding, pokForCommitment } = await requestBlindSign(
         secret,
-        undefined,
-        true
+        issuerChallenge
       );
+      if (pokForCommitment === undefined) {
+        throw Error;
+      }
       setHolderCommitment(commitment);
       setHolderBlinding(blinding);
+      setHolderPokForCommitment(pokForCommitment);
     } catch (e: any) {
       console.log(e);
       setErr(e.message);
       setErrOpen(true);
     }
+  };
+
+  const handleIssuerChallengeChange = (value: string) => {
+    setIssuerChallenge(value);
   };
 
   const handleVerifierChallengeChange = (value: string) => {
@@ -480,8 +490,12 @@ function App() {
       <Grid container>
         <Grid item xs={issuerOpen ? 4 : 1}>
           <Issuer
-            onClick={() => setIssuerOpen(!issuerOpen)}
             onIssue={handleIssue}
+            onClick={() => setIssuerOpen(!issuerOpen)}
+            onChallengeChange={handleIssuerChallengeChange}
+            challenge={issuerChallenge}
+            commitment={holderCommitment}
+            pokForCommitment={holderPokForCommitment}
             mode={mode}
             keyPairs={keyPairs}
             keyPairsValidated={keyPairsValidated}
@@ -513,6 +527,7 @@ function App() {
             commitSecret={holderCommitSecret}
             commitment={holderCommitment}
             blinding={holderBlinding}
+            pokForCommitment={holderPokForCommitment}
             onSecretChange={handleHolderSecretChange}
             onCommitSecretChange={handleHolderCommitSecretChange}
             onCommit={handleCommit}

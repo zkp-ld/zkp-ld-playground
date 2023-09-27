@@ -30,6 +30,7 @@ export type HolderProps = {
   commitSecret: boolean;
   commitment: string;
   blinding: string;
+  pokForCommitment: string;
   onCredentialAdd: () => void;
   onCheckboxChange: (index: number, checked: boolean) => void;
   onCredentialChange: (index: number, value: string) => void;
@@ -80,7 +81,7 @@ export default function Holder(props: HolderProps) {
             <Typography>Holder</Typography>
           </Stack>
         </Button>
-        <Tooltip title="present">
+        <Tooltip title="Compose a verifiable presentation from the checked verifiable credentials.">
           <span>
             <Button
               variant="contained"
@@ -99,28 +100,38 @@ export default function Holder(props: HolderProps) {
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2}>
-            <TextField
-              label="Secret"
-              size="small"
-              value={props.secret}
-              onChange={handleSecretChange}
-              InputLabelProps={{ shrink: true }}
-            />
-            <Button
-              variant="contained"
-              aria-label="commit"
-              onClick={() => props.onCommit()}
-              sx={{ bgcolor: green[500], "&:hover": { bgcolor: green[600] } }}
-            >
-              Commit
-            </Button>
+            <Tooltip title="A secret known only to the Holder. By embedding it within the bound credential, it prevents others who do not know the secret from presenting the credential.">
+              <TextField
+                label="Secret"
+                size="small"
+                value={props.secret}
+                onChange={handleSecretChange}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Tooltip>
+            <Tooltip title="To have the Issuer issue a bound credential, press the 'commit' button to generate a blind sign request.">
+              <Button
+                variant="contained"
+                aria-label="generate blind sign request"
+                onClick={() => props.onCommit()}
+                sx={{ bgcolor: green[500], "&:hover": { bgcolor: green[600] } }}
+              >
+                generate blind sign request
+              </Button>
+            </Tooltip>
             <TextField
               label="Commitment"
               size="small"
               value={props.commitment}
               InputProps={{ readOnly: true }}
               InputLabelProps={{ shrink: true }}
-              helperText="auto-generated"
+            />
+            <TextField
+              label="Proof for commitment"
+              size="small"
+              value={props.pokForCommitment}
+              InputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
             />
             <TextField
               label="Blinding"
@@ -128,7 +139,6 @@ export default function Holder(props: HolderProps) {
               value={props.blinding}
               InputProps={{ readOnly: true }}
               InputLabelProps={{ shrink: true }}
-              helperText="auto-generated"
             />
             <FormControlLabel
               control={
@@ -138,7 +148,7 @@ export default function Holder(props: HolderProps) {
                   onChange={handleCommitSecretChange}
                 />
               }
-              label="Include commitment in VP"
+              label="Include blind sign request in VP"
             />
           </Stack>
         </AccordionDetails>
