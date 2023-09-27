@@ -4,19 +4,20 @@
     "https://www.w3.org/ns/data-integrity/v1",
     "https://schema.org"
   ],
-  "id": "http://example.org/credentials/place/1",
+  "id": "http://example.org/credentials/person/3",
   "type": "VerifiableCredential",
   "issuer": "did:example:issuer3",
   "issuanceDate": "2023-01-01T00:00:00Z",
   "expirationDate": "2026-01-01T00:00:00Z",
   "credentialSubject": {
-    "id": "did:example:area1",
-    "type": "Place",
-    "name": "Area1",
-    "ownedBy": {
-      "id": "did:example:holder1"
-    },
-    "area": 300
+    "id": "did:example:jane",
+    "type": "Person",
+    "givenName": "Jane",
+    "familyName": "Doe",
+    "birthDate": "1990-12-31",
+    "knows": {
+      "id": "did:example:john"
+    }
   },
   "proof": {
     "type": "DataIntegrityProof",

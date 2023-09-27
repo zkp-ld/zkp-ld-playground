@@ -24,7 +24,7 @@ import { sign } from "@zkp-ld/jsonld-proofs";
 
 import { ModeType } from "../App";
 import CredentialDraft from "./CredentialDraft";
-import { Person1, Person2, City, Place } from "../data/doc";
+import { Person1, Person2, Person3, City, Place } from "../data/doc";
 import { DocumentLoader } from "@zkp-ld/jsonld-proofs/lib/types";
 import { blindSign } from "@zkp-ld/jsonld-proofs/lib/api";
 
@@ -37,12 +37,13 @@ export type IssuerProps = {
   documentLoader: DocumentLoader;
 };
 
-export const exampleDocs: { [key: string]: {} } = {
-  Person1: Person1,
-  Person2: Person2,
-  City: City,
-  Place: Place,
-};
+export const exampleDocs = new Map<string, Object>([
+  ["Person1", Person1],
+  ["City", City],
+  ["Person2", Person2],
+  ["Person3", Person3],
+  ["Place", Place],
+]);
 
 export default function Issuer(props: IssuerProps) {
   const [doc, setDoc] = useState("");

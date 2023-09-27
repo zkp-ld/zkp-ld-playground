@@ -54,7 +54,7 @@ export default function CredentialDraft(props: DocProps) {
                     : "rgba(255,255,255,0.85)",
               }}
             >
-              {Object.keys(exampleDocs).map((k) => (
+              {Array.from(exampleDocs.keys()).map((k) => (
                 <MenuItem key={k} value={k}>
                   {k}
                 </MenuItem>
