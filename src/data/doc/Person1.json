@@ -4,7 +4,7 @@
     "https://www.w3.org/ns/data-integrity/v1",
     "https://schema.org"
   ],
-  "id": "http://example.org/credentials/1/1",
+  "id": "http://example.org/credentials/person/0",
   "type": "VerifiableCredential",
   "issuer": "did:example:issuer0",
   "issuanceDate": "2023-01-01T00:00:00Z",
