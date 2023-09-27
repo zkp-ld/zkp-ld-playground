@@ -87,13 +87,18 @@ export default function Verifier(props: VerifierProps) {
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={1}>
-            <TextField
-              label="Challenge"
-              size="small"
-              value={props.challenge}
-              onChange={handleChallengeChange}
-              InputLabelProps={{ shrink: true }}
-            />
+            <Tooltip
+              title="Specify the challenge (a one-time random string) that the Holder should use when creating their blind sign request, which will be embedded within the Verifiable Presentation."
+              sx={{ mr: 1 }}
+            >
+              <TextField
+                label="Challenge"
+                size="small"
+                value={props.challenge}
+                onChange={handleChallengeChange}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Tooltip>
             <TextField
               label="Domain"
               size="small"

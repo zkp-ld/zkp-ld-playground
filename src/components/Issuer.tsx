@@ -20,17 +20,20 @@ import CreateIcon from "@mui/icons-material/Create";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TuneIcon from "@mui/icons-material/Tune";
 import { orange } from "@mui/material/colors";
-import { sign } from "@zkp-ld/jsonld-proofs";
+import { sign, blindSign, verifyBlindSignRequest } from "@zkp-ld/jsonld-proofs";
 
 import { ModeType } from "../App";
 import CredentialDraft from "./CredentialDraft";
 import { Person1, Person2, Person3, City, Place } from "../data/doc";
 import { DocumentLoader } from "@zkp-ld/jsonld-proofs/lib/types";
-import { blindSign } from "@zkp-ld/jsonld-proofs/lib/api";
 
 export type IssuerProps = {
   onIssue: (issued: string, isBlind: boolean) => void;
   onClick: () => void;
+  onChallengeChange: (value: string) => void;
+  challenge: string;
+  commitment: string;
+  pokForCommitment: string;
   mode: ModeType;
   keyPairs: string;
   keyPairsValidated: boolean;
@@ -50,7 +53,6 @@ export default function Issuer(props: IssuerProps) {
   const [err, setErr] = useState("");
   const [errOpen, setErrOpen] = useState(false);
   const [docValidated, setDocValidated] = useState(true);
-  const [commitment, setCommitment] = useState("");
   const [isBlind, setIsBlind] = useState(false);
 
   const handleDocChange = (value: string) => {
@@ -58,18 +60,13 @@ export default function Issuer(props: IssuerProps) {
   };
 
   const handleExampleChange = (value: string) => {
-    setDoc(JSON.stringify(exampleDocs[value], null, 2));
+    setDoc(JSON.stringify(exampleDocs.get(value), null, 2));
   };
 
   const handleIssue = async () => {
     try {
       const issuedVC = isBlind
-        ? await blindSign(
-            commitment,
-            JSON.parse(doc),
-            JSON.parse(props.keyPairs),
-            props.documentLoader
-          )
+        ? await handleBlindIssue()
         : await sign(
             JSON.parse(doc),
             JSON.parse(props.keyPairs),
@@ -82,17 +79,34 @@ export default function Issuer(props: IssuerProps) {
     }
   };
 
+  const handleBlindIssue = async () => {
+    const verified = await verifyBlindSignRequest(
+      props.commitment,
+      props.pokForCommitment,
+      props.challenge
+    );
+    if (verified.verified === false && verified.error) {
+      setErr(verified.error);
+      setErrOpen(true);
+    } else {
+      return await blindSign(
+        props.commitment,
+        JSON.parse(doc),
+        JSON.parse(props.keyPairs),
+        props.documentLoader
+      );
+    }
+  };
+
+  const handleChallengeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    props.onChallengeChange(e.target.value);
+  };
+
   const handleErrClose = (_: any, reason: string) => {
     if (reason === "clickaway") {
       return;
     }
     setErrOpen(false);
-  };
-
-  const handleCommitmentChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setCommitment(e.target.value);
   };
 
   const handleIsBlindChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,11 +150,30 @@ export default function Issuer(props: IssuerProps) {
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={1}>
+            <Tooltip
+              title="Specify the challenge (a one-time random string) that the Holder should use when creating their blind sign request."
+              sx={{ mr: 1 }}
+            >
+              <TextField
+                label="Challenge"
+                size="small"
+                value={props.challenge}
+                onChange={handleChallengeChange}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Tooltip>
             <TextField
               label="Commitment"
               size="small"
-              value={commitment}
-              onChange={handleCommitmentChange}
+              value={props.commitment}
+              InputProps={{ readOnly: true }}
+              InputLabelProps={{ shrink: true }}
+            />
+            <TextField
+              label="Proof for commitment"
+              size="small"
+              value={props.pokForCommitment}
+              InputProps={{ readOnly: true }}
               InputLabelProps={{ shrink: true }}
             />
             <FormControlLabel
@@ -151,7 +184,7 @@ export default function Issuer(props: IssuerProps) {
                   onChange={handleIsBlindChange}
                 />
               }
-              label="Blindly issue with commitment"
+              label="Issue with blind sign request"
             />
           </Stack>
         </AccordionDetails>
