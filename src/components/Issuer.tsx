@@ -24,8 +24,8 @@ import { sign, blindSign, verifyBlindSignRequest } from "@zkp-ld/jsonld-proofs";
 
 import { ModeType } from "../App";
 import CredentialDraft from "./CredentialDraft";
-import { Person1, Person2, Person3, City, Place } from "../data/doc";
 import { DocumentLoader } from "@zkp-ld/jsonld-proofs/lib/types";
+import { exampleDocs } from "../data/doc";
 
 export type IssuerProps = {
   onIssue: (issued: string, isBlind: boolean) => void;
@@ -39,14 +39,6 @@ export type IssuerProps = {
   keyPairsValidated: boolean;
   documentLoader: DocumentLoader;
 };
-
-export const exampleDocs = new Map<string, Object>([
-  ["Person1", Person1],
-  ["City", City],
-  ["Person2", Person2],
-  ["Person3", Person3],
-  ["Place", Place],
-]);
 
 export default function Issuer(props: IssuerProps) {
   const [doc, setDoc] = useState("");

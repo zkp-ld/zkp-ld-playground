@@ -2,26 +2,38 @@
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
     "https://www.w3.org/ns/data-integrity/v1",
-    "https://schema.org"
+    "https://schema.org",
+    {
+      "vaccinationDate": {
+        "@id": "http://example.org/vocab/vaccinationDate",
+        "@type": "xsd:dateTime"
+      },
+      "vaccine": {
+        "@id": "http://example.org/vocab/vaccine",
+        "@type": "@id"
+      },
+      "@vocab": "http://example.org/vocab/"
+    }
   ],
-  "id": "http://example.org/credentials/person/3",
+  "id": "http://example.org/credentials/vacvc/0",
   "type": "VerifiableCredential",
-  "issuer": "did:example:issuer3",
-  "issuanceDate": "2023-01-01T00:00:00Z",
-  "expirationDate": "2026-01-01T00:00:00Z",
+  "issuer": "did:example:issuer0",
+  "issuanceDate": "2023-10-01T12:30:00Z",
+  "expirationDate": "2025-10-01T12:30:00Z",
   "credentialSubject": {
-    "id": "did:example:jane",
+    "id": "did:example:john",
     "type": "Person",
-    "givenName": "Jane",
-    "familyName": "Doe",
-    "birthDate": "1990-12-31",
-    "knows": {
-      "id": "did:example:john"
+    "givenName": "John",
+    "isPatientOf": {
+      "type": "Immunization",
+      "vaccinationDate": "2023-10-01T12:00:00Z",
+      "lotNumber": "9999999",
+      "vaccine": "http://vaccine.example.org/code#123"
     }
   },
   "proof": {
     "type": "DataIntegrityProof",
     "proofPurpose": "assertionMethod",
-    "verificationMethod": "did:example:issuer3#bls12_381-g2-pub001"
+    "verificationMethod": "did:example:issuer0#bls12_381-g2-pub001"
   }
 }

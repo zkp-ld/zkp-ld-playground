@@ -1,0 +1,27 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://www.w3.org/ns/data-integrity/v1",
+    "https://schema.org",
+    {
+      "@vocab": "http://example.org/vocab/"
+    }
+  ],
+  "id": "http://example.org/vaccineSpec/1",
+  "type": "VerifiableCredential",
+  "issuer": "did:example:issuer1",
+  "issuanceDate": "2023-01-01T00:00:00Z",
+  "expirationDate": "2026-01-01T00:00:00Z",
+  "credentialSubject": {
+    "id": "http://vaccine.example.org/code#123",
+    "type": "Vaccine",
+    "name": "Awesome Vaccine",
+    "manufacturer": "Example.com",
+    "status": "authorized"
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "proofPurpose": "assertionMethod",
+    "verificationMethod": "did:example:issuer1#bls12_381-g2-pub001"
+  }
+}

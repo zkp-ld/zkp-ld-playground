@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { ModeType } from "../App";
-import { exampleDocs } from "./Issuer";
+import { exampleDocs } from "../data/doc";
 
 export type DocProps = {
   value: string;
