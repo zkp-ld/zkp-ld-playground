@@ -466,6 +466,11 @@ function App() {
             <Chip label={CURRENT_VERSION} sx={{ mr: 1 }} />
           </Link>
 
+          <Warning color="warning" />
+          <Typography variant="subtitle2">
+            Experimental: Not for production. May change or shut down without
+            notice.
+          </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
