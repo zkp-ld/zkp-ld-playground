@@ -459,7 +459,7 @@ function App() {
           </Typography>
 
           <Link
-            href="https://github.com/zkp-ld/zkp-ld-playground/CHANGELOG.md"
+            href="https://github.com/zkp-ld/zkp-ld-playground/blob/main/CHANGELOG.md"
             target="_blank"
             rel="noopener noreferer"
           >
