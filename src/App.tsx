@@ -458,15 +458,14 @@ function App() {
             ZKP-LD Playground
           </Typography>
 
-          <Chip label={CURRENT_VERSION} sx={{ mr: 1 }} />
-
-          <Tooltip
-            title="Experimental: Do not use in production. Possibly be updated or closed
-        without notification."
-            sx={{ mr: 1 }}
+          <Link
+            href="https://github.com/zkp-ld/zkp-ld-playground/CHANGELOG.md"
+            target="_blank"
+            rel="noopener noreferer"
           >
-            <Warning color="warning" />
-          </Tooltip>
+            <Chip label={CURRENT_VERSION} sx={{ mr: 1 }} />
+          </Link>
+
 
           <Box sx={{ flexGrow: 1 }} />
 
