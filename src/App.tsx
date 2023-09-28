@@ -474,7 +474,7 @@ function App() {
             <Link
               href="/v1"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferer"
               variant="body2"
               sx={{ mr: 1 }}
             >
@@ -486,7 +486,7 @@ function App() {
             <Link
               href="https://github.com/zkp-ld/zkp-ld-playground/"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferer"
             >
               <IconButton color="inherit">
                 <GitHub />
