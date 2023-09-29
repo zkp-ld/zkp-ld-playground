@@ -10,7 +10,7 @@ const _contexts: [string, any][] = [
   ["https://www.w3.org/ns/data-integrity/v1", dataIntegrityContext],
   ["https://www.w3.org/ns/did/v1", didV1Context],
   ["https://w3id.org/security/multikey/v1", multikeyV1Context],
-  ["https://schema.org", schemaOrgContext],
+  ["https://schema.org/", schemaOrgContext],
   ["https://zkp-ld.org/context.jsonld", zkpldContext],
 ];
 

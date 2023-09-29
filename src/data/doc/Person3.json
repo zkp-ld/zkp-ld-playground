@@ -2,7 +2,7 @@
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
     "https://www.w3.org/ns/data-integrity/v1",
-    "https://schema.org",
+    "https://schema.org/",
     {
       "vaccinationDate": {
         "@id": "http://example.org/vocab/vaccinationDate",

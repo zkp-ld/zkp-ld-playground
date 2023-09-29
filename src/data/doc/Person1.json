@@ -2,7 +2,7 @@
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
     "https://www.w3.org/ns/data-integrity/v1",
-    "https://schema.org"
+    "https://schema.org/"
   ],
   "id": "http://example.org/credentials/person/0",
   "type": "VerifiableCredential",
