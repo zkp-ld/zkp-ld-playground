@@ -1,0 +1,39 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://www.w3.org/ns/data-integrity/v1",
+    "https://schema.org/",
+    "https://zkp-ld.org/context.jsonld",
+    {
+      "children": {
+        "@id": "http://example.org/children"
+      },
+      "childrenList": {
+        "@id": "http://example.org/childrenList",
+        "@container": "@list"
+      }
+    }
+  ],
+  "id": "http://example.org/credentials/PersonWithChildren/1",
+  "type": "VerifiableCredential",
+  "issuer": "did:example:issuer2",
+  "issuanceDate": "2023-07-07T00:00:00Z",
+  "expirationDate": "2026-07-07T00:00:00Z",
+  "credentialSubject": {
+    "children": [
+      "Alice",
+      "Bob",
+      "Charlie"
+    ],
+    "childrenList": [
+      "Alice",
+      "Bob",
+      "Charlie"
+    ]
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "proofPurpose": "assertionMethod",
+    "verificationMethod": "did:example:issuer2#bls12_381-g2-pub001"
+  }
+}
