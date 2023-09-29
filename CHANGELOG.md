@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.1] - 2023-09-29
+
+### Fixed
+
+- Upgrade the underlying `jsonld-proofs` to enable selective disclosure for `@set` and `@list`
+  - now you can just remove elements in `@set`, whereas use a bnode id like `_:abc` to unreveal an element in `@list`
+
 ## [2.6.0] - 2023-09-28
 
 ### Added
