@@ -2,7 +2,7 @@ import { Checkbox, Grid, IconButton, Stack, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Credential from "./Credential";
 import Reveal from "./Reveal";
-import { CredAndRevealType, ModeType } from "../App";
+import { CredAndRevealType, ModeType, TOOLTIP_ENTERDELAY } from "../App";
 
 export type CredAndRevealProps = {
   index: number;
@@ -56,7 +56,7 @@ export default function CredAndReveal(props: CredAndRevealProps) {
             }
             checked={props.credAndReveal.checked}
           />
-          <Tooltip title="delete">
+          <Tooltip enterDelay={TOOLTIP_ENTERDELAY} title="delete">
             <IconButton onClick={() => props.onDelete(props.index)}>
               <DeleteIcon />
             </IconButton>

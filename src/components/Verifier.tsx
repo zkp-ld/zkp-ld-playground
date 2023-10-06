@@ -15,7 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TuneIcon from "@mui/icons-material/Tune";
 import { blue } from "@mui/material/colors";
 import Presentation from "./Presentation";
-import { ModeType, VerificationStatus } from "../App";
+import { ModeType, TOOLTIP_ENTERDELAY, VerificationStatus } from "../App";
 import { useState } from "react";
 import { Editor } from "@monaco-editor/react";
 
@@ -86,6 +86,7 @@ export default function Verifier(props: VerifierProps) {
         <AccordionDetails>
           <Stack spacing={2}>
             <Tooltip
+              enterDelay={TOOLTIP_ENTERDELAY}
               title="Specify the challenge (a one-time random string) that the Holder should use when creating their blind sign request, which will be embedded within the Verifiable Presentation."
               sx={{ mr: 1 }}
             >

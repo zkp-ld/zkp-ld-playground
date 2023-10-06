@@ -2,7 +2,7 @@ import { Chip, Tooltip } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import ErrorIcon from "@mui/icons-material/Error";
 import HelpIcon from "@mui/icons-material/Help";
-import { VerificationStatus } from "../App";
+import { TOOLTIP_ENTERDELAY, VerificationStatus } from "../App";
 
 type VerifyProps = {
   index?: number;
@@ -42,7 +42,7 @@ export default function Verify(props: VerifyProps) {
   }
 
   return (
-    <Tooltip title="verify">
+    <Tooltip enterDelay={TOOLTIP_ENTERDELAY} title="verify">
       <Chip
         variant={chip_variant}
         icon={chip_icon}

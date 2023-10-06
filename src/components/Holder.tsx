@@ -21,7 +21,7 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TuneIcon from "@mui/icons-material/Tune";
 import CredAndReveal from "./CredAndReveal";
-import { CredAndRevealType, ModeType } from "../App";
+import { CredAndRevealType, ModeType, TOOLTIP_ENTERDELAY } from "../App";
 
 export type HolderProps = {
   credsAndReveals: CredAndRevealType[];
@@ -86,7 +86,10 @@ export default function Holder(props: HolderProps) {
             <Typography>Holder</Typography>
           </Stack>
         </Button>
-        <Tooltip title="Compose a verifiable presentation from the checked verifiable credentials.">
+        <Tooltip
+          enterDelay={TOOLTIP_ENTERDELAY}
+          title="Compose a verifiable presentation from the checked verifiable credentials."
+        >
           <span>
             <Button
               variant="contained"
@@ -105,7 +108,10 @@ export default function Holder(props: HolderProps) {
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2}>
-            <Tooltip title="A secret known only to the Holder. By embedding it within the bound credential, it prevents others who do not know the secret from presenting the credential.">
+            <Tooltip
+              enterDelay={TOOLTIP_ENTERDELAY}
+              title="A secret known only to the Holder. By embedding it within the bound credential, it prevents others who do not know the secret from presenting the credential."
+            >
               <TextField
                 label="Secret"
                 size="small"
@@ -124,7 +130,10 @@ export default function Holder(props: HolderProps) {
               }
               label="Include PPID in VP"
             />
-            <Tooltip title="To have the Issuer issue a bound credential, press the 'commit' button to generate a blind sign request.">
+            <Tooltip
+              enterDelay={TOOLTIP_ENTERDELAY}
+              title="To have the Issuer issue a bound credential, press the 'commit' button to generate a blind sign request."
+            >
               <Button
                 variant="contained"
                 aria-label="generate blind sign request"

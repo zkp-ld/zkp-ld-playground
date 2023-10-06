@@ -1,6 +1,6 @@
 import Editor from "@monaco-editor/react";
 import { Card, CardHeader, CardContent, Tooltip } from "@mui/material";
-import { CREDENTIAL_HEIGHT, ModeType } from "../App";
+import { CREDENTIAL_HEIGHT, ModeType, TOOLTIP_ENTERDELAY } from "../App";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 export type RevealProps = {
@@ -18,7 +18,10 @@ export default function Reveal(props: RevealProps) {
         title={`Redacted Credential ${props.index + 1}`}
         titleTypographyProps={{ variant: "subtitle1" }}
         action={
-          <Tooltip title="You can hide some attributes (1) by deleting their respective lines from here, or (2) by replacing them with a blank node id prefixed by `_:`, e.g., `_:abc`.">
+          <Tooltip
+            enterDelay={TOOLTIP_ENTERDELAY}
+            title="You can hide some attributes (1) by deleting their respective lines from here, or (2) by replacing them with a blank node id prefixed by `_:`, e.g., `_:abc`."
+          >
             <HelpOutlineIcon />
           </Tooltip>
         }

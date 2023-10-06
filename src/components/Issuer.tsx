@@ -22,7 +22,7 @@ import TuneIcon from "@mui/icons-material/Tune";
 import { orange } from "@mui/material/colors";
 import { sign, blindSign, verifyBlindSignRequest } from "@zkp-ld/jsonld-proofs";
 
-import { ModeType } from "../App";
+import { ModeType, TOOLTIP_ENTERDELAY } from "../App";
 import CredentialDraft from "./CredentialDraft";
 import { DocumentLoader } from "@zkp-ld/jsonld-proofs/lib/types";
 import { exampleDocs } from "../data/doc";
@@ -141,6 +141,7 @@ export default function Issuer(props: IssuerProps) {
         <AccordionDetails>
           <Stack spacing={2}>
             <Tooltip
+              enterDelay={TOOLTIP_ENTERDELAY}
               title="Specify the challenge (a one-time random string) that the Holder should use when creating their blind sign request."
               sx={{ mr: 1 }}
             >

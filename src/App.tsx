@@ -47,8 +47,9 @@ import {
 } from "./data";
 
 const CRYPTOSUITE_BOUND_SIGN = "bbs-termwise-bound-signature-2023";
-export const CREDENTIAL_HEIGHT = "50vh";
 const CURRENT_VERSION = `v${pack.version}`;
+export const CREDENTIAL_HEIGHT = "50vh";
+export const TOOLTIP_ENTERDELAY = 750;
 
 const VP_CONTEXT = [
   "https://www.w3.org/2018/credentials/v1",
@@ -474,7 +475,7 @@ function App() {
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <Tooltip title="go back to classic v1">
+          <Tooltip enterDelay={TOOLTIP_ENTERDELAY} title="go back to classic v1">
             <Link
               href="/v1"
               target="_blank"
@@ -486,7 +487,7 @@ function App() {
             </Link>
           </Tooltip>
 
-          <Tooltip title="GitHub repository" sx={{ mr: 1 }}>
+          <Tooltip enterDelay={TOOLTIP_ENTERDELAY} title="GitHub repository" sx={{ mr: 1 }}>
             <Link
               href="https://github.com/zkp-ld/zkp-ld-playground/"
               target="_blank"
