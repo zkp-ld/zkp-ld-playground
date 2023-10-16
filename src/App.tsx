@@ -401,11 +401,13 @@ function App() {
         JSON.parse(didDocs),
         JSON.parse(vpContext),
         documentLoader,
-        verifierChallenge,
-        verifierDomain,
-        secret,
-        blindSignRequest,
-        holderWithPpid
+        {
+          challenge: verifierChallenge,
+          domain: verifierDomain,
+          secret,
+          blindSignRequest,
+          withPpid: holderWithPpid,
+        }
       );
 
       setVP(JSON.stringify(vp, null, 2));
@@ -424,13 +426,10 @@ function App() {
     try {
       const derivedProof = JSON.parse(vP);
       const dids = JSON.parse(didDocs);
-      const result = await verifyProof(
-        derivedProof,
-        dids,
-        documentLoader,
-        verifierChallenge,
-        verifierDomain
-      );
+      const result = await verifyProof(derivedProof, dids, documentLoader, {
+        challenge: verifierChallenge,
+        domain: verifierDomain,
+      });
       console.log(result);
       if (result.verified === true) {
         setVerificationStatus("Accepted");
@@ -475,7 +474,10 @@ function App() {
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <Tooltip enterDelay={TOOLTIP_ENTERDELAY} title="go back to classic v1">
+          <Tooltip
+            enterDelay={TOOLTIP_ENTERDELAY}
+            title="go back to classic v1"
+          >
             <Link
               href="/v1"
               target="_blank"
@@ -487,7 +489,11 @@ function App() {
             </Link>
           </Tooltip>
 
-          <Tooltip enterDelay={TOOLTIP_ENTERDELAY} title="GitHub repository" sx={{ mr: 1 }}>
+          <Tooltip
+            enterDelay={TOOLTIP_ENTERDELAY}
+            title="GitHub repository"
+            sx={{ mr: 1 }}
+          >
             <Link
               href="https://github.com/zkp-ld/zkp-ld-playground/"
               target="_blank"
