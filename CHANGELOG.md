@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.7.0] - 2023-10-18
+
+### Added
+
+- Predicate proofs generation and verification using legosnark16
+
+### Changed
+
+- make Tooltip enter delay longer
+- Optimize user interfaces
+- Upgrade dependencies
+
 ## [2.6.2] - 2023-10-02
 
 ### Fixed
