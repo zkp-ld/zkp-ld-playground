@@ -295,7 +295,7 @@ function App() {
     setEnableRemote(value);
   };
 
-  const handleDeleteCredAndReveal = (index: number) => {
+  const handleCredAndRevealDelete = (index: number) => {
     let newCredsAndReveals = { ...credsAndReveals };
     delete newCredsAndReveals.value[index];
     setCredsAndReveals(newCredsAndReveals);
@@ -557,7 +557,7 @@ function App() {
               setIssuerOpen(false);
               setVerifierOpen(false);
             }}
-            onDeleteCredAndReveal={handleDeleteCredAndReveal}
+            onCredAndRevealDelete={handleCredAndRevealDelete}
             secret={holderSecret}
             withPpid={holderWithPpid}
             commitSecret={holderCommitSecret}

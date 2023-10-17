@@ -42,7 +42,7 @@ export type HolderProps = {
   onPresent: () => void;
   onClick: () => void;
   onCommit: () => void;
-  onDeleteCredAndReveal: (index: number) => void;
+  onCredAndRevealDelete: (index: number) => void;
   onSecretChange: (value: string) => void;
   onCommitSecretChange: (checked: boolean) => void;
   onWithPpidChange: (checked: boolean) => void;
@@ -203,7 +203,7 @@ export default function Holder(props: HolderProps) {
                   props.onRevealValidate(index, validated)
                 }
                 onVerify={(index) => props.onVerify(index)}
-                onDelete={(index) => props.onDeleteCredAndReveal(index)}
+                onDelete={(index) => props.onCredAndRevealDelete(index)}
                 mode={props.mode}
               />
             ))}
