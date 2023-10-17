@@ -132,16 +132,6 @@ export default function Holder(props: HolderProps) {
                 InputLabelProps={{ shrink: true }}
               />
             </Tooltip>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  inputProps={{ "aria-label": "controlled" }}
-                  checked={props.withPpid}
-                  onChange={handleWithPpidChange}
-                />
-              }
-              label="Include PPID in VP"
-            />
             <Tooltip
               enterDelay={TOOLTIP_ENTERDELAY}
               title="To have the Issuer issue a bound credential, press the 'commit' button to generate a blind sign request."
@@ -175,6 +165,16 @@ export default function Holder(props: HolderProps) {
               value={props.blinding}
               InputProps={{ readOnly: true }}
               InputLabelProps={{ shrink: true }}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  inputProps={{ "aria-label": "controlled" }}
+                  checked={props.withPpid}
+                  onChange={handleWithPpidChange}
+                />
+              }
+              label="Include PPID in VP"
             />
             <FormControlLabel
               control={
