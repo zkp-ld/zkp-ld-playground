@@ -1,6 +1,6 @@
 import Editor from "@monaco-editor/react";
 import { Card, CardHeader, CardContent } from "@mui/material";
-import { ModeType, VerificationStatus } from "../App";
+import { ModeType, PRESENTATION_HEIGHT, VerificationStatus } from "../App";
 import Verify from "./Verify";
 
 type PresentationProps = {
@@ -32,7 +32,7 @@ export default function Presentation(props: PresentationProps) {
       />
       <CardContent>
         <Editor
-          height="70vh"
+          height={PRESENTATION_HEIGHT}
           defaultLanguage="json"
           value={props.vP}
           theme={props.mode === "light" ? "light" : "vs-dark"}

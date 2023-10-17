@@ -1,13 +1,68 @@
 {
   "@context": {
     "@version": 1.1,
+    "@protected": true,
+    "id": "@id",
+    "type": "@type",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ppid": {
       "@id": "https://zkp-ld.org/.well-known/genid/",
+      "@prefix": true
+    },
+    "circ": {
+      "@id": "https://zkp-ld.org/circuit/",
       "@prefix": true
     },
     "secretCommitment": {
       "@id": "https://zkp-ld.org/security#secretCommitment",
       "@type": "https://w3id.org/security#multibase"
+    },
+    "predicate": {
+      "@id": "https://zkp-ld.org/security#predicate",
+      "@type": "@id",
+      "@container": "@graph"
+    },
+    "Predicate": {
+      "@id": "https://zkp-ld.org/security#Predicate",
+      "@context": {
+        "circuit": {
+          "@id": "https://zkp-ld.org/security#circuit",
+          "@type": "@id"
+        },
+        "private": {
+          "@id": "https://zkp-ld.org/security#private",
+          "@type": "@id",
+          "@container": "@list"
+        },
+        "public": {
+          "@id": "https://zkp-ld.org/security#public",
+          "@type": "@id",
+          "@container": "@list"
+        }
+      }
+    },
+    "PrivateVariable": {
+      "@id": "https://zkp-ld.org/security#PrivateVariable",
+      "@context": {
+        "var": {
+          "@id": "https://zkp-ld.org/security#var"
+        },
+        "val": {
+          "@id": "https://zkp-ld.org/security#val",
+          "@type": "@id"
+        }
+      }
+    },
+    "PublicVariable": {
+      "@id": "https://zkp-ld.org/security#PublicVariable",
+      "@context": {
+        "var": {
+          "@id": "https://zkp-ld.org/security#var"
+        },
+        "val": {
+          "@id": "https://zkp-ld.org/security#val"
+        }
+      }
     }
   }
 }

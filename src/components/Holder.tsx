@@ -21,7 +21,13 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TuneIcon from "@mui/icons-material/Tune";
 import CredAndReveal from "./CredAndReveal";
-import { CredAndRevealType, ModeType, TOOLTIP_ENTERDELAY } from "../App";
+import {
+  CredAndRevealType,
+  ModeType,
+  PredicateType,
+  TOOLTIP_ENTERDELAY,
+} from "../App";
+import Predicate from "./Predicate";
 
 export type HolderProps = {
   credsAndReveals: CredAndRevealType[];
@@ -32,8 +38,8 @@ export type HolderProps = {
   blinding: string;
   pokForCommitment: string;
   withPpid: boolean;
+  predicates: PredicateType[];
   onCredentialAdd: () => void;
-  onCheckboxChange: (index: number, checked: boolean) => void;
   onCredentialChange: (index: number, value: string) => void;
   onCredentialValidate: (index: number, validated: boolean) => void;
   onRevealChange: (index: number, value: string) => void;
@@ -42,10 +48,16 @@ export type HolderProps = {
   onPresent: () => void;
   onClick: () => void;
   onCommit: () => void;
+  onCredAndRevealCheckboxChange: (index: number, checked: boolean) => void;
   onCredAndRevealDelete: (index: number) => void;
   onSecretChange: (value: string) => void;
   onCommitSecretChange: (checked: boolean) => void;
   onWithPpidChange: (checked: boolean) => void;
+  onPredicateAdd: () => void;
+  onPredicateCheckboxChange: (index: number, checked: boolean) => void;
+  onPredicateChange: (index: number, value: string) => void;
+  onPredicateValidate: (index: number, validated: boolean) => void;
+  onPredicateDelete: (index: number) => void;
   mode: ModeType;
 };
 
@@ -177,7 +189,7 @@ export default function Holder(props: HolderProps) {
           </Stack>
         </AccordionDetails>
       </Accordion>
-      <Box sx={{ height: "76vh", overflow: "auto", padding: 2 }}>
+      <Box sx={{ padding: 2 }}>
         <Grid container spacing={2}>
           {props.credsAndReveals
             .filter((cr) => cr)
@@ -188,7 +200,7 @@ export default function Holder(props: HolderProps) {
                 credAndReveal={credAndReveal}
                 didDocumentsValidated={props.didDocumentsValidated}
                 onCheckboxChange={(index, checked) =>
-                  props.onCheckboxChange(index, checked)
+                  props.onCredAndRevealCheckboxChange(index, checked)
                 }
                 onCredentialChange={(index, value) =>
                   props.onCredentialChange(index, value)
@@ -209,9 +221,37 @@ export default function Holder(props: HolderProps) {
             ))}
           <Grid item xs={12}>
             <Button fullWidth onClick={() => props.onCredentialAdd()}>
-              <Add />
+              <Add /> Add credential
             </Button>
           </Grid>
+        </Grid>
+      </Box>
+      <Box sx={{ padding: 2 }}>
+        <Grid container spacing={2}>
+          {props.predicates
+            .filter((p) => p)
+            .map((predicate) => (
+              <Predicate
+                key={predicate.index}
+                predicate={predicate}
+                onCheckboxChange={(index, checked) =>
+                  props.onPredicateCheckboxChange(index, checked)
+                }
+                onChange={(index, value) =>
+                  props.onPredicateChange(index, value)
+                }
+                onValidate={(index, validated) =>
+                  props.onPredicateValidate(index, validated)
+                }
+                onDelete={(index) => props.onPredicateDelete(index)}
+                mode={props.mode}
+              />
+            ))}
+        </Grid>
+        <Grid item xs={12}>
+          <Button fullWidth onClick={() => props.onPredicateAdd()}>
+            <Add /> Add predicate
+          </Button>
         </Grid>
       </Box>
     </Stack>

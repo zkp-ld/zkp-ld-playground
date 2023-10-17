@@ -1,0 +1,22 @@
+{
+  "@context": "https://zkp-ld.org/context.jsonld",
+  "type": "Predicate",
+  "circuit": "circ:lessThanEqPrvPub",
+  "private": [
+    {
+      "type": "PrivateVariable",
+      "var": "lesser",
+      "val": "_:HIDDEN_DATETIME"
+    }
+  ],
+  "public": [
+    {
+      "type": "PublicVariable",
+      "var": "greater",
+      "val": {
+        "type": "xsd:dateTime",
+        "@value": "2025-12-31T23:59:59Z"
+      }
+    }
+  ]
+}

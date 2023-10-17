@@ -1,4 +1,5 @@
 import { useState, MouseEvent, useMemo } from "react";
+import * as jsonld from "jsonld";
 import { JsonLd } from "jsonld/jsonld-spec";
 import {
   Alert,
@@ -45,11 +46,17 @@ import {
   exampleKeyPairs,
   CONTEXTS,
 } from "./data";
+import { exampleCircuits } from "./data/circuits";
 
 const CRYPTOSUITE_BOUND_SIGN = "bbs-termwise-bound-signature-2023";
 const CURRENT_VERSION = `v${pack.version}`;
-export const CREDENTIAL_HEIGHT = "50vh";
+export const CREDENTIAL_DRAFT_HEIGHT = "70vh";
+export const CREDENTIAL_HEIGHT = "45vh";
+export const PRESENTATION_HEIGHT = "70vh";
+export const PREDICATE_HEIGHT = "35vh";
 export const TOOLTIP_ENTERDELAY = 750;
+
+export const URI_CIRCUIT = "https://zkp-ld.org/security#circuit";
 
 const VP_CONTEXT = [
   "https://www.w3.org/2018/credentials/v1",
@@ -103,6 +110,18 @@ export type CredAndRevealType = {
   checked: boolean;
 };
 
+export type PredicateArrayType = {
+  lastIndex: number;
+  value: PredicateType[];
+};
+
+export type PredicateType = {
+  index: number;
+  value: string;
+  validated: boolean;
+  checked: boolean;
+};
+
 export type VerificationStatus =
   | "Accepted"
   | "Rejected"
@@ -130,6 +149,10 @@ function App() {
       lastIndex: 0,
       value: [],
     });
+  const [predicates, setPredicates] = useState<PredicateArrayType>({
+    lastIndex: 0,
+    value: [],
+  });
   const [vP, setVP] = useState("");
   const [holderSecret, setHolderSecret] = useState("");
   const [holderWithPpid, setHolderWithPpid] = useState(false);
@@ -262,6 +285,51 @@ function App() {
     setCredsAndReveals(newCredsAndReveals);
   };
 
+  const handleCredAndRevealDelete = (index: number) => {
+    let newCredsAndReveals = { ...credsAndReveals };
+    delete newCredsAndReveals.value[index];
+    setCredsAndReveals(newCredsAndReveals);
+  };
+
+  const handlePredicateAdd = () => {
+    let newPredicates = {
+      ...predicates,
+      lastIndex: predicates.lastIndex + 1,
+    };
+
+    newPredicates.value.push({
+      index: predicates.lastIndex,
+      value: "{}",
+      validated: true,
+      checked: false,
+    });
+    setPredicates(newPredicates);
+  };
+
+  const handlePredicateCheckboxChange = (index: number, checked: boolean) => {
+    let newPredicates = { ...predicates };
+    newPredicates.value[index].checked = checked;
+    setPredicates(newPredicates);
+  };
+
+  const handlePredicateChange = (index: number, value: string) => {
+    let newPredicates = { ...predicates };
+    newPredicates.value[index].value = value;
+    setPredicates(newPredicates);
+  };
+
+  const handlePredicateValidate = (index: number, validated: boolean) => {
+    let newPredicates = { ...predicates };
+    newPredicates.value[index].validated = validated;
+    setPredicates(newPredicates);
+  };
+
+  const handlePredicateDelete = (index: number) => {
+    let newPredicates = { ...predicates };
+    delete newPredicates.value[index];
+    setPredicates(newPredicates);
+  };
+
   const handlePresentationChange = (value: string) => {
     setVP(value);
     setVerificationStatus("Unverified");
@@ -293,12 +361,6 @@ function App() {
 
   const handleContextsEnableRemoteChange = (value: boolean) => {
     setEnableRemote(value);
-  };
-
-  const handleCredAndRevealDelete = (index: number) => {
-    let newCredsAndReveals = { ...credsAndReveals };
-    delete newCredsAndReveals.value[index];
-    setCredsAndReveals(newCredsAndReveals);
   };
 
   const handleHolderSecretChange = (value: string) => {
@@ -395,6 +457,25 @@ function App() {
       const blindSignRequest = holderCommitSecret
         ? { commitment: holderCommitment, blinding: holderBlinding }
         : undefined;
+      const checked_predicates = predicates?.value
+        .filter((predicate) => predicate.checked && predicate.validated)
+        .map((predicate) => JSON.parse(predicate.value));
+
+      // get necessary circuits
+      const expanded_predicates = await Promise.all(
+        checked_predicates.map(
+          async (predicate) =>
+            await jsonld.expand(predicate, {
+              documentLoader,
+              safe: true,
+            })
+        )
+      );
+      const circuits = new Map();
+      expanded_predicates.forEach((predicate) => {
+        const predicate_id = predicate[0][URI_CIRCUIT][0]["@id"];
+        circuits.set(predicate_id, exampleCircuits.get(predicate_id));
+      });
 
       const vp = await deriveProof(
         vcPairs,
@@ -407,6 +488,8 @@ function App() {
           secret,
           blindSignRequest,
           withPpid: holderWithPpid,
+          predicates: checked_predicates,
+          circuits,
         }
       );
 
@@ -426,9 +509,33 @@ function App() {
     try {
       const derivedProof = JSON.parse(vP);
       const dids = JSON.parse(didDocs);
+
+      // TODO: get necessary SNARK verifying keys
+      const checked_predicates = predicates?.value
+        .filter((predicate) => predicate.checked && predicate.validated)
+        .map((predicate) => JSON.parse(predicate.value));
+      const expanded_predicates = await Promise.all(
+        checked_predicates.map(
+          async (predicate) =>
+            await jsonld.expand(predicate, {
+              documentLoader,
+              safe: true,
+            })
+        )
+      );
+      const snarkKeys = new Map();
+      expanded_predicates.forEach((predicate) => {
+        const predicate_id = predicate[0][URI_CIRCUIT][0]["@id"];
+        snarkKeys.set(
+          predicate_id,
+          exampleCircuits.get(predicate_id)?.provingKey
+        );
+      });
+
       const result = await verifyProof(derivedProof, dids, documentLoader, {
         challenge: verifierChallenge,
         domain: verifierDomain,
+        snarkVerifyingKeys: snarkKeys,
       });
       console.log(result);
       if (result.verified === true) {
@@ -544,9 +651,9 @@ function App() {
         >
           <Holder
             credsAndReveals={credsAndReveals.value}
+            predicates={predicates.value}
             didDocumentsValidated={didDocsValidated}
             onCredentialAdd={handleCredentialAdd}
-            onCheckboxChange={handleCredsAndRevealsCheckboxChange}
             onCredentialChange={handleCredentialChange}
             onCredentialValidate={handleCredentialValidate}
             onRevealChange={handleRevealChange}
@@ -557,6 +664,7 @@ function App() {
               setIssuerOpen(false);
               setVerifierOpen(false);
             }}
+            onCredAndRevealCheckboxChange={handleCredsAndRevealsCheckboxChange}
             onCredAndRevealDelete={handleCredAndRevealDelete}
             secret={holderSecret}
             withPpid={holderWithPpid}
@@ -568,6 +676,11 @@ function App() {
             onWithPpidChange={handleHolderWithPpidChange}
             onCommitSecretChange={handleHolderCommitSecretChange}
             onCommit={handleCommit}
+            onPredicateAdd={handlePredicateAdd}
+            onPredicateChange={handlePredicateChange}
+            onPredicateValidate={handlePredicateValidate}
+            onPredicateCheckboxChange={handlePredicateCheckboxChange}
+            onPredicateDelete={handlePredicateDelete}
             mode={mode}
           />
         </Grid>

@@ -1,0 +1,17 @@
+{
+  "@context": "https://zkp-ld.org/context.jsonld",
+  "type": "Predicate",
+  "circuit": "circ:lessThanPrvPrv",
+  "private": [
+    {
+      "type": "PrivateVariable",
+      "var": "lesser",
+      "val": "_:HIDDEN_LESSER_DATETIME"
+    },
+    {
+      "type": "PrivateVariable",
+      "var": "greater",
+      "val": "_:HIDDEN_GREATER_DATETIME"
+    }
+  ]
+}

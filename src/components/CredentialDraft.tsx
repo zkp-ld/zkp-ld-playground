@@ -10,7 +10,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { useState } from "react";
-import { ModeType } from "../App";
+import { CREDENTIAL_DRAFT_HEIGHT, ModeType } from "../App";
 import { exampleDocs } from "../data/doc";
 
 export type DocProps = {
@@ -65,7 +65,7 @@ export default function CredentialDraft(props: DocProps) {
       />
       <CardContent>
         <Editor
-          height="70vh"
+          height={CREDENTIAL_DRAFT_HEIGHT}
           defaultLanguage="json"
           value={props.value}
           theme={props.mode === "light" ? "light" : "vs-dark"}
