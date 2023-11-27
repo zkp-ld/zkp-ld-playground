@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.7.1] - 2023-11-27
+
+### Changed
+
+- Upgrade dependencies
+
 ## [2.7.0] - 2023-10-18
 
 ### Added
