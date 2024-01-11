@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.7.2] - 2024-01-11
+
+### Changed
+
+- Upgraded dependencies
+
 ## [2.7.1] - 2023-11-27
 
 ### Changed
