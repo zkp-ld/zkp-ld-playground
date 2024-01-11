@@ -18,7 +18,7 @@
     "@mui/icons-material": "^5.14.18",
     "@mui/material": "^5.14.18",
     "@mui/system": "^5.14.18",
-    "@zkp-ld/jsonld-proofs": "0.10.0",
+    "@zkp-ld/jsonld-proofs": "0.10.1",
     "buffer": "^6.0.3",
     "jsonld": "^8.2.0",
     "react": "^18.2.0",
