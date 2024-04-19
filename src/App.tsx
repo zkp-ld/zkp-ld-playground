@@ -47,6 +47,9 @@ import {
   CONTEXTS,
 } from "./data";
 import { exampleCircuits } from "./data/circuits";
+import { useDocumentDialog } from "./hooks/useDocumentDialog";
+import { Help } from "@mui/icons-material";
+import DocumentDialog from "./components/DocumentDialog";
 
 const CRYPTOSUITE_BOUND_SIGN = "bbs-termwise-bound-signature-2023";
 const CURRENT_VERSION = `v${pack.version}`;
@@ -176,6 +179,7 @@ function App() {
   const [mode, setMode] = useState(
     prefersDarkMode ? ("dark" as ModeType) : ("light" as ModeType)
   );
+  const {openDialog, handleCloseDialog, handleOpenDialog} = useDocumentDialog();
 
   const documentLoader = useMemo(() => {
     try {
@@ -627,6 +631,16 @@ function App() {
               <DarkModeIcon />
             </ToggleButton>
           </ToggleButtonGroup>
+          <Tooltip
+            enterDelay={TOOLTIP_ENTERDELAY}
+            title="How to use this app"
+          >
+            <IconButton onClick={handleOpenDialog} color="inherit">
+              <Help />
+            </IconButton>
+          </Tooltip>
+
+          <DocumentDialog open={openDialog} onClose={handleCloseDialog} />
         </Toolbar>
       </AppBar>
       <Grid container>
