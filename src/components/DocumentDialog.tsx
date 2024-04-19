@@ -15,7 +15,7 @@ const ImageRenderer = ({
   src: string | undefined;
   alt: string | undefined;
 }) => {
-  return <img width="100%%" src={src} alt={alt} />;
+  return <img width="100%" src={src} alt={alt} />;
 };
 
 export type DocumentDialogProps = {
