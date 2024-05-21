@@ -5,10 +5,7 @@ const remoteDocumentLoader = jsonld.documentLoaders.xhr();
 
 export const customDocumentLoader =
   (documents: Map<Url, JsonLd>, allowFetch?: boolean) =>
-  async (
-    url: Url,
-    _callback: (err: Error, remoteDoc: RemoteDocument) => void
-  ): Promise<RemoteDocument> => {
+  async (url: Url): Promise<RemoteDocument> => {
     const context = documents.get(url);
     if (context) {
       return {
