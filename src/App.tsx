@@ -59,12 +59,7 @@ export const TOOLTIP_ENTERDELAY = 750;
 
 export const URI_CIRCUIT = "https://zkp-ld.org/security#circuit";
 
-const VP_CONTEXT = [
-  "https://www.w3.org/2018/credentials/v1",
-  "https://www.w3.org/ns/data-integrity/v1",
-  "https://schema.org/",
-  "https://zkp-ld.org/context.jsonld",
-];
+const VP_CONTEXT = ["https://schema.org/"];
 
 export type ModeType = "light" | "dark";
 const lightTheme = createTheme({
@@ -484,9 +479,9 @@ function App() {
       const vp = await deriveProof(
         vcPairs,
         JSON.parse(didDocs),
-        JSON.parse(vpContext),
         documentLoader,
         {
+          context: JSON.parse(vpContext),
           challenge: verifierChallenge,
           domain: verifierDomain,
           secret,
