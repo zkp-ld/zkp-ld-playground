@@ -1,6 +1,6 @@
 import { useState, MouseEvent, useMemo } from "react";
 import * as jsonld from "jsonld";
-import { JsonLd } from "jsonld/jsonld-spec";
+import { JsonLd, JsonLdArray } from "jsonld/jsonld-spec";
 import {
   Alert,
   AlertTitle,
@@ -46,7 +46,8 @@ import {
   exampleKeyPairs,
   CONTEXTS,
 } from "./data";
-import { exampleCircuits } from "./data/circuits";
+import { exampleSnarkProvingKeys } from "./data/snarkProvingKeys";
+import { exampleSnarkVerifyingKeys } from "./data/snarkVerifyingKeys";
 
 const CRYPTOSUITE_BOUND_SIGN = "bbs-termwise-bound-signature-2023";
 const CURRENT_VERSION = `v${pack.version}`;
@@ -473,8 +474,11 @@ function App() {
       );
       const circuits = new Map();
       expanded_predicates.forEach((predicate) => {
-        const predicate_id = predicate[0][URI_CIRCUIT][0]["@id"];
-        circuits.set(predicate_id, exampleCircuits.get(predicate_id));
+        const circuit = predicate[0][URI_CIRCUIT] as JsonLdArray;
+        const predicate_id = circuit?.[0]?.["@id"];
+        if (typeof predicate_id === "string") {
+          circuits.set(predicate_id, exampleSnarkProvingKeys.get(predicate_id));
+        }
       });
 
       const vp = await deriveProof(
@@ -510,32 +514,10 @@ function App() {
       const derivedProof = JSON.parse(vP);
       const dids = JSON.parse(didDocs);
 
-      // TODO: get necessary SNARK verifying keys
-      const checked_predicates = predicates?.value
-        .filter((predicate) => predicate.checked && predicate.validated)
-        .map((predicate) => JSON.parse(predicate.value));
-      const expanded_predicates = await Promise.all(
-        checked_predicates.map(
-          async (predicate) =>
-            await jsonld.expand(predicate, {
-              documentLoader,
-              safe: true,
-            })
-        )
-      );
-      const snarkKeys = new Map();
-      expanded_predicates.forEach((predicate) => {
-        const predicate_id = predicate[0][URI_CIRCUIT][0]["@id"];
-        snarkKeys.set(
-          predicate_id,
-          exampleCircuits.get(predicate_id)?.provingKey
-        );
-      });
-
       const result = await verifyProof(derivedProof, dids, documentLoader, {
         challenge: verifierChallenge,
         domain: verifierDomain,
-        snarkVerifyingKeys: snarkKeys,
+        snarkVerifyingKeys: exampleSnarkVerifyingKeys,
       });
       console.log(result);
       if (result.verified === true) {
