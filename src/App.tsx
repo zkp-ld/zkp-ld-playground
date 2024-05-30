@@ -24,6 +24,7 @@ import { createTheme } from "@mui/material/styles";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import GitHub from "@mui/icons-material/GitHub";
+import Help from "@mui/icons-material/Help";
 import Warning from "@mui/icons-material/Warning";
 import { ThemeProvider } from "@emotion/react";
 import {
@@ -48,7 +49,6 @@ import {
 } from "./data";
 import { exampleCircuits } from "./data/circuits";
 import { useDocumentDialog } from "./hooks/useDocumentDialog";
-import { Help } from "@mui/icons-material";
 import DocumentDialog from "./components/DocumentDialog";
 
 const CRYPTOSUITE_BOUND_SIGN = "bbs-termwise-bound-signature-2023";
@@ -179,7 +179,8 @@ function App() {
   const [mode, setMode] = useState(
     prefersDarkMode ? ("dark" as ModeType) : ("light" as ModeType)
   );
-  const {openDialog, handleCloseDialog, handleOpenDialog} = useDocumentDialog();
+  const { openDialog, handleCloseDialog, handleOpenDialog } =
+    useDocumentDialog();
 
   const documentLoader = useMemo(() => {
     try {
@@ -631,10 +632,7 @@ function App() {
               <DarkModeIcon />
             </ToggleButton>
           </ToggleButtonGroup>
-          <Tooltip
-            enterDelay={TOOLTIP_ENTERDELAY}
-            title="How to use this app"
-          >
+          <Tooltip enterDelay={TOOLTIP_ENTERDELAY} title="How to use this app">
             <IconButton onClick={handleOpenDialog} color="inherit">
               <Help />
             </IconButton>

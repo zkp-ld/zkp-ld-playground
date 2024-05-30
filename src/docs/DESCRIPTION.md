@@ -35,9 +35,9 @@ You will see `accepted` if verification succeeds.
 You can create a Verifiable Presentation (VP) on the Holder screen.  
 In the "Redacted Credential 1" section of the Holder screen, you can do selective disclosure by omitting specific attributes.
 
-![Selective Disclodure for VP](/imgs/selective-disclodure.png)
+![Selective Disclosure for VP](/imgs/selective-disclosure.png)
 
-As the figure above shows, only homeLocation is revealed and the other attributes are hidden.
+As the figure above shows, only `homeLocation` is revealed and the other attributes are hidden.
 
 ### Verifier Screen
 
