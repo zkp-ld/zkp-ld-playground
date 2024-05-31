@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.7.4] - 2024-05-21
+
+### Changed
+
+- Re-organize zk-SNARK circuits into proving keys and verifying keys
+- Upgraded dependencies
+- Remove obsoleted `callback` option from document loader, aligning with the updated type definition
+- Add locally-updated `@types/jsonld` type definition
+
 ## [2.7.3] - 2024-03-18
 
 ### Changed

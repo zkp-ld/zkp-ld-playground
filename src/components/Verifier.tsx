@@ -105,7 +105,7 @@ export default function Verifier(props: VerifierProps) {
               onChange={handleDomainChange}
               InputLabelProps={{ shrink: true }}
             />
-            <Typography>Context for VP</Typography>
+            <Typography>Additional Contexts for VP</Typography>
             <Editor
               height="12vh"
               defaultLanguage="json"

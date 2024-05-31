@@ -5,7 +5,7 @@ import lessThanEqPrvPrv from "./less_than_eq_prv_prv_64.json";
 import lessThanEqPrvPub from "./less_than_eq_prv_pub_64.json";
 import lessThanEqPubPrv from "./less_than_eq_pub_prv_64.json";
 
-const exampleCircuitsObjs = [
+const exampleSnarkProvingKeysObjs = [
   lessThanPrvPrv,
   lessThanPrvPub,
   lessThanPubPrv,
@@ -14,8 +14,8 @@ const exampleCircuitsObjs = [
   lessThanEqPubPrv,
 ];
 
-export const exampleCircuits = new Map(
-  exampleCircuitsObjs.map((obj) => [
+export const exampleSnarkProvingKeys = new Map(
+  exampleSnarkProvingKeysObjs.map((obj) => [
     obj.id,
     {
       r1cs: obj.r1cs,
