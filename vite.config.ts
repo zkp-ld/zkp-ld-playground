@@ -10,5 +10,6 @@ export default defineConfig({
   base: './',
   resolve: {
     preserveSymlinks: true,
-  }
+  },
+  assetsInclude: ['**/*.md']
 });
