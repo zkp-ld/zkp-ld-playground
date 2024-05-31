@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.7.5] - 2024-05-31
+
+### Added
+
+- Help icon in the top right that opens a modal with a brief explanation of the features. (thanks to @dorakemon)
+
 ## [2.7.4] - 2024-05-21
 
 ### Changed
