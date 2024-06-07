@@ -1,7 +1,7 @@
 {
   "name": "zkp-ld-playground",
   "private": true,
-  "version": "2.7.5",
+  "version": "2.7.6",
   "type": "module",
   "homepage": "https://playground.zkp-ld.org/",
   "scripts": {
@@ -9,7 +9,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "scripts/deploy.sh"
+    "deploy": "scripts/deploy.sh $npm_package_version"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
