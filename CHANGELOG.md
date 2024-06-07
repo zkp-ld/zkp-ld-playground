@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.7.7] - 2024-06-07
+
+### Added
+
+- Automated the process of updating `versions.json`
+
 ## [2.7.6] - 2024-06-07
 
 ### Added
