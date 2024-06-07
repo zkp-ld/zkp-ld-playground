@@ -51,6 +51,7 @@ import {
 import { exampleSnarkProvingKeys } from "./data/snarkProvingKeys";
 import { exampleSnarkVerifyingKeys } from "./data/snarkVerifyingKeys";
 import { useDocumentDialog } from "./hooks/useDocumentDialog";
+import VersionDropdown from "./components/VersionDropdown";
 
 const CRYPTOSUITE_BOUND_SIGN = "bbs-termwise-bound-signature-2023";
 const CURRENT_VERSION = `v${pack.version}`;
@@ -547,14 +548,6 @@ function App() {
             ZKP-LD Playground
           </Typography>
 
-          <Link
-            href="https://github.com/zkp-ld/zkp-ld-playground/blob/main/CHANGELOG.md"
-            target="_blank"
-            rel="noopener noreferer"
-          >
-            <Chip label={CURRENT_VERSION} sx={{ mr: 1 }} />
-          </Link>
-
           <Warning color="warning" />
           <Typography variant="subtitle2">
             Experimental: Not for production. May change or shut down without
@@ -563,20 +556,7 @@ function App() {
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <Tooltip
-            enterDelay={TOOLTIP_ENTERDELAY}
-            title="go back to classic v1"
-          >
-            <Link
-              href="/v1"
-              target="_blank"
-              rel="noopener noreferer"
-              variant="body2"
-              sx={{ mr: 1 }}
-            >
-              classic
-            </Link>
-          </Tooltip>
+          <VersionDropdown currentVersion={CURRENT_VERSION} />
 
           <Tooltip
             enterDelay={TOOLTIP_ENTERDELAY}
