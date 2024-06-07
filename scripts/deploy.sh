@@ -18,15 +18,15 @@ fi
 
 git checkout gh-pages 
 
-# Check if public/versions.json exists
-if [ ! -f public/versions.json ]; then
-    echo '[]' > public/versions.json
+# Check if versions.json exists
+if [ ! -f versions.json ]; then
+    echo '[]' > versions.json
 fi
 
-# Check if the version already exists in public/versions.json
-if [ -z "$(jq --arg version "$1" '.[] | select(. == $version)' public/versions.json)" ]; then
+# Check if the version already exists in versions.json
+if [ -z "$(jq --arg version "$1" '.[] | select(. == $version)' versions.json)" ]; then
     # If the version does not exist, add it to the beginning of the array
-    jq --arg version "$1" '[$version] + .' public/versions.json > tmp.json && mv tmp.json public/versions.json
+    jq --arg version "$1" '[$version] + .' versions.json > tmp.json && mv tmp.json versions.json
 fi
 
 rm -rf assets
