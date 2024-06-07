@@ -20,7 +20,7 @@ git checkout gh-pages
 
 rm -rf asset
 cp -r dist/* .
-cp -r dist/* v$1
+cp -r dist/ v$1/
 
 git add .
 git commit -m "Update to v$1"
