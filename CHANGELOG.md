@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.7.6] - 2024-06-07
+
+### Added
+
+- Add a new feature to allow users to select the playground version
+
 ## [2.7.5] - 2024-05-31
 
 ### Added
