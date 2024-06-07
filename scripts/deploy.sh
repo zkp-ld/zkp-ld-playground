@@ -18,7 +18,7 @@ fi
 
 git checkout gh-pages 
 
-rm -rf asset
+rm -rf assets
 cp -r dist/* .
 cp -r dist/ v$1/
 
