@@ -9,7 +9,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "scripts/deploy.sh"
+    "deploy": "scripts/deploy.sh $npm_package_version"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
