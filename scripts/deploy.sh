@@ -24,7 +24,7 @@ if [ ! -f public/versions.json ]; then
 fi
 
 # Check if the version already exists in public/versions.json
-if ! jq --arg version "$1" '.[] | select(. == $version)' public/versions.json > /dev/null; then
+if [ -z "$(jq --arg version "$1" '.[] | select(. == $version)' public/versions.json)" ]; then
     # If the version does not exist, add it to the beginning of the array
     jq --arg version "$1" '[$version] + .' public/versions.json > tmp.json && mv tmp.json public/versions.json
 fi
