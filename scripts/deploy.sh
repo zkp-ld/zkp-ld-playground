@@ -24,17 +24,19 @@ if [ ! -f versions.json ]; then
 fi
 
 # Check if the version already exists in versions.json
+echo jq --arg version "$1" '.[] | select(. == $version)' versions.json
+jq --arg version "$1" '.[] | select(. == $version)' versions.json
 if [ -z "$(jq --arg version "$1" '.[] | select(. == $version)' versions.json)" ]; then
     # If the version does not exist, add it to the beginning of the array
     jq --arg version "$1" '[$version] + .' versions.json > tmp.json && mv tmp.json versions.json
 fi
 
-rm -rf assets
-cp -r dist/* .
-cp -r dist/ v$1/
+# rm -rf assets
+# cp -r dist/* .
+# cp -r dist/ v$1/
 
-git add .
-git commit -m "Update to v$1"
-git push origin gh-pages
+# git add .
+# git commit -m "Update to v$1"
+# git push origin gh-pages
 
-git checkout main
+# git checkout main
