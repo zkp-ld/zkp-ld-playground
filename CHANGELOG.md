@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.8] - 2024-08-16
+
+### Changed
+
+- Synced and Updated `@types/jsonld` Definitions
+- Upgraded npm dependencies
+
 ## [2.7.7] - 2024-06-07
 
 ### Added
