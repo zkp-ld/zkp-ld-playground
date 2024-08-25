@@ -21,7 +21,6 @@
   "issuanceDate": "2023-10-01T12:30:00Z",
   "expirationDate": "2025-10-01T12:30:00Z",
   "credentialSubject": {
-    "id": "did:example:john",
     "type": "Person",
     "givenName": "John",
     "isPatientOf": {
