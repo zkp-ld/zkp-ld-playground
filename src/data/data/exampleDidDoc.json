@@ -10,7 +10,7 @@
       "id": "did:example:issuer0#bls12_381-g2-pub001",
       "type": "Multikey",
       "controller": "did:example:issuer0",
-      "publicKeyMultibase": "ukiiQxfsSfV0E2QyBlnHTK2MThnd7_-Fyf6u76BUd24uxoDF4UjnXtxUo8b82iuPZBOa8BXd1NpE20x3Rfde9udcd8P8nPVLr80Xh6WLgI9SYR6piNzbHhEVIfgd_Vo9P"
+      "publicKeyMultibase": "zUC77BjGcGDVWfBdgzqwzp3uuWkoWuRMe8pnx4dkncia5t9LKHVt96BPGBizeSU7BKiV35h1tsuVwHUVt4arZuckxGCb2tTsB3fsY66mQNs5Bwoac2w2iyYFe8uenBUYdAiveEr"
     }
   },
   {
@@ -24,7 +24,7 @@
       "id": "did:example:issuer1#bls12_381-g2-pub001",
       "type": "Multikey",
       "controller": "did:example:issuer1",
-      "publicKeyMultibase": "urZSl4p1Dw3tOkl_fbiilSCBCBIhQLwQgsAkGmzOnn_LQjUBoHOdhQ3hwLVvAdqhlDYCrLJ2RJa1HF9D_M4wzGsZaGG_OFRF2GUKtGuOcIYavziaBklksvGuge-KtnvIc"
+      "publicKeyMultibase": "zUC7HaSjNELSGG8QnYdMvNurgfWfdGNo1Znqds6CoYQ24qKKWogiLtKWPoCLJapEYdKAMN9r6bdF9MeNrfV3fhUzkKwrfUewD5yVhwSVpM4tjv87YVgWGRTUuesxf7scabbPAnD"
     }
   },
   {
@@ -38,7 +38,7 @@
       "id": "did:example:issuer2#bls12_381-g2-pub001",
       "type": "Multikey",
       "controller": "did:example:issuer2",
-      "publicKeyMultibase": "uh4p9COfLwlJZJAMSeAvh7uO5BdB1OxgPgwBq8hR1ehkVyOzDXG7uD2WEST7cMbgFAa2X11f1DDV4MMXoxxwibvIg5rCSsAPLbaGPm2t4TxVhNAiEg-Ed7UHIHmgG-724"
+      "publicKeyMultibase": "zUC7DKvfSfydgg48FpP53HgsLfWrVHfrmUXbwvw8AnSgW1JiA5741mwe3hpMNNRMYh3BgR9ebxvGAxPxFhr8F3jQHZANqb3if2MycjQN3ZBSWP3aGoRyat294icdVMDhTqoKXeJ"
     }
   },
   {
@@ -52,7 +52,7 @@
       "id": "did:example:issuer3#bls12_381-g2-pub001",
       "type": "Multikey",
       "controller": "did:example:issuer3",
-      "publicKeyMultibase": "uidSE_Urr5MFE4SoqV3TZTBHPHM-tkpdRhBPrYeIbsudglVV_cddyEstHJOmSkfPOFsvEuA9qtWjFNpBebVSS4DPxBfNNWESSCz_vrnH62hbfpWdJSFR8YbqjborvpgM6"
+      "publicKeyMultibase": "zUC74KLKQtdApVyY3EbAZfiW6A7HdwSZVLsBF2vs5512YwNWs5PRYiqavzWLoiAq6UcKLv6RAnUM9Y117Pg4LayaBMa9euz23C2TDtBq8QuhpbDRDqsjUxLS5S9ruWRk71SEo69"
     }
   }
 ]
