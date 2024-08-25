@@ -10,7 +10,6 @@
   "issuanceDate": "2023-01-01T00:00:00Z",
   "expirationDate": "2026-01-01T00:00:00Z",
   "credentialSubject": {
-    "id": "did:example:john",
     "type": "Person",
     "givenName": "John",
     "familyName": "Smith",
