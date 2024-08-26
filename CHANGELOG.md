@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.8.0] - 2024-08-26
+
+### Changed
+
+- **BREAKING**: Upgraded the underlying `jsonld-proofs`, resulting in changes to the encoding of keys, PPIDs, and proofs
+  - Keys are now encoded in `base58btc` with `multicodec` instead of `base64url`
+  - PPIDs are now represented as `did:key` instead of `ppid:`
+  - Proof encodings are now optimized by the latest `docknetwork/crypto` libraries
+- Synced and Updated `@types/jsonld` Definitions
+- Upgraded npm dependencies
+- Remove subject IDs from example person credentials
+
 ## [2.7.8] - 2024-08-16
 
 ### Changed
