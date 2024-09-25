@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.8.1] - 2024-09-25
+
+### Added
+
+- Example DID keys for Issuer in Keypairs and DIDDocuments tabs
+
+### Changed
+
+- Upgraded `jsonld-proofs` and other npm dependencies
+
 ## [2.8.0] - 2024-08-26
 
 ### Changed
