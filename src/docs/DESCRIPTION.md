@@ -14,3 +14,7 @@ This application has many features below:
 - Predicate Proof
   - Range Proof for Integer
   - Range Proof for Datetime
+
+## Tutorial
+
+You can download the document below as a file from [here]("/document.pdf")
