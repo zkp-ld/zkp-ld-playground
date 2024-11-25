@@ -4,13 +4,10 @@ import {
   DialogContent,
   Typography,
 } from "@mui/material";
-import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { memo, useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import DescriptionMD from "../docs/DESCRIPTION.md";
 
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 
 const ImageRenderer = ({
   src,
@@ -60,9 +57,6 @@ export default memo(({ open, onClose }: DocumentDialogProps) => {
         >
           {postMarkdown}
         </Markdown>
-        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-          <Viewer fileUrl="/document.pdf" />
-        </Worker>
       </DialogContent>
       <DialogActions></DialogActions>
     </Dialog>
