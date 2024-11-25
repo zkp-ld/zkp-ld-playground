@@ -11,6 +11,8 @@
 
 - Hosted at <https://playground.zkp-ld.org>
 
+- For a detailed guide, visit our [documentation](public/document.pdf).
+
 ## Prerequisites for development
 
 - Node.js
