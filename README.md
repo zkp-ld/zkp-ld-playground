@@ -48,7 +48,7 @@ This application has many features below:
 
 ## Tutorial
 
-You can download the document below as a file from [here]("public/document.pdf").
+You can download the document below as a file from [here](public/document.pdf).
 
 ![document-01](public/document-imgs/document-01.jpg)
 ![document-02](public/document-imgs/document-02.jpg)
