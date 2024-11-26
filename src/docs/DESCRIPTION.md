@@ -17,7 +17,7 @@ This application has many features below:
 
 ## Tutorial
 
-You can download the document below as a file from [here]("/document.pdf")
+You can download the document below as a file from [here]("/document.pdf").
 
 ![document1](/document-imgs/document-01.jpg)
 ![document2](/document-imgs/document-02.jpg)
