@@ -15,38 +15,26 @@ This application has many features below:
   - Range Proof for Integer
   - Range Proof for Datetime
 
-## Basic Usage
+## Tutorial
 
-The application consists of three horizontally arranged screens:
+You can download the document below as a file from [here]("/document.pdf").
 
-- Issuer
-- Holder
-- Verifier
-
-### Issuer Screen
-
-On the Issuer screen, you can select a document from templates to create a VC.
-
-### Holder Screen
-
-On the Holder screen, the issued VC is displayed and can be verified.  
-You will see `accepted` if verification succeeds.
-
-You can create a Verifiable Presentation (VP) on the Holder screen.  
-In the "Redacted Credential 1" section of the Holder screen, you can do selective disclosure by omitting specific attributes.
-
-![Selective Disclosure for VP](/imgs/selective-disclosure.png)
-
-As the figure above shows, only `homeLocation` is revealed and the other attributes are hidden.
-
-### Verifier Screen
-
-On the Verifier screen, you can verify the VP.
-
-## Secret Holder Binding
-
-TODO
-
-## Predicate Proof
-
-TODO
+![document-01](/document-imgs/document-01.jpg)
+![document-02](/document-imgs/document-02.jpg)
+![document-03](/document-imgs/document-03.jpg)
+![document-04](/document-imgs/document-04.jpg)
+![document-05](/document-imgs/document-05.jpg)
+![document-06](/document-imgs/document-06.jpg)
+![document-07](/document-imgs/document-07.jpg)
+![document-08](/document-imgs/document-08.jpg)
+![document-09](/document-imgs/document-09.jpg)
+![document-10](/document-imgs/document-10.jpg)
+![document-11](/document-imgs/document-11.jpg)
+![document-12](/document-imgs/document-12.jpg)
+![document-13](/document-imgs/document-13.jpg)
+![document-14](/document-imgs/document-14.jpg)
+![document-15](/document-imgs/document-15.jpg)
+![document-16](/document-imgs/document-16.jpg)
+![document-17](/document-imgs/document-17.jpg)
+![document-18](/document-imgs/document-18.jpg)
+![document-19](/document-imgs/document-19.jpg)

@@ -5,8 +5,9 @@ import {
   Typography,
 } from "@mui/material";
 import { memo, useEffect, useState } from "react";
-import DescriptionMD from "../docs/DESCRIPTION.md";
 import Markdown from "react-markdown";
+import DescriptionMD from "../docs/DESCRIPTION.md";
+
 
 const ImageRenderer = ({
   src,
